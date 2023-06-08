@@ -48,7 +48,7 @@
 				<a href="" class="btn btn-primary">Administrar Pacientes</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="" class="btn btn-primary">Administrar Médicos</a> <br>
+				<a href="AdminMedicos.jsp" class="btn btn-primary">Administrar Médicos</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>
