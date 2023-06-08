@@ -15,10 +15,10 @@
         <img src="https://centromedicomendoza.com/wordpress/wp-content/uploads/2016/04/012.jpg" class="img-fluid" alt="...">
             <div class="text-center">
             <br>
-                <h2>Bienvenido a Clínica Médica SA</h2>
+                <h2>Bienvenido a Clinica Médica SA</h2>
             </div>
             <div class="text-center text-muted">
-                <p>Por favor, ingrese su DNI y contraseña:</p>
+                <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
             </div>
             <div class="col-4"></div>
             <div class="col-2"></div>
@@ -28,7 +28,7 @@
                 <br>
             </div>
             <div class="d-grid mx-auto">
-                <input type="text" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
+                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
                 <br>
             </div>   
              <div class="d-grid mx-auto">
