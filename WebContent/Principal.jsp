@@ -32,7 +32,7 @@
                 <br>
             </div>   
              <div class="d-grid mx-auto">
-                <input type=submit class="btn btn-primary" name=txtIngresar value="Ingresar"></input>
+                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
                 <br>
             </div>          
             <br />
