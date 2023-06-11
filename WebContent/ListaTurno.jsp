@@ -46,45 +46,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% 
-                        try {
-                            // Obtener el DataSource de la conexión a la base de datos
-                            InitialContext context = new InitialContext();
-                            DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/tu_datasource");
-
-                            // Establecer la conexión a la base de datos
-                            Connection connection = dataSource.getConnection();
-
-                            // Ejecutar la consulta para obtener los turnos
-                            Statement statement = connection.createStatement();
-                            ResultSet resultSet = statement.executeQuery("SELECT * FROM turnos");
-
-                            // Iterar sobre los resultados y generar las filas de la tabla
-                            while (resultSet.next()) {
-                                String nombre = resultSet.getString("nombre");
-                                String apellido = resultSet.getString("apellido");
-                                String dni = resultSet.getString("dni");
-                                String fechaNacimiento = resultSet.getString("fecha_nacimiento");
-                                String fechaTurno = resultSet.getString("fecha_turno");
-
-                                out.println("<tr>");
-                                out.println("<td>" + nombre + "</td>");
-                                out.println("<td>" + apellido + "</td>");
-                                out.println("<td>" + dni + "</td>");
-                                out.println("<td>" + fechaNacimiento + "</td>");
-                                out.println("<td>" + fechaTurno + "</td>");
-                                out.println("<td><input type=\"radio\" name=\"confirmacion\" value=\"asistio\"></td>");
-                                out.println("</tr>");
-                            }
-
-                            // Cerrar la conexión y liberar los recursos
-                            resultSet.close();
-                            statement.close();
-                            connection.close();
-                        } catch (NamingException | SQLException e) {
-                            e.printStackTrace();
-                        }
-                        %>
+                        <tr>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>12345678</td>
+                            <td>10/05/1980</td>
+                            <td>12/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>María</td>
+                            <td>Gómez</td>
+                            <td>98765432</td>
+                            <td>05/12/1992</td>
+                            <td>15/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>Pablo</td>
+                            <td>Rodríguez</td>
+                            <td>45678901</td>
+                            <td>20/07/1985</td>
+                            <td>18/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>Lucía</td>
+                            <td>López</td>
+                            <td>23456789</td>
+                            <td>15/09/1990</td>
+                            <td>20/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
