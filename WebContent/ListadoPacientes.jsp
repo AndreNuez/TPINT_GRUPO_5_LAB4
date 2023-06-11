@@ -43,7 +43,6 @@
     <div class="container">
         <div class="row">
             <div class="col-4"></div>
-            
             <br>
             <br>
             <div>
@@ -58,7 +57,44 @@
                             <th></th>
                         </tr>
                     </thead>
+                    
                     <tbody>
+                        <tr>
+                            <td>Juan</td>
+                            <td>Pérez</td>
+                            <td>12345678</td>
+                            <td>10/05/1980</td>
+                            <td>12/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>María</td>
+                            <td>Gómez</td>
+                            <td>98765432</td>
+                            <td>05/12/1992</td>
+                            <td>15/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>Pablo</td>
+                            <td>Rodríguez</td>
+                            <td>45678901</td>
+                            <td>20/07/1985</td>
+                            <td>18/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                        <tr>
+                            <td>Lucía</td>
+                            <td>López</td>
+                            <td>23456789</td>
+                            <td>15/09/1990</td>
+                            <td>20/06/2023</td>
+                            <td><input type="radio" name="confirmacion" value="asistio"></td>
+                        </tr>
+                    </tbody>
+                    
+                    <tbody>
+                    
                     <!--  
                         <c:forEach items="${pacientes}" var="paciente">
                             <tr>
