@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,6 +12,7 @@
 	crossorigin="anonymous">
 </head>
 <body>
+<!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -28,12 +29,12 @@
 	</div>
 	</nav>
 	<br>
+	
 	<div class="row">
 		<div class="col-4"></div>
 		<div class="col">
 			<div class="text-center">
 				<br>
-				<h2>Bienvenido Administrador</h2>
 			</div>
 			<div class="text-center text-muted">
 				<p>Seleccione una opción:</p>
@@ -42,13 +43,10 @@
 			<div class="col-2"></div>
 			<br />
 			<div class="d-grid mx-auto">
-				<a href="PrincipalTurnos.jsp" class="btn btn-primary">Administrar Turnos</a> <br>
+				<a href="CrearTurno.jsp" class="btn btn-primary">Crear Turno</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AdminPacientes.jsp" class="btn btn-primary">Administrar Pacientes</a> <br>
-			</div>
-			<div class="d-grid mx-auto">
-				<a href="AdminMedicos.jsp" class="btn btn-primary">Administrar Médicos</a> <br>
+				<a href="AsignarTurno.jsp" class="btn btn-primary">Asignar Turno</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>

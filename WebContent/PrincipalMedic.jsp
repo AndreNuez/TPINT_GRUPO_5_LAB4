@@ -39,8 +39,8 @@
                 <h2>Bienvenido, Médico</h2>
                 <br>
                 <div class="d-grid gap-2">
-                    <a href="listado-pacientes.jsp" class="btn btn-blue btn-lg">Ver Listado de Pacientes</a>
-                    <a href="listado-turnos.jsp" class="btn btn-blue btn-lg">Ver Turnos</a>
+                    <a href="ListadoPacientes.jsp" class="btn btn-blue btn-lg">Ver Listado de Pacientes</a>
+                    <a href="ListaTurno.jsp" class="btn btn-blue btn-lg">Ver Turnos</a>
                 </div>
             </div>
             <div class="col"></div>

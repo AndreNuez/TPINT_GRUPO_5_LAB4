@@ -94,9 +94,3 @@
                     </tbody>
                     
                     <tbody>
-                    
-                    <!--  
-                        <c:forEach items="${pacientes}" var="paciente">
-                            <tr>
-                                <td>${paciente.dni}</
-                    -->
