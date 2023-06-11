@@ -27,7 +27,7 @@
 	<br>
 <!-- Formulario y controles --> 
  <div class="container">
- 	<h4>Datos del médico</h4> <hr>
+ 	<h4>Datos del paciente</h4> <hr>
  <form action="" method="post">
     <div class="row">
         <div class="col-6">
@@ -63,22 +63,6 @@
             <div class="mb-2">
 				<label for="Teléfono">Teléfono:</label>
 				<input type="tel" name="txtTeléfono" placeholder="Teléfono" required>
-            </div>
-            <div class="mb-2">
-				<label for="Especialidad">Especialidad:</label>
-				<select name="Especialidad" required>
-					<option> Seleccione una... </option>
-					<option> Cardiología </option>
-					<option> Dermatología </option>
-					<option> Gastroenterología </option>
-					<option> Ginecología y Obstetricia </option>
-					<option> Medicina Clínica </option>
-					<option> Oftalmología </option>
-					<option> Ortopedia y Traumatología </option>
-					<option> Otorrinolaringología </option>
-					<option> Pediatría </option>
-					<option> Psiquiatría </option>
-				</select>
             </div>
             <div class="mb-2">
 				<label for="Estado">Estado:</label>
@@ -117,25 +101,6 @@
 				</select>
             </div>
             <br>
-          <h5>Día y horario de atención</h5><hr>
-          <div class="mb-2">
-				<label for="Día">Día:</label>
-				<select name="Día" required>
-					<option> Seleccione uno... </option>
-					<option> Lunes </option>
-					<option> Martes </option>
-					<option> Miércoles </option>
-					<option> Jueves </option>
-					<option> Viernes </option>
-				</select>
-            </div>
-            <div class="mb-2">
-                <label for="Desde">De:</label>
-				<input type="number" name="txtDesde" min="8" max="20" required>
- 
-                <label for="Hasta">A:</label>
-				<input type="number" name="txtHasta" min="8" max="20" required>
-            </div>
           </div>         
     </div>
     <div class="row">
