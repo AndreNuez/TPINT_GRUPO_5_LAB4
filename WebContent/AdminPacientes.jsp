@@ -44,11 +44,11 @@
 <!-- Tabla y botones -->	
 
 <div class="container">
-  <h4>Lista de médicos</h4> <hr> 	
+<h4>Lista de pacientes</h4> <hr> 	
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMMedicos.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ABMPacientes.jsp" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>
@@ -60,55 +60,55 @@
 				<th>Nombre</th>
 				<th>Apellido</th>
 				<th>Sexo</th>
+				<th>Fecha de Nacimiento</th>
 				<th>Mail</th>
-				<th>Especialidad</th>
-				<th>Día y Horario atención</th>
+				<th>Teléfono</th>
 				<th>Estado</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>25789410</td>
-				<td>Elissa</td>
-				<td>Stoile</td>
-				<td>Mujer</td>
-				<td>estoile0@alexa.com</td>
-				<td>Cardiología</td>
-				<td>Jueves - 8 a 15hs</td>
+				<td>12345678</td>
+				<td>Juan</td>
+				<td>López</td>
+				<td>Masculino</td>
+				<td>15/03/1985</td>
+				<td>juan.lopez@example.com</td>
+				<td>555-123456</td>
 				<td>Activo</td>
 				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
 			</tr>
 			<tr>
-				<td>4589630</td>
-				<td>Emery</td>
-				<td>Horsted</td>
-				<td>Hombre</td>
-				<td>ehorsted1@phpbb.com</td>
-				<td>Nutrición</td>
-				<td>Lunes - 10 a 18hs</td>
+				<td>23456789</td>
+				<td>María</td>
+				<td>Rodríguez</td>
+				<td>Femenino</td>
+				<td>28/07/1990</td>
+				<td>maria.rodriguez@example.com</td>
+				<td>555-987654</td>
 				<td>Activo</td>
 				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
 			</tr>
 			<tr>
-				<td>31589423</td>
-				<td>Sharona</td>
-				<td>Hubberstey</td>
-				<td>Mujer</td>
-				<td>shubberstey2@bloglines.com</td>
-				<td>Clínica</td>
-				<td>Martes - 13 a 19hs</td>
+				<td>34567890</td>
+				<td>David</td>
+				<td>Smith</td>
+				<td>Masculino</td>
+				<td>10/12/1982</td>
+				<td>david.smith@example.com</td>
+				<td>555-456789</td>
 				<td>Activo</td>
 				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
 			</tr>
 			<tr>
-				<td>10258951</td>
-				<td>Morey</td>
-				<td>Pirouet</td>
-				<td>Hombre</td>
-				<td>mpirouet3@illinois.edu</td>
-				<td>Traumatología</td>
-				<td>Viernes - 10 a 19hs</td>
+				<td>45678901</td>
+				<td>Laura</td>
+				<td>García</td>
+				<td>Femenino</td>
+				<td>05/09/1995</td>
+				<td>laura.garcia@example.com</td>
+				<td>555-987123</td>
 				<td>Activo</td>
 				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
 			</tr>
