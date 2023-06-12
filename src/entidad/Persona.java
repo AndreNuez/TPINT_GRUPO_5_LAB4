@@ -13,13 +13,14 @@ public class Persona {
 	private Direccion Direccion;	
 	private String Mail;	
 	private String Telefono;
+	private boolean Estado;
 	
 	public Persona () {
 		
 	}
-	
+
 	public Persona(int dNI, String nombre, String apellido, char sexo, String nacionalidad, LocalDate fnac,
-			entidad.Direccion direccion, String mail, String telefono) {
+			entidad.Direccion direccion, String mail, String telefono, boolean estado) {
 		DNI = dNI;
 		Nombre = nombre;
 		Apellido = apellido;
@@ -29,6 +30,7 @@ public class Persona {
 		Direccion = direccion;
 		Mail = mail;
 		Telefono = telefono;
+		Estado = estado;
 	}
 
 	public int getDNI() {
@@ -103,13 +105,20 @@ public class Persona {
 		Telefono = telefono;
 	}
 
+	public boolean isEstado() {
+		return Estado;
+	}
+
+	public void setEstado(boolean estado) {
+		Estado = estado;
+	}
+
 	@Override
 	public String toString() {
 		return "Persona [DNI=" + DNI + ", Nombre=" + Nombre + ", Apellido=" + Apellido + ", Sexo=" + Sexo
 				+ ", Nacionalidad=" + Nacionalidad + ", Fnac=" + Fnac + ", Direccion=" + Direccion + ", Mail=" + Mail
-				+ ", Telefono=" + Telefono + "]";
+				+ ", Telefono=" + Telefono + ", Estado=" + Estado + "]";
 	}
-	
 		
 }
 

@@ -6,7 +6,7 @@ public class Turno {
 	
 	private int idTurno;
 	private Medico Medico;
-	private Paciente Paciente;
+	private Persona Paciente;
 	private Especialidad Especialidad;
 	private LocalTime DiayHora;
 	private boolean Estado;
@@ -16,7 +16,7 @@ public class Turno {
 		
 	}
 
-	public Turno(int idTurno, entidad.Medico medico, entidad.Paciente paciente, entidad.Especialidad especialidad,
+	public Turno(int idTurno, entidad.Medico medico, Persona paciente, entidad.Especialidad especialidad,
 			LocalTime diayHora, boolean estado, String observaciones) {
 		this.idTurno = idTurno;
 		Medico = medico;
@@ -43,11 +43,11 @@ public class Turno {
 		Medico = medico;
 	}
 
-	public Paciente getPaciente() {
+	public Persona getPaciente() {
 		return Paciente;
 	}
 
-	public void setPaciente(Paciente paciente) {
+	public void setPaciente(Persona paciente) {
 		Paciente = paciente;
 	}
 
