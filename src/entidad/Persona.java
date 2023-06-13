@@ -105,7 +105,7 @@ public class Persona {
 		Telefono = telefono;
 	}
 
-	public boolean isEstado() {
+	public boolean getEstado() {
 		return Estado;
 	}
 

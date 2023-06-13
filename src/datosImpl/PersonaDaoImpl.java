@@ -31,11 +31,31 @@ public class PersonaDaoImpl implements PersonaDao {
 		return false;
 	}
 
-	@Override
+	// ANDRE
 	public boolean EditarPersona(Persona persona) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+		
+		//Reemplazar por SP
+		String query = "UPDATE Personas SET DNI='"+persona.getDNI()+"', Nombre='"+persona.getNombre()+"', Apellido='"+persona.getApellido()+"', Sexo='"+persona.getSexo()+"', Nacionalidad='"+persona.getNacionalidad()+"', FNac='"+persona.getFnac()+"', Calle='"+persona.getDireccion().getCalle()+"', Numero='"+persona.getDireccion().getNumero()+"', Localidad='"+persona.getDireccion().getLocalidad()+"', Provincia='"+persona.getDireccion().getProvincia()+"', Mail='"+persona.getMail()+"', Telefono='"+persona.getTelefono()+"', Estado='"+persona.getEstado()+"' WHERE DNI='"+persona.getDNI()+"'";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
 	}
+	
 
 	@Override
 	public boolean EliminarPersona(int id) {
