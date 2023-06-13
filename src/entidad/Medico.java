@@ -6,19 +6,17 @@ public class Medico extends Persona {
 	private String DiaAtencion;
 	private int HoraInicio;
 	private int HoraFin;
-	boolean Estado;
 	
 	public Medico() {
 		
 	}
 
-	public Medico(entidad.Especialidad especialidad, String diaAtencion, int horaInicio, int horaFin, boolean estado) {
+	public Medico(entidad.Especialidad especialidad, String diaAtencion, int horaInicio, int horaFin) {
 		super();
 		Especialidad = especialidad;
 		DiaAtencion = diaAtencion;
 		HoraInicio = horaInicio;
 		HoraFin = horaFin;
-		Estado = estado;
 	}
 
 	public Especialidad getEspecialidad() {
@@ -53,18 +51,10 @@ public class Medico extends Persona {
 		HoraFin = horaFin;
 	}
 
-	public boolean isEstado() {
-		return Estado;
-	}
-
-	public void setEstado(boolean estado) {
-		Estado = estado;
-	}
-
 	@Override
 	public String toString() {
 		return "Medico [Especialidad=" + Especialidad + ", DiaAtencion=" + DiaAtencion + ", HoraInicio=" + HoraInicio
-				+ ", HoraFin=" + HoraFin + ", Estado=" + Estado + "]";
+				+ ", HoraFin=" + HoraFin + "]";
 	}
 	
 }
