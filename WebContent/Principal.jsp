@@ -23,18 +23,21 @@
             <div class="col-4"></div>
             <div class="col-2"></div>
             <br />
-            <div class="d-grid mx-auto">
-                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" required ></input>
-                <br>
-            </div>
-            <div class="d-grid mx-auto">
-                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
-                <br>
-            </div>   
-             <div class="d-grid mx-auto">
-                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
-                <br>
-            </div>          
+            <form action="ServletUsuario" method="post">
+            
+	            <div class="d-grid mx-auto">
+	                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" required ></input>
+	                <br>
+	            </div>
+	            <div class="d-grid mx-auto">
+	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
+	                <br>
+	            </div>   
+	             <div class="d-grid mx-auto">
+	                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
+	                <br>
+	            </div>            
+            </form>             
             <br />
             <br />
             <div class="col-4"></div>

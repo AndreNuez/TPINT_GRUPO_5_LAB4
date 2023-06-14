@@ -28,12 +28,12 @@
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del paciente</h4> <hr>
- <form action="" method="post">
+ <form action="ServletPacientes" method="post">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="DNI" maxlength="8" placeholder="DNI" required>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -66,8 +66,8 @@
             </div>
             <div class="mb-2">
 				<label for="Estado">Estado:</label>
-				<input type="radio" name="Estado" value="Activo"> Activo
-				<input type="radio" name="Estado" value="Inactivo"> Inactivo
+				<input type="radio" name="Estado" value="True"> Activo
+				<input type="radio" name="Estado" value="False"> Inactivo
             </div>
         </div>
 
@@ -120,7 +120,16 @@
         </div>
         </div>
     </div>
-    </form>   
+    </form>
+    
+    <%
+		if (request.getAttribute("estadoArticulo") != null) {
+	%>
+	Paciente agregado con exito
+	<%
+		}
+	%>
+       
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
