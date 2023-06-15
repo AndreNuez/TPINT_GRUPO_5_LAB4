@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<!-- Importamos clases -->
+<!-- Entidades -->
+<%@page import="entidad.Provincia"%>
+<%@page import="entidad.Localidad"%>
+
+<!-- Librerias -->
+<%@page import="java.util.ArrayList"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,6 +33,22 @@
 	</div>
 	</nav>
 	<br>
+	
+<!-- Llamado a listados  -->
+
+	<%
+		ArrayList<Provincia> listaProv = new ArrayList<Provincia>();
+		if (request.getAttribute("listaProv") != null) {
+			listaProv = (ArrayList<Provincia>) request.getAttribute("listaProv");
+		}
+		
+		ArrayList<Localidad> listaLoc = new ArrayList<Localidad>();
+		if (request.getAttribute("listaLoc") != null) {
+			listaLoc = (ArrayList<Localidad>) request.getAttribute("listaLoc");
+		}
+
+	%>
+
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del paciente</h4> <hr>
@@ -84,20 +108,25 @@
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
 				<select name="Provincias" required>
-					<option> Seleccione una... </option>
-					<option> Buenos Aires </option>
-					<option> Santa Fe </option>
-					<option> Córdoba </option>
-					<option> Tucumán </option>
+					<%
+							for (Provincia p : listaProv) {
+						%>
+						<option value="<%=p.getIDProvincia()%>"><%=p.getDescripcion()%></option>
+						<%
+							}
+						%>
 				</select>
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
 				<select name="Localidades" required>
-					<option> Seleccione una... </option>
-					<option> San Fernando </option>
-					<option> San Isidro </option>
-					<option> Tigre </option>
+					<%
+							for (Localidad l : listaLoc) {
+						%>
+						<option value="<%=l.getIDLocalidad()%>"><%=l.getDescripcion()%></option>
+						<%
+							}
+						%>
 				</select>
             </div>
             <br>

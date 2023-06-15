@@ -48,7 +48,7 @@
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMPacientes.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ServletPacientes?Param=agregarNuevo" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>

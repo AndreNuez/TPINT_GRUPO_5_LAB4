@@ -1,6 +1,9 @@
 package datosImpl;
 
 import java.beans.Statement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +39,10 @@ public class PacienteDaoImpl implements PacienteDao {
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "INSERT INTO pacientes (dni,apellido,nombres,sexo,nacionalidad,fechanacimiento,IDdireccion,mail,telefono,estado) VALUES ('"+paciente.getDNI()+"','"+paciente.getApellido()+"','"+paciente.getApellido()+"','"+paciente.getSexo()+"','"+paciente.getNacionalidad()+"','"+paciente.getFnac()+"','"+paciente.getDireccion().getCalle()+"','"+paciente.getDireccion().getNumero()+"','"+paciente.getDireccion().getLocalidad()+"','"+paciente.getDireccion().getProvincia()+"'\"','"+paciente.getMail()+"','"+paciente.getTelefono()+"','"+paciente.getEstado()+")";
-		System.out.println(query);
+		//String query = "INSERT INTO pacientes (dni,apellido,nombres,sexo,nacionalidad,fechanacimiento,mail,telefono,estado) VALUES ('"+paciente.getDNI()+"','"+paciente.getApellido()+"','"+paciente.getNombre()+"','"+paciente.getSexo()+"','"+paciente.getNacionalidad()+"','"+paciente.getFnac()+"','"+paciente.getDireccion().getCalle()+"','"+paciente.getDireccion().getNumero()+"','"+paciente.getDireccion().getLocalidad()+"','"+paciente.getDireccion().getProvincia()+"','"+paciente.getMail()+"','"+paciente.getTelefono()+"','"+paciente.getEstado()+")";			
 		try
 		 {
-			estado = cn.execute(query);
+			
 		 }
 		catch(Exception e)
 		{
@@ -60,8 +62,7 @@ public class PacienteDaoImpl implements PacienteDao {
 
 		cn = new Conexion();
 		cn.Open();	
-		
-		//Reemplazar por SP
+
 		String query = "UPDATE Personas SET DNI='"+paciente.getDNI()+"', Nombre='"+paciente.getNombre()+"', Apellido='"+paciente.getApellido()+"', Sexo='"+paciente.getSexo()+"', Nacionalidad='"+paciente.getNacionalidad()+"', FNac='"+paciente.getFnac()+"', Calle='"+paciente.getDireccion().getCalle()+"', Numero='"+paciente.getDireccion().getNumero()+"', Localidad='"+paciente.getDireccion().getLocalidad()+"', Provincia='"+paciente.getDireccion().getProvincia()+"', Mail='"+paciente.getMail()+"', Telefono='"+paciente.getTelefono()+"', Estado='"+paciente.getEstado()+"' WHERE DNI='"+paciente.getDNI()+"'";
 		try
 		 {

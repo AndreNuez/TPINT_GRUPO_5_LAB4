@@ -12,15 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Direccion;
+import entidad.Localidad;
 import entidad.Persona;
+import entidad.Provincia;
+import negocio.LocalidadNegocio;
 import negocio.PacienteNegocio;
+import negocio.ProvinciaNegocio;
+import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
+import negocioImpl.ProvinciaNegocioImpl;
 
 @WebServlet("/ServletPacientes")
 public class ServletPacientes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	PacienteNegocio pNeg = new PacienteNegocioImpl();
+	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
+	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
 	
     public ServletPacientes() {
         super();
@@ -28,7 +36,19 @@ public class ServletPacientes extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		if(request.getParameter("Param")!=null)
+		{
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+			dispatcher.forward(request, response);
+			
+		}
 		boolean estado;
 		
 		if(request.getParameter("btnEliminar") != null)
@@ -61,8 +81,8 @@ public class ServletPacientes extends HttpServlet {
 				Direccion d = new Direccion();
 				d.setCalle(request.getParameter("txtCalle"));
 				d.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
-				d.setLocalidad(request.getParameter("Localidades"));
-				d.setProvincia(request.getParameter("Provincias"));
+				//d.setProvincia(new Provincia(Integer.parseInt(request.getParameter("Provincias"))));
+				//d.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
 			
 			p.setDireccion(d);	
 			p.setFnac(LocalDate.parse(request.getParameter("Fnac")));
