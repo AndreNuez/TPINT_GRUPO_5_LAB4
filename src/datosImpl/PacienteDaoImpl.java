@@ -68,14 +68,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		Direccion direccion = new Direccion();
 			try
 			{
-				ResultSet rs= cn.query("SELECT pacientes.DNI, pacientes.Apellido, pacientes.Nombres, pacientes.Sexo, pacientes.Nacionalidad," + 
-						"pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono," + 
-						"pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.Nombre," + 
-						"provincias.Nombre" + 
-						"FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI" + 
-						"INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad" + 
-						"INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia" + 
-						"WHERE pacientes.Estado = 1 && pacientes.DNI="+dni);
+				ResultSet rs= cn.query("SELECT pacientes.DNI,pacientes.Apellido,pacientes.Nombres,pacientes.Sexo, pacientes.Nacionalidad,pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono,pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.IDLocalidad, localidades.Nombre,provincias.IDProvincia, provincias.Nombre FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia where pacientes.Estado = 1 && pacientes.DNI="+dni);
 				rs.next();
 				{
 					paciente.setDNI(rs.getInt("pacientes.DNI"));
@@ -90,11 +83,11 @@ public class PacienteDaoImpl implements PacienteDao {
 					
 					direccion.setCalle(rs.getString("direccionespacientes.Calle"));
 					direccion.setNumero(rs.getInt("direccionespacientes.Numero"));
-					direccion.setLocalidad(new Localidad((rs.getInt("localidades.IDLocalidad"))));
-					direccion.setProvincia(new Provincia(rs.getInt("provincias.IDProvincia")));
+					direccion.setLocalidad(new Localidad(rs.getInt("localidades.IDLocalidad"),rs.getString("localidades.Nombre")));
+					direccion.setProvincia(new Provincia(rs.getInt("provincias.IDProvincia"),rs.getString("provincias.Nombre")));
 					
 					paciente.setDireccion(direccion);
-					//System.out.println(paciente.getDireccion().getCalle());
+					System.out.println(paciente.getDireccion().getCalle());
 				}
 				
 			}

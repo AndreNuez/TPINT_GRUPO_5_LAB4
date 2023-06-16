@@ -53,9 +53,8 @@
 			paciente = (Persona)request.getAttribute("verPaciente");
 		}
 
-		Boolean readOnly = (request.getParameter("verPaciente")) != null;
-		String esMasculino = paciente.getSexo() == 'M' ? "checked disabled" : "";
-		String esFemenino = paciente.getSexo() == 'F' ? "checked disabled" : "";
+		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
+		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
 
 	%>
 
@@ -67,15 +66,15 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required <%=paciente.getDNI() %> readonly=<%=readOnly%>>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required value=<%=paciente.getDNI() %>>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name="txtNombre" placeholder="Nombre" required <%=paciente.getNombre() %> readonly=<%=readOnly%>>
+				<input type="text" name="txtNombre" placeholder="Nombre" required value=<%=paciente.getNombre() %>>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" required <%=paciente.getApellido() %> readonly=<%=readOnly%>>
+				<input type="text" name="txtApellido" placeholder="Apellido" required value=<%=paciente.getApellido() %>>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -83,31 +82,31 @@
 				<input type="radio" name="Sexo" value="Masculino" <%=esMasculino%>> Masculino
             </div>
             <div class="mb-2">
-                <label for="FNac">Fecha de Nacimiento:</label <%=paciente.getFnac() %> readonly=<%=readOnly%>>
-				<input type="date" name="FNac" required>
+                <label for="FNac">Fecha de Nacimiento:</label>
+				<input type="date" name="FNac" required value=<%=paciente.getFnac() %>>
             </div>
             <div class="mb-2">
                 <label for="Nacionalidad">Nacionalidad:</label>
-				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required <%=paciente.getNacionalidad() %> readonly=<%=readOnly%>>
+				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required value=<%=paciente.getNacionalidad() %>>
             </div>
             <div class="mb-2">
                 <label for="Mail">Mail:</label>
-				<input type="email" name="txtMail" placeholder="Mail" required <%=paciente.getMail() %> readonly=<%=readOnly%>>
+				<input type="email" name="txtMail" placeholder="Mail" required value=<%=paciente.getMail() %>>
             </div>
             <div class="mb-2">
 				<label for="Telefono">Telefono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" required <%=paciente.getTelefono() %> readonly=<%=readOnly%>>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required value=<%=paciente.getTelefono() %>>
             </div>
 		</div>
         <div class="col-6">
         <h5>Direccion</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" <%=paciente.getDireccion().getCalle() %> readonly=<%=readOnly%>>
+				<input type="text" name="txtCalle" placeholder="Calle" value=<%=paciente.getDireccion().getCalle() %>>
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero"<%=paciente.getDireccion().getNumero() %> readonly=<%=readOnly%>>	
+				<input type="text" name="txtNumero" placeholder="Numero" value=<%=paciente.getDireccion().getNumero() %>>	
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
