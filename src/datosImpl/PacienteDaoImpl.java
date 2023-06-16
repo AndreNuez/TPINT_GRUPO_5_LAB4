@@ -18,16 +18,87 @@ public class PacienteDaoImpl implements PacienteDao {
 		
 	}
 
+	//GR Obtener una lista con todos los pacientes
 	@Override
-	public ArrayList<Persona> ListarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Persona> ListarTodos() {
+		cn = new Conexion();
+		cn.Open();
+			List<Persona> list = new ArrayList<Persona>();
+			try
+			{
+				ResultSet rs= cn.query("SELECT DNI, Apellido, Nombres, Sexo, Nacionalidad, Nacionalidad, FechaNacimiento, Mail, Telefono, Estado FROM pacientes WHERE Estado = 1");
+				while(rs.next())
+				{
+					Persona paciente = new Persona();
+					paciente.setDNI(rs.getInt("DNI"));
+					paciente.setApellido(rs.getString("Apellido"));
+					paciente.setNombre(rs.getString("Nombres"));
+					paciente.setSexo(rs.getString("Sexo").charAt(0));
+					paciente.setNacionalidad(rs.getString("Nacionalidad"));
+					paciente.setFnac(LocalDate.parse(rs.getString("FechaNacimiento")));
+					paciente.setMail(rs.getString("Mail"));
+					paciente.setTelefono(rs.getString("Telefono"));
+					paciente.setEstado(rs.getBoolean("Estado"));
+					list.add(paciente);
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+			return list;
 	}
 
+	//GR Obtener un paciente a partir del DNI
 	@Override
 	public Persona ListarUno(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		cn = new Conexion();
+		cn.Open();
+		Persona paciente = new Persona();
+		Direccion direccion = new Direccion();
+			try
+			{
+				ResultSet rs= cn.query("SELECT pacientes.DNI, pacientes.Apellido, pacientes.Nombres, pacientes.Sexo, pacientes.Nacionalidad, pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono, pacientes.Estado, "
+						+ "direccionespacientes.Calle, direccionespacientes.Numero, localidades.Nombre, provincias.Nombre "
+						+ "FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI "
+						+ "INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia "
+						+ "WHERE pacientes.Estado = 1 && pacientes.DNI="+dni);
+				rs.next();
+				{
+					paciente.setDNI(rs.getInt("pacientes.DNI"));
+					paciente.setApellido(rs.getString("pacientes.Apellido"));
+					paciente.setNombre(rs.getString("pacientes.Nombres"));
+					paciente.setSexo(rs.getString("pacientes.Sexo").charAt(0));
+					paciente.setNacionalidad(rs.getString("pacientes.Nacionalidad"));
+					paciente.setFnac(LocalDate.parse(rs.getString("pacientes.FechaNacimiento")));
+					paciente.setMail(rs.getString("pacientes.Mail"));
+					paciente.setTelefono(rs.getString("pacientes.Telefono"));
+					paciente.setEstado(rs.getBoolean("pacientes.Estado"));
+					
+					direccion.setCalle(rs.getString("direccionespacientes.Calle"));
+					direccion.setLocalidad(rs.getString("localidades.Nombre"));
+					direccion.setNumero(rs.getInt("direccionespacientes.Numero"));
+					direccion.setProvincia(rs.getString("provincias.Nombre"));
+					
+					paciente.setDireccion(direccion);
+					System.out.println(paciente.getDireccion().getCalle());
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+			return paciente;
 	}
 	
 	// ANDRE

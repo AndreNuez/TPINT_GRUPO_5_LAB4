@@ -68,6 +68,25 @@ public class ServletPacientes extends HttpServlet {
 			
 			rd.forward(request, response);			
 		}
+
+		//GR Envia lista de todos los pacientes a AdminPacientes.jsp
+		if(request.getParameter("Param")!= null) 
+		{
+			String param = request.getParameter("Param").toString();
+			switch(param)
+			{
+			case "list":
+			{
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 
 
@@ -102,6 +121,21 @@ public class ServletPacientes extends HttpServlet {
 			request.setAttribute("estadoDP", estadodp);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 			dispatcher.forward(request, response);			
+		}
+
+		//GR Envia datos de paciente seleccionado en AdminPacientes al ABMPacientes.jsp
+		if(request.getParameter("btnVer") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
+			
+			if(pNeg.ListarUno(dni) != null)
+			{				
+				Persona paciente = new Persona();
+				paciente = pNeg.ListarUno(dni);	
+				request.setAttribute("verPaciente", paciente);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 	}
 

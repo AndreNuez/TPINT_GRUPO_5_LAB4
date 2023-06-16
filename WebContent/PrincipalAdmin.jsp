@@ -18,7 +18,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menï¿½ Principal
 					</a>
 				</li>
 			</ul>
@@ -36,7 +36,7 @@
 				<h2>Bienvenido Administrador</h2>
 			</div>
 			<div class="text-center text-muted">
-				<p>Seleccione una opción:</p>
+				<p>Seleccione una opciï¿½n:</p>
 			</div>
 			<div class="col-4"></div>
 			<div class="col-2"></div>
@@ -45,10 +45,10 @@
 				<a href="PrincipalTurnos.jsp" class="btn btn-primary">Administrar Turnos</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AdminPacientes.jsp" class="btn btn-primary">Administrar Pacientes</a> <br>
+				<a href="ServletPacientes?Param=list" class="btn btn-primary">Administrar Pacientes</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AdminMedicos.jsp" class="btn btn-primary">Administrar Médicos</a> <br>
+				<a href="AdminMedicos.jsp" class="btn btn-primary">Administrar Mï¿½dicos</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>

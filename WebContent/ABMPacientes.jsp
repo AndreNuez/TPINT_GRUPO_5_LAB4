@@ -23,7 +23,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menï¿½ Principal
 					</a>
 				</li>
 			</ul>
@@ -47,6 +47,15 @@
 			listaLoc = (ArrayList<Localidad>) request.getAttribute("listaLoc");
 		}
 
+		Persona paciente = new Persona();
+		if (request.getAttribute("verPaciente") != null) {
+			paciente = (Persona)request.getAttribute("verPaciente");
+		}
+
+		Boolean readOnly = (request.getParameter("verPaciente")) != null;
+		String esMasculino = paciente.getSexo() == 'M' ? "checked disabled" : "";
+		String esFemenino = paciente.getSexo() == 'F' ? "checked disabled" : "";
+
 	%>
 
 <!-- Formulario y controles --> 
@@ -57,47 +66,47 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required <%=paciente.getDNI() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name="txtNombre" placeholder="Nombre" required>
+				<input type="text" name="txtNombre" placeholder="Nombre" required <%=paciente.getNombre() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" required <%=paciente.getApellido() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
-				<input type="radio" name="Sexo" value="Femenino"> Femenino
-				<input type="radio" name="Sexo" value="Masculino"> Masculino
+				<input type="radio" name="Sexo" value="Femenino" <%=esFemenino%>> Femenino
+				<input type="radio" name="Sexo" value="Masculino" <%=esMasculino%>> Masculino
             </div>
             <div class="mb-2">
-                <label for="FNac">Fecha de Nacimiento:</label>
+                <label for="FNac">Fecha de Nacimiento:</label <%=paciente.getFnac() %> readonly=<%=readOnly%>>
 				<input type="date" name="FNac" required>
             </div>
             <div class="mb-2">
                 <label for="Nacionalidad">Nacionalidad:</label>
-				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required>
+				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required <%=paciente.getNacionalidad() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
                 <label for="Mail">Mail:</label>
-				<input type="email" name="txtMail" placeholder="Mail" required>
+				<input type="email" name="txtMail" placeholder="Mail" required <%=paciente.getMail() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
-				<label for="Telefono">Teléfono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" required>
+				<label for="Telefono">Telï¿½fono:</label>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required <%=paciente.getTelefono() %> readonly=<%=readOnly%>>
             </div>
 		</div>
         <div class="col-6">
-        <h5>Dirección</h5><hr>
+        <h5>Direcciï¿½n</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" >
+				<input type="text" name="txtCalle" placeholder="Calle" <%=paciente.getDireccion().getCalle() %> readonly=<%=readOnly%>>
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" >	
+				<input type="text" name="txtNumero" placeholder="Numero" <%=paciente.getDireccion().getNumero() %> readonly=<%=readOnly%>>	
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
@@ -133,7 +142,7 @@
         <div>
         <input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
         
-        <!-- Si el llamado se hace desde opción Ver Completo, se cargan los datos del médico readonly y se habilita 
+        <!-- Si el llamado se hace desde opciï¿½n Ver Completo, se cargan los datos del mï¿½dico readonly y se habilita 
         	btnModificar-->
         <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
         </div>
@@ -141,11 +150,11 @@
     </div>
     </form>
 
-<!-- Pregunto por estado para chequear si se insertó. -->    
+<!-- Pregunto por estado para chequear si se insertï¿½. -->    
     <%
 		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>
-	<h4>Paciente agregado con éxito.</h4>
+	<h4>Paciente agregado con ï¿½xito.</h4>
 	<%
 		}
 	%>
