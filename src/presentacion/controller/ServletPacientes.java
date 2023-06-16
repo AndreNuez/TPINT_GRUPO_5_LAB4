@@ -2,6 +2,7 @@ package presentacion.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -73,31 +74,28 @@ public class ServletPacientes extends HttpServlet {
 			
 			Persona p = new Persona();
 			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
-			p.setNombre(request.getParameter("txtNombre"));
 			p.setApellido(request.getParameter("txtApellido"));
+			p.setNombre(request.getParameter("txtNombre"));
 			p.setSexo(request.getParameter("Sexo").charAt(0));
+			p.setFnac(LocalDate.parse(request.getParameter("FNac")));
 			p.setNacionalidad(request.getParameter("txtNacionalidad"));
-			
-				Direccion d = new Direccion();
-				d.setCalle(request.getParameter("txtCalle"));
-				d.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
-				//d.setProvincia(new Provincia(Integer.parseInt(request.getParameter("Provincias"))));
-				//d.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
-			
-			p.setDireccion(d);	
-			p.setFnac(LocalDate.parse(request.getParameter("Fnac")));
 			p.setMail(request.getParameter("txtMail"));
 			p.setTelefono(request.getParameter("txtTelefono"));
-			p.setEstado(Boolean.parseBoolean(request.getParameter("Estado")));
+			p.setEstado(1);
 			
+				//Direccion d = new Direccion();
+				//d.setCalle(request.getParameter("txtCalle"));
+				//d.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+				//d.setProvincia(new Provincia(Integer.parseInt(request.getParameter("Provincias"))));
+				//d.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+				//p.setDireccion(d);	
 			
 			boolean estado = true;
 			estado = pNeg.InsertarPaciente(p);
 			
 			request.setAttribute("estadoPaciente", estado);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
-			dispatcher.forward(request, response);
-			
+			dispatcher.forward(request, response);			
 		}
 	}
 

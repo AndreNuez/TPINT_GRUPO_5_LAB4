@@ -39,10 +39,10 @@ public class PacienteDaoImpl implements PacienteDao {
 		cn = new Conexion();
 		cn.Open();	
 
-		//String query = "INSERT INTO pacientes (dni,apellido,nombres,sexo,nacionalidad,fechanacimiento,mail,telefono,estado) VALUES ('"+paciente.getDNI()+"','"+paciente.getApellido()+"','"+paciente.getNombre()+"','"+paciente.getSexo()+"','"+paciente.getNacionalidad()+"','"+paciente.getFnac()+"','"+paciente.getDireccion().getCalle()+"','"+paciente.getDireccion().getNumero()+"','"+paciente.getDireccion().getLocalidad()+"','"+paciente.getDireccion().getProvincia()+"','"+paciente.getMail()+"','"+paciente.getTelefono()+"','"+paciente.getEstado()+")";			
+		String query = "INSERT INTO pacientes (DNI,Apellido,Nombres,Sexo,FechaNacimiento,Nacionalidad,Mail,Telefono,Estado) VALUES ('"+paciente.getDNI()+"','"+paciente.getApellido()+"','"+paciente.getNombre()+"','"+paciente.getSexo()+"','"+paciente.getFnac()+"','"+paciente.getNacionalidad()+"','"+paciente.getMail()+"','"+paciente.getTelefono()+"','"+paciente.getEstado()+"')";			
 		try
 		 {
-			
+			estado=cn.execute(query);
 		 }
 		catch(Exception e)
 		{

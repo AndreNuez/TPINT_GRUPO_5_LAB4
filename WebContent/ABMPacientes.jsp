@@ -61,11 +61,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name=txtNombre" placeholder="Nombre" required>
+				<input type="text" name="txtNombre" placeholder="Nombre" required>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name=txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" required>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -73,41 +73,35 @@
 				<input type="radio" name="Sexo" value="Masculino"> Masculino
             </div>
             <div class="mb-2">
-                <label for="Nacionalidad">Nacionalidad:</label>
-				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required>
-            </div>
-            <div class="mb-2">
                 <label for="FNac">Fecha de Nacimiento:</label>
 				<input type="date" name="FNac" required>
             </div>
             <div class="mb-2">
+                <label for="Nacionalidad">Nacionalidad:</label>
+				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required>
+            </div>
+            <div class="mb-2">
                 <label for="Mail">Mail:</label>
-				<input type="email" name="txtMail" placeholder="DNI" required>
+				<input type="email" name="txtMail" placeholder="Mail" required>
             </div>
             <div class="mb-2">
-				<label for="Teléfono">Teléfono:</label>
-				<input type="tel" name="txtTeléfono" placeholder="Teléfono" required>
+				<label for="Telefono">Teléfono:</label>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required>
             </div>
-            <div class="mb-2">
-				<label for="Estado">Estado:</label>
-				<input type="radio" name="Estado" value="True"> Activo
-				<input type="radio" name="Estado" value="False"> Inactivo
-            </div>
-        </div>
-
+		</div>
         <div class="col-6">
         <h5>Dirección</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" required>
+				<input type="text" name="txtCalle" placeholder="Calle" >
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Número" required>	
+				<input type="text" name="txtNumero" placeholder="Numero" >	
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
-				<select name="Provincias" required>
+				<select name="Provincias" >
 					<%
 							for (Provincia p : listaProv) {
 						%>
@@ -119,7 +113,7 @@
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
-				<select name="Localidades" required>
+				<select name="Localidades" >
 					<%
 							for (Localidad l : listaLoc) {
 						%>
@@ -142,19 +136,16 @@
         <!-- Si el llamado se hace desde opción Ver Completo, se cargan los datos del médico readonly y se habilita 
         	btnModificar-->
         <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
-        
-        <!-- Si presiona Modificar, desactiva readonly (inhabilitando DNI) y 
-        	tambíen activa btnEliminar con su correspondiente confirmación-->
-        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger"> </input>
         </div>
         </div>
     </div>
     </form>
-    
+
+<!-- Pregunto por estado para chequear si se insertó. -->    
     <%
-		if (request.getAttribute("estadoArticulo") != null) {
+		if (request.getAttribute("estadoPaciente") != null) {
 	%>
-	Paciente agregado con exito
+	<h4>Paciente agregado con éxito.</h4>
 	<%
 		}
 	%>
