@@ -43,33 +43,38 @@ public class ServletPacientes extends HttpServlet {
 		
 		if(request.getParameter("Param")!=null)
 		{
-			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
-			request.setAttribute("listaProv", listaP);
+			String param = request.getParameter("Param").toString();
 			
-			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
-			request.setAttribute("listaLoc", listaL);
+			switch(param){
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
-			dispatcher.forward(request, response);
+			case "agregarNuevo":
+			{
+				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+				request.setAttribute("listaProv", listaP);
+				
+				ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+				request.setAttribute("listaLoc", listaL);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
 			
+			case "list":
+			{
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			
+			default:
+				break;
+			}
 		}
-		boolean estado;
-		
-		if(request.getParameter("btnEliminar") != null)
-		{
-			int DNI = Integer.parseInt(request.getParameter("DNIUsuario").toString());
-			
-			estado = pNeg.EliminarPaciente(DNI);
 
-			ArrayList<Persona> lista = pNeg.ListarTodos();
-			request.setAttribute("listaPersonas", lista);
-			request.setAttribute("estado", estado);
-			RequestDispatcher rd = request.getRequestDispatcher("/ListadoPacientes.jsp");
-			
-			rd.forward(request, response);			
-		}
-
-		//GR Envia lista de todos los pacientes a AdminPacientes.jsp
+		/*//GR Envia lista de todos los pacientes a AdminPacientes.jsp
 		if(request.getParameter("Param")!= null) 
 		{
 			String param = request.getParameter("Param").toString();
@@ -86,7 +91,7 @@ public class ServletPacientes extends HttpServlet {
 			default:
 				break;
 			}
-		}
+		}*/
 	}
 
 
@@ -127,6 +132,11 @@ public class ServletPacientes extends HttpServlet {
 		if(request.getParameter("btnVer") != null) 
 		{
 			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
 			
 			if(pNeg.ListarUno(dni) != null)
 			{				
@@ -136,6 +146,21 @@ public class ServletPacientes extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 				dispatcher.forward(request, response);
 			}
+		}
+		
+		if(request.getParameter("btnEliminar") != null)
+		{
+			boolean estado;
+			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
+			
+			estado = pNeg.EliminarPaciente(DNI);
+
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+			request.setAttribute("estado", estado);
+			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+			
+			rd.forward(request, response);			
 		}
 	}
 

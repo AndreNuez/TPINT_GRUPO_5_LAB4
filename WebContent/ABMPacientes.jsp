@@ -4,6 +4,7 @@
 <!-- Entidades -->
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Localidad"%>
+<%@page import="entidad.Persona"%>
 
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
@@ -94,19 +95,19 @@
 				<input type="email" name="txtMail" placeholder="Mail" required <%=paciente.getMail() %> readonly=<%=readOnly%>>
             </div>
             <div class="mb-2">
-				<label for="Telefono">Tel�fono:</label>
+				<label for="Telefono">Telefono:</label>
 				<input type="tel" name="txtTelefono" placeholder="Telefono" required <%=paciente.getTelefono() %> readonly=<%=readOnly%>>
             </div>
 		</div>
         <div class="col-6">
-        <h5>Direcci�n</h5><hr>
+        <h5>Direccion</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
 				<input type="text" name="txtCalle" placeholder="Calle" <%=paciente.getDireccion().getCalle() %> readonly=<%=readOnly%>>
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" <%=paciente.getDireccion().getNumero() %> readonly=<%=readOnly%>>	
+				<input type="text" name="txtNumero" placeholder="Numero"<%=paciente.getDireccion().getNumero() %> readonly=<%=readOnly%>>	
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
@@ -142,7 +143,7 @@
         <div>
         <input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
         
-        <!-- Si el llamado se hace desde opci�n Ver Completo, se cargan los datos del m�dico readonly y se habilita 
+        <!-- Si el llamado se hace desde opcion Ver Completo, se cargan los datos del paciente readonly y se habilita 
         	btnModificar-->
         <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
         </div>
@@ -150,11 +151,11 @@
     </div>
     </form>
 
-<!-- Pregunto por estado para chequear si se insert�. -->    
+<!-- Pregunto por estado para chequear si se inserto. -->    
     <%
 		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>
-	<h4>Paciente agregado con �xito.</h4>
+	<h4>Paciente agregado con exito.</h4>
 	<%
 		}
 	%>

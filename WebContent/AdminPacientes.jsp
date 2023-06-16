@@ -41,7 +41,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
@@ -59,7 +59,7 @@
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMPacientes.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ServletPacientes?Param=agregarNuevo" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>
@@ -73,7 +73,7 @@
 				<th>Sexo</th>
 				<th>Fecha de Nacimiento</th>
 				<th>Mail</th>
-				<th>Teléfono</th>
+				<th>Telefono</th>
 				<th>Estado</th>
 				<th></th>
 			</tr>
@@ -94,6 +94,7 @@
 			<td><%=p.getTelefono()%></td>
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
 			</form>
 		</tr>
 		<%
