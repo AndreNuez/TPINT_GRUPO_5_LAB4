@@ -143,7 +143,7 @@
 
 <!-- Pregunto por estado para chequear si se insertó. -->    
     <%
-		if (request.getAttribute("estadoPaciente") != null) {
+		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>
 	<h4>Paciente agregado con éxito.</h4>
 	<%

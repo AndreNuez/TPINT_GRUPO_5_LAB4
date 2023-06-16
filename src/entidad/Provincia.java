@@ -14,6 +14,11 @@ public class Provincia {
 		IDProvincia = iDProvincia;
 		Descripcion = descripcion;
 	}
+	
+	public Provincia(int IDProvincia) {
+		this.IDProvincia = IDProvincia;
+	}
+
 
 	public int getIDProvincia() {
 		return IDProvincia;

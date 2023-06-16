@@ -16,9 +16,11 @@ import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Persona;
 import entidad.Provincia;
+import negocio.DireccionNegocio;
 import negocio.LocalidadNegocio;
 import negocio.PacienteNegocio;
 import negocio.ProvinciaNegocio;
+import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
@@ -30,6 +32,7 @@ public class ServletPacientes extends HttpServlet {
 	PacienteNegocio pNeg = new PacienteNegocioImpl();
 	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
 	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
+	DireccionNegocio dpNeg = new DireccionNegocioImpl();
 	
     public ServletPacientes() {
         super();
@@ -83,17 +86,20 @@ public class ServletPacientes extends HttpServlet {
 			p.setTelefono(request.getParameter("txtTelefono"));
 			p.setEstado(1);
 			
-				//Direccion d = new Direccion();
-				//d.setCalle(request.getParameter("txtCalle"));
-				//d.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
-				//d.setProvincia(new Provincia(Integer.parseInt(request.getParameter("Provincias"))));
-				//d.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
-				//p.setDireccion(d);	
-			
+			int DNI = p.getDNI();
 			boolean estado = true;
 			estado = pNeg.InsertarPaciente(p);
+				
+			Direccion dp = new Direccion();
+				dp.setCalle(request.getParameter("txtCalle"));
+				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+				dp.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+		
+			boolean estadodp = true;
+			estadodp = dpNeg.InsertarDP(DNI, dp);
 			
 			request.setAttribute("estadoPaciente", estado);
+			request.setAttribute("estadoDP", estadodp);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 			dispatcher.forward(request, response);			
 		}

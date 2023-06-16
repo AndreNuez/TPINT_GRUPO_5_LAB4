@@ -14,6 +14,10 @@ public class Localidad {
 		IDLocalidad = iDLocalidad;
 		Descripcion = descripcion;
 	}
+	
+	public Localidad(int IDLocalidad) {
+		this.IDLocalidad = IDLocalidad;
+	}
 
 	public int getIDLocalidad() {
 		return IDLocalidad;
