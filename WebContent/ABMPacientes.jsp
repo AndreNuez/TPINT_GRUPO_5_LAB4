@@ -24,7 +24,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Men� Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
@@ -66,7 +66,12 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required value=<%=paciente.getDNI() %>>
+               
+                <% if (request.getAttribute("verPaciente") != null) {%>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required value=<%=paciente.getDNI() %> readonly=true>
+				<%} else {%>
+					<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required>
+				<%}%>	
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -106,7 +111,11 @@
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" value=<%=paciente.getDireccion().getNumero() %>>	
+				 <% if (request.getAttribute("verPaciente") != null) {%>
+				<input type="text" name="txtNumero" placeholder="Numero" value=<%=paciente.getDireccion().getNumero() %>>
+				<%} else {%>
+					<input type="text" name="txtNumero" placeholder="Numero" required>
+				<%}%>		
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
@@ -117,6 +126,10 @@
 						<option value="<%=p.getIDProvincia()%>"><%=p.getDescripcion()%></option>
 						<%
 							}
+					
+							if (request.getAttribute("verPaciente") != null) {%>
+								<option value="<%=paciente.getDireccion().getProvincia().getIDProvincia()%>" selected><%=paciente.getDireccion().getProvincia().getDescripcion()%></option>
+							<%}
 						%>
 				</select>
             </div>
@@ -129,6 +142,10 @@
 						<option value="<%=l.getIDLocalidad()%>"><%=l.getDescripcion()%></option>
 						<%
 							}
+					
+					if (request.getAttribute("verPaciente") != null) {%>
+					<option value="<%=paciente.getDireccion().getLocalidad().getIDLocalidad()%>" selected><%=paciente.getDireccion().getLocalidad().getDescripcion()%></option>
+				<%}
 						%>
 				</select>
             </div>
@@ -137,14 +154,15 @@
     </div>
     <div class="row">
         <div class="col-auto">
-        <input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
+        <!--<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>-->
         <br><br>
         <div>
-        <input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
         
-        <!-- Si el llamado se hace desde opcion Ver Completo, se cargan los datos del paciente readonly y se habilita 
-        	btnModificar-->
-        <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
+        <% if (request.getAttribute("verPaciente") != null) {%>
+				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
+				<%} else {%>
+					<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
+				<%}%>	
         </div>
         </div>
     </div>
@@ -154,12 +172,30 @@
     <%
 		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>
-	<h4>Paciente agregado con exito.</h4>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente agregado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	
+	<!-- Pregunto por estado para chequear si se modifico. -->    
+    <%
+		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente modificado con exito");
+		} 
+		</script> 
 	<%
 		}
 	%>
        
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

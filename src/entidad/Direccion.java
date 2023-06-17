@@ -8,8 +8,10 @@ public class Direccion {
 	private Provincia Provincia;
 	
 	public Direccion() {
-		
-	}
+		this.Localidad = new Localidad();
+		this.Provincia = new Provincia ();
+		Calle  = "";
+		}
 	
 	public Direccion(String calle, int numero, Localidad localidad, Provincia provincia) {
 		Calle = calle;

@@ -21,9 +21,8 @@ public class DireccionNegocioImpl implements DireccionNegocio {
 	}
 
 	@Override
-	public boolean EditarDP(Direccion direccion) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean EditarDP(int DNI, Direccion direccion) {
+		return dpdao.EditarDP(DNI, direccion);
 	}
 
 }

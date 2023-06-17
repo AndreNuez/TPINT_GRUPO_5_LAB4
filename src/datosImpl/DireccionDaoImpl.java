@@ -36,9 +36,26 @@ public class DireccionDaoImpl implements DireccionDao {
 	}
 
 	@Override
-	public boolean EditarDP(Direccion direccion) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean EditarDP(int dni, Direccion direccion) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+
+		String query = "UPDATE direccionespacientes SET Calle='"+direccion.getCalle()+"', Numero='"+direccion.getNumero()+"', IDLocalidad='"+direccion.getLocalidad().getIDLocalidad()+"' where DNI="+ dni;
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
 	}
 
 }

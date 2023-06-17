@@ -73,25 +73,6 @@ public class ServletPacientes extends HttpServlet {
 				break;
 			}
 		}
-
-		/*//GR Envia lista de todos los pacientes a AdminPacientes.jsp
-		if(request.getParameter("Param")!= null) 
-		{
-			String param = request.getParameter("Param").toString();
-			switch(param)
-			{
-			case "list":
-			{
-				ArrayList<Persona> lista = pNeg.ListarTodos();
-				request.setAttribute("listaPacientes", lista);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
-				dispatcher.forward(request, response);
-				break;
-			}
-			default:
-				break;
-			}
-		}*/
 	}
 
 
@@ -124,7 +105,9 @@ public class ServletPacientes extends HttpServlet {
 			
 			request.setAttribute("estadoPaciente", estado);
 			request.setAttribute("estadoDP", estadodp);
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
 			dispatcher.forward(request, response);			
 		}
 
@@ -161,6 +144,39 @@ public class ServletPacientes extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
 			
 			rd.forward(request, response);			
+		}
+		
+		if(request.getParameter("btnModificar") != null)
+		{
+			Persona p = new Persona();
+			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
+			p.setApellido(request.getParameter("txtApellido"));
+			p.setNombre(request.getParameter("txtNombre"));
+			p.setSexo(request.getParameter("Sexo").charAt(0));
+			p.setFnac(LocalDate.parse(request.getParameter("FNac")));
+			p.setNacionalidad(request.getParameter("txtNacionalidad"));
+			p.setMail(request.getParameter("txtMail"));
+			p.setTelefono(request.getParameter("txtTelefono"));
+			
+			int DNI = p.getDNI();
+			
+			boolean modificado = true;
+			modificado = pNeg.EditarPaciente(p);
+				
+			Direccion dp = new Direccion();
+				dp.setCalle(request.getParameter("txtCalle"));
+				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+				dp.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+		
+			boolean modificadodp = true;
+			modificadodp = dpNeg.EditarDP(DNI, dp);
+			
+			request.setAttribute("modificado", modificado);
+			request.setAttribute("modificadoDP", modificadodp);
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+			dispatcher.forward(request, response);			
 		}
 	}
 
