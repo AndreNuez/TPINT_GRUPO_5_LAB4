@@ -60,12 +60,15 @@
                     
                     <tbody>
                         <tr>
-                            <td>Juan</td>
+ 							<form action="servletPersonas" method="get">
+                            <td>Juan <!-- usuario.getDNI() <input type="hidden" name="DNIUsuario" value=" %= usuario.getDNI() =%"  --></td>
                             <td>Pérez</td>
                             <td>12345678</td>
                             <td>10/05/1980</td>
                             <td>12/06/2023</td>
                             <td><input type="radio" name="confirmacion" value="asistio"></td>
+                            <td><input type="submit" value="Eliminar" name="btnEliminar""/></td>
+                            </form>
                         </tr>
                         <tr>
                             <td>María</td>
