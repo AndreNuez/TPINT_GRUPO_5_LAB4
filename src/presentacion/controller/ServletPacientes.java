@@ -43,30 +43,35 @@ public class ServletPacientes extends HttpServlet {
 		
 		if(request.getParameter("Param")!=null)
 		{
-			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
-			request.setAttribute("listaProv", listaP);
+			String param = request.getParameter("Param").toString();
 			
-			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
-			request.setAttribute("listaLoc", listaL);
+			switch(param){
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
-			dispatcher.forward(request, response);
+			case "agregarNuevo":
+			{
+				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+				request.setAttribute("listaProv", listaP);
+				
+				ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+				request.setAttribute("listaLoc", listaL);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
 			
-		}
-		boolean estado;
-		
-		if(request.getParameter("btnEliminar") != null)
-		{
-			int DNI = Integer.parseInt(request.getParameter("DNIUsuario").toString());
+			case "list":
+			{
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
 			
-			estado = pNeg.EliminarPaciente(DNI);
-
-			ArrayList<Persona> lista = pNeg.ListarTodos();
-			request.setAttribute("listaPersonas", lista);
-			request.setAttribute("estado", estado);
-			RequestDispatcher rd = request.getRequestDispatcher("/ListadoPacientes.jsp");
-			
-			rd.forward(request, response);			
+			default:
+				break;
+			}
 		}
 	}
 
@@ -100,7 +105,77 @@ public class ServletPacientes extends HttpServlet {
 			
 			request.setAttribute("estadoPaciente", estado);
 			request.setAttribute("estadoDP", estadodp);
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+			dispatcher.forward(request, response);			
+		}
+
+		//GR Envia datos de paciente seleccionado en AdminPacientes al ABMPacientes.jsp
+		if(request.getParameter("btnVer") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(pNeg.ListarUno(dni) != null)
+			{				
+				Persona paciente = new Persona();
+				paciente = pNeg.ListarUno(dni);	
+				request.setAttribute("verPaciente", paciente);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		if(request.getParameter("btnEliminar") != null)
+		{
+			boolean estado;
+			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
+			
+			estado = pNeg.EliminarPaciente(DNI);
+
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+			request.setAttribute("estado", estado);
+			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+			
+			rd.forward(request, response);			
+		}
+		
+		if(request.getParameter("btnModificar") != null)
+		{
+			Persona p = new Persona();
+			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
+			p.setApellido(request.getParameter("txtApellido"));
+			p.setNombre(request.getParameter("txtNombre"));
+			p.setSexo(request.getParameter("Sexo").charAt(0));
+			p.setFnac(LocalDate.parse(request.getParameter("FNac")));
+			p.setNacionalidad(request.getParameter("txtNacionalidad"));
+			p.setMail(request.getParameter("txtMail"));
+			p.setTelefono(request.getParameter("txtTelefono"));
+			
+			int DNI = p.getDNI();
+			
+			boolean modificado = true;
+			modificado = pNeg.EditarPaciente(p);
+				
+			Direccion dp = new Direccion();
+				dp.setCalle(request.getParameter("txtCalle"));
+				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+				dp.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+		
+			boolean modificadodp = true;
+			modificadodp = dpNeg.EditarDP(DNI, dp);
+			
+			request.setAttribute("modificado", modificado);
+			request.setAttribute("modificadoDP", modificadodp);
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
 			dispatcher.forward(request, response);			
 		}
 	}

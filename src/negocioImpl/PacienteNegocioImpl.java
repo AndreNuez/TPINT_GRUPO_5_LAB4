@@ -25,10 +25,10 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 		return (ArrayList<Persona>) pacienteDao.ListarTodos();
 	}
 
+	//GR Lista 1 paciente a partir de su DNI
 	@Override
 	public Persona ListarUno(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		return pacienteDao.ListarUno(dni);
 	}
 
 	@Override

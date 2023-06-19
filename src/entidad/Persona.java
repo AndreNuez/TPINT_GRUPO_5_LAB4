@@ -16,7 +16,12 @@ public class Persona {
 	private int Estado;
 	
 	public Persona () {
-		
+		this.Direccion = new Direccion();
+		Nombre = "";
+		Apellido = "";
+		Nacionalidad = "";
+		Mail = "";
+		Telefono = "";
 	}
 
 	public Persona(int dNI, String nombre, String apellido, char sexo, String nacionalidad, LocalDate fnac,
