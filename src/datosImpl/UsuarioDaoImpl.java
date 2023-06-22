@@ -22,7 +22,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		Usuario usuario = new Usuario();
 		
 		try {
-			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña from usuarios where DNI = " + dni + "and Contraseña = '" + pass + "'"); 
+			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña from usuarios where DNI = " + dni + "and Contraseña = " + pass); 
 			rs.next();
 			
 			usuario.setDNI(rs.getInt("DNI"));
