@@ -28,16 +28,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/AsignarTurno.jsp</name>
-			<type>1</type>
-			<location>E:/Descargas/AsignarTurno.jsp</location>
-		</link>
-		<link>
-			<name>WebContent/CrearTurno.jsp</name>
-			<type>1</type>
-			<location>E:/Descargas/CrearTurno.jsp</location>
-		</link>
-	</linkedResources>
 </projectDescription>
