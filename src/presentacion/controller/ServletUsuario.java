@@ -57,19 +57,24 @@ public class ServletUsuario extends HttpServlet {
 			if(user != null) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
-				    	//request.setAttribute("usuario", user);
-						request.getSession().setAttribute("usuario", user);
-				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
-						dispatcher.forward(request, response);
-					}
-					else {
-						//request.setAttribute("usuario", user);
 						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
 						dispatcher.forward(request, response);
 					}
-
+					else {
+						
+						request.getSession().setAttribute("usuario", user);
+				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
+						dispatcher.forward(request, response);
+					}
 			}
+		}
+		
+		if(request.getParameter("btnSalir") != null)
+		{
+			request.getSession().removeAttribute("usuario");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+			dispatcher.forward(request, response);
 		}
 			
 	}

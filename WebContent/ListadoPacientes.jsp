@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   <%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,8 +33,11 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="text-end" style="margin: 5px 20px">Usuario</ul>
-                <input type="submit" class="btn btn-danger" name="btnSalir" value="Salir"></input>
+						<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+                <form method="post" action="ServletUsuario">
+			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
             </div>
         </div>
     </nav>
