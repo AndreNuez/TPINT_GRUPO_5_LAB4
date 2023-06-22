@@ -67,8 +67,14 @@ public class ServletUsuario extends HttpServlet {
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
 						dispatcher.forward(request, response);
 					}
-
 			}
+		}
+		
+		if(request.getParameter("btnSalir") != null)
+		{
+			request.getSession().removeAttribute("usuario");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+			dispatcher.forward(request, response);
 		}
 			
 	}

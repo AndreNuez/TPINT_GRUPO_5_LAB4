@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+	<%@page import="entidad.Usuario"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +25,11 @@
 					</a>
 				</li>
 			</ul>
-			<ul class="text-end" style="margin: 5px 20px"> Usuario </ul>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
 		</div>
 	</div>
 	</nav>
