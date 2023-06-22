@@ -4,14 +4,16 @@ public class Direccion {
 	
 	private String Calle;
 	private int Numero;
-	private String Localidad;
-	private String Provincia;
+	private Localidad Localidad;
+	private Provincia Provincia;
 	
 	public Direccion() {
-		
-	}
+		this.Localidad = new Localidad();
+		this.Provincia = new Provincia ();
+		Calle  = "";
+		}
 	
-	public Direccion(String calle, int numero, String localidad, String provincia) {
+	public Direccion(String calle, int numero, Localidad localidad, Provincia provincia) {
 		Calle = calle;
 		Numero = numero;
 		Localidad = localidad;
@@ -34,19 +36,19 @@ public class Direccion {
 		Numero = numero;
 	}
 
-	public String getLocalidad() {
+	public Localidad getLocalidad() {
 		return Localidad;
 	}
 
-	public void setLocalidad(String localidad) {
+	public void setLocalidad(Localidad localidad) {
 		Localidad = localidad;
 	}
 
-	public String getProvincia() {
+	public Provincia getProvincia() {
 		return Provincia;
 	}
 
-	public void setProvincia(String provincia) {
+	public void setProvincia(Provincia provincia) {
 		Provincia = provincia;
 	}
 

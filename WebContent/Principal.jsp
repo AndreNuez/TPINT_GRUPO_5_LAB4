@@ -15,7 +15,7 @@
         <img src="https://centromedicomendoza.com/wordpress/wp-content/uploads/2016/04/012.jpg" class="img-fluid" alt="...">
             <div class="text-center">
             <br>
-                <h2>Bienvenido a Clinica Médica SA</h2>
+                <h2>Bienvenido a Clinica Medica SA</h2>
             </div>
             <div class="text-center text-muted">
                 <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
@@ -23,18 +23,21 @@
             <div class="col-4"></div>
             <div class="col-2"></div>
             <br />
-            <div class="d-grid mx-auto">
-                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" required ></input>
-                <br>
-            </div>
-            <div class="d-grid mx-auto">
-                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
-                <br>
-            </div>   
-             <div class="d-grid mx-auto">
-                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
-                <br>
-            </div>          
+            <form action="ServletUsuario" method="post">
+            
+	            <div class="d-grid mx-auto">
+	                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" required ></input>
+	                <br>
+	            </div>
+	            <div class="d-grid mx-auto">
+	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
+	                <br>
+	            </div>   
+	             <div class="d-grid mx-auto">
+	                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
+	                <br>          
+	            </div> 
+            </form>
             <br />
             <br />
             <div class="col-4"></div>

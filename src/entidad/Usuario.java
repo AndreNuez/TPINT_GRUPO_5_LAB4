@@ -35,6 +35,10 @@ public class Usuario {
 	public TipoUsuario getTipo() {
 		return Tipo;
 	}
+	
+	//public String getTipo() {
+	//	return Tipo.getDescripcion();
+	//}
 
 	public void setTipo(TipoUsuario tipo) {
 		Tipo = tipo;
