@@ -37,7 +37,22 @@ public class ServletUsuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		if(request.getParameter("Param") != null) {
+			
+			Usuario user = (Usuario) request.getSession().getAttribute("usuario");
+
+			if(user.getTipo().getIdTipoUsuario() == 0) {
+
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
+				dispatcher.forward(request, response);
+			}
+			else {
+				
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
 	}
 
 	/**
