@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMMedicos.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ServletMedicos?Param=agregarNuevo" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>
