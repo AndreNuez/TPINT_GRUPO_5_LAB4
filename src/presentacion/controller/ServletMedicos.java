@@ -12,13 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Especialidad;
 import entidad.Localidad;
-import entidad.Persona;
+import entidad.Medico;
 import entidad.Provincia;
 import negocio.EspecialidadNegocio;
 import negocio.LocalidadNegocio;
+import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
+import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
 
 @WebServlet("/ServletMedicos")
@@ -28,6 +30,7 @@ public class ServletMedicos extends HttpServlet {
 	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
 	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
 	EspecialidadNegocio espNeg = new EspecialidadNegocioImpl();
+	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	
     public ServletMedicos() {
         super();
@@ -53,6 +56,15 @@ public class ServletMedicos extends HttpServlet {
 				request.setAttribute("listaEsp", listaE);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			
+			case "list":
+			{
+				ArrayList<Medico> lista = mNeg.ListarTodos();
+				request.setAttribute("listaMedicos", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");
 				dispatcher.forward(request, response);
 				break;
 			}

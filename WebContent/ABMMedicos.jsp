@@ -150,7 +150,7 @@
 				</select>
             </div>
             <br>
-            
+            D
            <h5>Día y horario de atención</h5> <hr>  
           <div class="mb-2">
 				<label for="Dia">Dia:</label>
