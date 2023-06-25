@@ -17,12 +17,11 @@ public class MedicoDaoImpl implements MedicoDao {
 		
 	}
 
-	public List<Medico> ListarTodos() {
+	public ArrayList<Medico> ListarTodos() {
 		cn = new Conexion();
 		cn.Open();
 			
-		List<Medico> list = new ArrayList<Medico>();
-		Especialidad esp = new Especialidad();
+		ArrayList<Medico> list = new ArrayList<Medico>();
 			
 		try
 			{
@@ -35,8 +34,9 @@ public class MedicoDaoImpl implements MedicoDao {
 					medico.setNombre(rs.getString("Nombres"));
 					medico.setSexo(rs.getString("Sexo").charAt(0));
 					medico.setMail(rs.getString("Mail"));
-					esp.setIdEspecialidad(rs.getInt("IDEspecialidad"));
-					esp.setDescripcion(rs.getString("Nombre"));
+						Especialidad esp = new Especialidad();
+						esp.setIdEspecialidad(rs.getInt("IDEspecialidad"));
+						esp.setDescripcion(rs.getString("Nombre"));
 					medico.setEspecialidad(esp);
 					medico.setEstado(rs.getInt("Estado"));
 					list.add(medico);

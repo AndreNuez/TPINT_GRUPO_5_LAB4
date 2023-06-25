@@ -1,12 +1,13 @@
 package datos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import entidad.Medico;
 
 public interface MedicoDao {
 	
-	public List<Medico> ListarTodos();
+	public ArrayList<Medico> ListarTodos();
 	public Medico ListarUno(int dni);
 	public boolean InsertarMedico(Medico medico);
 	public boolean EditarMedico(Medico medico);
