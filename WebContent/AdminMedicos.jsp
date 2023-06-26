@@ -122,7 +122,7 @@
 </div>
 </div>
 
-<%
+	<%
 		if (request.getAttribute("estado") != null) {
 	%>
 	<script type="text/javascript">
