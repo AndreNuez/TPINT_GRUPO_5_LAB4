@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import entidad.Especialidad;
 import entidad.Localidad;
 import entidad.Medico;
+import entidad.Persona;
 import entidad.Provincia;
 import negocio.EspecialidadNegocio;
 import negocio.LocalidadNegocio;
@@ -79,8 +80,21 @@ public class ServletMedicos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		if(request.getParameter("btnEliminar") != null)
+		{
+			boolean estado;
+			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
+			
+			estado = mNeg.EliminarMedico(DNI);
+
+			ArrayList<Medico> lista = mNeg.ListarTodos();
+			request.setAttribute("listaMedicos", lista);
+			request.setAttribute("estado", estado);
+			RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+			
+			rd.forward(request, response);			
+		}
 	}
 
 }

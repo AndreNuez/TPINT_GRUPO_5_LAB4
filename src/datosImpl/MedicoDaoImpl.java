@@ -74,8 +74,22 @@ public class MedicoDaoImpl implements MedicoDao {
 
 	@Override
 	public boolean EliminarMedico(int dni) {
-		// TODO Auto-generated method stub
-		return false;
+		cn = new Conexion();
+		cn.Open();
+		
+		boolean estado = false;
+		
+		try
+		{
+			String query = "UPDATE medicos SET estado = 0 where DNI = " + dni;
+			estado = cn.execute(query);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return estado;
 	}
 
 }
