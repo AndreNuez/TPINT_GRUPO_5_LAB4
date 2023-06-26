@@ -69,6 +69,30 @@ public class ServletMedicos extends HttpServlet {
 				dispatcher.forward(request, response);
 				break;
 			}
+			case "confirmarSi":
+			{
+				boolean estado;
+				int DNI = Integer.parseInt(request.getSession().getAttribute("dniMedicoAEliminar").toString());
+				estado = mNeg.EliminarMedico(DNI);
+				
+				ArrayList<Medico> lista = mNeg.ListarTodos();
+				request.setAttribute("listaMedicos", lista);
+				request.setAttribute("estado", estado);
+				request.removeAttribute("eliminando");
+				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+				
+				rd.forward(request, response);	
+			}
+			case "confirmarNo":
+			{
+				ArrayList<Medico> lista = mNeg.ListarTodos();
+				request.setAttribute("listaMedicos", lista);
+				request.removeAttribute("eliminando");
+				request.getSession().removeAttribute("dniMedicoAEliminar");
+				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+				
+				rd.forward(request, response);	
+			}
 			
 			default:
 				break;
@@ -81,20 +105,23 @@ public class ServletMedicos extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//nuevo
 		if(request.getParameter("btnEliminar") != null)
 		{
-			boolean estado;
-			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
 			
-			estado = mNeg.EliminarMedico(DNI);
-
+			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
+			request.getSession().setAttribute("dniMedicoAEliminar", DNI);
+			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
-			request.setAttribute("estado", estado);
+			
+			boolean eliminando = true;
+			request.setAttribute("eliminando", eliminando);
 			RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
 			
 			rd.forward(request, response);			
 		}
+
 	}
 
 }
