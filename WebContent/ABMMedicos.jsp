@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="entidad.Usuario"%>
+<!-- Entidades -->
+<%@page import="entidad.Provincia"%>
+<%@page import="entidad.Localidad"%>
+<%@page import="entidad.Usuario"%>
+<%@page import="entidad.Especialidad"%>
+
+<!-- Librerias -->
+<%@page import="java.util.ArrayList"%>
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,6 +37,26 @@
 	</div>
 	</nav>
 	<br>
+<!-- Llamado a listados  -->
+
+	<%
+		ArrayList<Provincia> listaProv = new ArrayList<Provincia>();
+		if (request.getAttribute("listaProv") != null) {
+			listaProv = (ArrayList<Provincia>) request.getAttribute("listaProv");
+		}
+		
+		ArrayList<Localidad> listaLoc = new ArrayList<Localidad>();
+		if (request.getAttribute("listaLoc") != null) {
+			listaLoc = (ArrayList<Localidad>) request.getAttribute("listaLoc");
+		}
+		
+		ArrayList<Especialidad> listaEsp = new ArrayList<Especialidad>();
+		if (request.getAttribute("listaEsp") != null) {
+			listaEsp = (ArrayList<Especialidad>) request.getAttribute("listaEsp");
+		}
+		
+	%>
+	
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del médico</h4> <hr>
@@ -71,17 +99,13 @@
             <div class="mb-2">
 				<label for="Especialidad">Especialidad:</label>
 				<select name="Especialidad" required>
-					<option> Seleccione una... </option>
-					<option> Cardiología </option>
-					<option> Dermatología </option>
-					<option> Gastroenterología </option>
-					<option> Ginecología y Obstetricia </option>
-					<option> Medicina Clínica </option>
-					<option> Oftalmología </option>
-					<option> Ortopedia y Traumatología </option>
-					<option> Otorrinolaringología </option>
-					<option> Pediatría </option>
-					<option> Psiquiatría </option>
+					<%
+							for (Especialidad e : listaEsp) {
+						%>
+						<option value="<%=e.getIdEspecialidad()%>"><%=e.getDescripcion()%></option>
+						<%
+							}
+						%>
 				</select>
             </div>
             <div class="mb-2">
@@ -103,28 +127,34 @@
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
-				<select name="Provincias" required>
-					<option> Seleccione una... </option>
-					<option> Buenos Aires </option>
-					<option> Santa Fe </option>
-					<option> Córdoba </option>
-					<option> Tucumán </option>
+				<select name="Provincias" >
+					<%
+							for (Provincia p : listaProv) {
+						%>
+						<option value="<%=p.getIDProvincia()%>"><%=p.getDescripcion()%></option>
+						<%
+							}
+						%>
 				</select>
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
-				<select name="Localidades" required>
-					<option> Seleccione una... </option>
-					<option> San Fernando </option>
-					<option> San Isidro </option>
-					<option> Tigre </option>
+				<select name="Localidades" >
+					<%
+							for (Localidad l : listaLoc) {
+						%>
+						<option value="<%=l.getIDLocalidad()%>"><%=l.getDescripcion()%></option>
+						<%
+							}
+						%>
 				</select>
             </div>
             <br>
-          <h5>Día y horario de atención</h5><hr>
+            D
+           <h5>Día y horario de atención</h5> <hr>  
           <div class="mb-2">
-				<label for="Día">Día:</label>
-				<select name="Día" required>
+				<label for="Dia">Dia:</label>
+				<select name="Dia">
 					<option> Seleccione uno... </option>
 					<option> Lunes </option>
 					<option> Martes </option>

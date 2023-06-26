@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
 <%@page import="entidad.Usuario"%>
+<%@page import="entidad.Medico"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,6 +28,14 @@
 
 </head>
 <body>
+
+<%
+		List<Medico> listaM = new ArrayList<Medico>();
+		if (request.getAttribute("listaMedicos") != null) {
+			listaM = (List<Medico>) request.getAttribute("listaMedicos");
+		}
+	%>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -37,7 +49,9 @@
 			</ul>
 			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
 		</div>
 	</div>
 	</nav>
@@ -50,7 +64,7 @@
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMMedicos.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ServletMedicos?Param=agregarNuevo" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>
@@ -64,58 +78,34 @@
 				<th>Sexo</th>
 				<th>Mail</th>
 				<th>Especialidad</th>
-				<th>Día y Horario atención</th>
 				<th>Estado</th>
+				<th></th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>25789410</td>
-				<td>Elissa</td>
-				<td>Stoile</td>
-				<td>Mujer</td>
-				<td>estoile0@alexa.com</td>
-				<td>Cardiología</td>
-				<td>Jueves - 8 a 15hs</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>4589630</td>
-				<td>Emery</td>
-				<td>Horsted</td>
-				<td>Hombre</td>
-				<td>ehorsted1@phpbb.com</td>
-				<td>Nutrición</td>
-				<td>Lunes - 10 a 18hs</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>31589423</td>
-				<td>Sharona</td>
-				<td>Hubberstey</td>
-				<td>Mujer</td>
-				<td>shubberstey2@bloglines.com</td>
-				<td>Clínica</td>
-				<td>Martes - 13 a 19hs</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>10258951</td>
-				<td>Morey</td>
-				<td>Pirouet</td>
-				<td>Hombre</td>
-				<td>mpirouet3@illinois.edu</td>
-				<td>Traumatología</td>
-				<td>Viernes - 10 a 19hs</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
+		<%
+			for (Medico m : listaM) {
 
-		</tbody>
+		%>	
+		<tr>
+			<form method="post" action="ServletMedicos">
+			<td><%=m.getDNI()%> <input type="hidden" name = "dniMedico" value = <%=m.getDNI()%>></td>
+			<td><%=m.getNombre()%></td>
+			<td><%=m.getApellido()%></td>
+			<td><%=m.getSexo()%></td>
+			<td><%=m.getMail()%></td>
+			<td><%=m.getEspecialidad().getDescripcion()%></td>
+			<td><%=m.getEstado()%></td>
+			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
+			</form>
+		</tr>
+		<%
+			}
+		%>
+
+	</tbody>
 	</table>
 </div>
 <div class="col-4"></div>
