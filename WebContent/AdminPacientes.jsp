@@ -100,11 +100,24 @@
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
 			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
+			
 			</form>
 		</tr>
 		<%
 			}
 		%>
+
+		<% if(request.getAttribute("eliminando") != null) {
+			%>
+			<div class="row" height=100px>
+			<div class="col-3"></div>
+			<div class="col-3">
+				<h3 align="center">Desea eliminar el paciente?</h3> 
+				</div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarNo" class="btn btn-primary"> No </a></div>
+			</div>
+			<% } %>
 
 	</tbody>
 	</table>
