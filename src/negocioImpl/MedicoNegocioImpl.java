@@ -45,4 +45,9 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 		return mdao.EliminarMedico(dni);
 	}
 
+	@Override
+	public boolean InsertarHorario(Medico medico) {
+		return mdao.InsertarHorario(medico);
+	}
+
 }

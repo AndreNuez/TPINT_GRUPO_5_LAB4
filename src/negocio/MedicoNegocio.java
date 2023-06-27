@@ -11,5 +11,6 @@ public interface MedicoNegocio {
 	public boolean InsertarMedico(Medico medico);
 	public boolean EditarMedico(Medico medico);
 	public boolean EliminarMedico(int dni); //Eliminar logico.
+	public boolean InsertarHorario (Medico medico);
 
 }

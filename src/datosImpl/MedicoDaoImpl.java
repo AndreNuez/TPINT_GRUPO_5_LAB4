@@ -62,8 +62,26 @@ public class MedicoDaoImpl implements MedicoDao {
 
 	@Override
 	public boolean InsertarMedico(Medico medico) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+		//COMPLETAR CON LA CONSULTA CORRECTA
+		String query = "Insert into horariosxmedicos (DNIMedico, HoraInicio, HoraFin, DiaAtencion) VALUES ('"+medico.getDNI()+"','"+medico.getHoraInicio()+"','"+medico.getHoraFin()+"','"+medico.getDiaAtencion()+"')";
+		
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
 	}
 
 	@Override
@@ -89,6 +107,30 @@ public class MedicoDaoImpl implements MedicoDao {
 			e.printStackTrace();
 		}
 		
+		return estado;
+	}
+
+	@Override
+	public boolean InsertarHorario(Medico medico) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+		
+		String query = "Insert into horariosxmedicos (DNIMedico, HoraInicio, HoraFin, DiaAtencion) VALUES ('"+medico.getDNI()+"','"+medico.getHoraInicio()+"','"+medico.getHoraFin()+"','"+medico.getDiaAtencion()+"')";
+		
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
 		return estado;
 	}
 
