@@ -79,5 +79,27 @@ public class DireccionDaoImpl implements DireccionDao {
 		}
 		return estado;
 	}
+	
+	public boolean EditarDM(int dni, Direccion direccion) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+
+		String query = "UPDATE direccionesmedicos SET Calle='"+direccion.getCalle()+"', Numero='"+direccion.getNumero()+"', IDLocalidad='"+direccion.getLocalidad().getIDLocalidad()+"' where DNI="+ dni;
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+	}
 
 }

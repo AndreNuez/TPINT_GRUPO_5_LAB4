@@ -29,4 +29,9 @@ public class DireccionNegocioImpl implements DireccionNegocio {
 		return dpdao.EditarDP(DNI, direccion);
 	}
 
+	@Override
+	public boolean EditarDM(int dni, Direccion direccion) {
+		return dpdao.EditarDM(dni, direccion);
+	}
+
 }
