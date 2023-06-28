@@ -34,6 +34,28 @@ public class DireccionDaoImpl implements DireccionDao {
 		}
 		return estado;
 	}
+	
+	public boolean InsertarDM(int dni, Direccion direccion) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+		
+		String query = "INSERT INTO direccionesmedicos (DNI, Calle, Numero, IDLocalidad) VALUES ('"+dni+"','"+direccion.getCalle()+"','"+direccion.getNumero()+"','"+direccion.getLocalidad().getIDLocalidad()+"')"; 	
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+	}
 
 	@Override
 	public boolean EditarDP(int dni, Direccion direccion) {

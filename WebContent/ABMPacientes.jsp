@@ -158,7 +158,7 @@
     </div>
     <div class="row">
         <div class="col-auto">
-        <!--<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>-->
+        <input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         <br><br>
         <div>
         

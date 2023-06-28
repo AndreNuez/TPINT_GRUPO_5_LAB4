@@ -66,9 +66,7 @@ public class MedicoDaoImpl implements MedicoDao {
 
 		cn = new Conexion();
 		cn.Open();	
-		//COMPLETAR CON LA CONSULTA CORRECTA
-		String query = "Insert into horariosxmedicos (DNIMedico, HoraInicio, HoraFin, DiaAtencion) VALUES ('"+medico.getDNI()+"','"+medico.getHoraInicio()+"','"+medico.getHoraFin()+"','"+medico.getDiaAtencion()+"')";
-		
+		String query = "Insert into medicos (DNI, Apellido, Nombres, Sexo, FechaNacimiento, Nacionalidad, Mail, Telefono, IDEspecialidad, Estado) VALUES ('"+medico.getDNI()+"','"+medico.getApellido()+"','"+medico.getNombre()+"','"+medico.getSexo()+"','"+medico.getFnac()+"','"+medico.getNacionalidad()+"','"+medico.getMail()+"','"+medico.getTelefono()+"','"+medico.getEspecialidad().getIdEspecialidad()+"','"+medico.getEstado()+"')";	
 		try
 		 {
 			estado=cn.execute(query);

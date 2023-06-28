@@ -19,6 +19,10 @@ public class DireccionNegocioImpl implements DireccionNegocio {
 	public boolean InsertarDP(int dni, Direccion direccion) {
 		return dpdao.InsertarDP(dni, direccion);
 	}
+	
+	public boolean InsertarDM(int dni, Direccion direccion) {
+		return dpdao.InsertarDM(dni, direccion);
+	}
 
 	@Override
 	public boolean EditarDP(int DNI, Direccion direccion) {

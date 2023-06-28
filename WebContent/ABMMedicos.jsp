@@ -4,6 +4,7 @@
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Localidad"%>
 <%@page import="entidad.Usuario"%>
+<%@page import="entidad.Medico"%>
 <%@page import="entidad.Especialidad"%>
 
 <!-- Librerias -->
@@ -55,6 +56,10 @@
 			listaEsp = (ArrayList<Especialidad>) request.getAttribute("listaEsp");
 		}
 		
+		Medico medico = new Medico();
+		String esMasculino = medico.getSexo() == 'M' ? "checked" : "";
+		String esFemenino = medico.getSexo() == 'F' ? "checked" : "";
+		
 	%>
 	
 <!-- Formulario y controles --> 
@@ -65,7 +70,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="DNI" maxlength="8" placeholder="DNI" required>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -77,8 +82,8 @@
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
-				<input type="radio" name="Sexo" value="Femenino"> Femenino
-				<input type="radio" name="Sexo" value="Masculino"> Masculino
+				<input type="radio" name="Sexo" value="Femenino" <%=esFemenino%>> Femenino
+				<input type="radio" name="Sexo" value="Masculino" <%=esMasculino%>> Masculino
             </div>
             <div class="mb-2">
                 <label for="Nacionalidad">Nacionalidad:</label>
@@ -90,11 +95,11 @@
             </div>
             <div class="mb-2">
                 <label for="Mail">Mail:</label>
-				<input type="email" name="txtMail" placeholder="DNI" required>
+				<input type="email" name="txtMail" placeholder="Mail" required>
             </div>
             <div class="mb-2">
-				<label for="Teléfono">Teléfono:</label>
-				<input type="tel" name="txtTeléfono" placeholder="Teléfono" required>
+				<label for="Telefono">Teléfono:</label>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required>
             </div>
             <div class="mb-2">
 				<label for="Especialidad">Especialidad:</label>
@@ -107,11 +112,6 @@
 							}
 						%>
 				</select>
-            </div>
-            <div class="mb-2">
-				<label for="Estado">Estado:</label>
-				<input type="radio" name="Estado" value="Activo"> Activo
-				<input type="radio" name="Estado" value="Inactivo"> Inactivo
             </div>
         </div>
 
@@ -150,12 +150,10 @@
 				</select>
             </div>
             <br>
-            D
            <h5>Día y horario de atención</h5> <hr>  
           <div class="mb-2">
 				<label for="Dia">Dia:</label>
 				<select name="Dia">
-					<option> Seleccione uno... </option>
 					<option> Lunes </option>
 					<option> Martes </option>
 					<option> Miércoles </option>
@@ -165,10 +163,10 @@
             </div>
             <div class="mb-2">
                 <label for="Desde">De:</label>
-				<input type="number" name="txtDesde" min="8" max="20" required>
+				<input type="number" name="txtDesde" min="7" max="13" required>
  
                 <label for="Hasta">A:</label>
-				<input type="number" name="txtHasta" min="8" max="20" required>
+				<input type="number" name="txtHasta" min="14" max="20" required>
             </div>
           </div>         
     </div>
@@ -182,10 +180,6 @@
         <!-- Si el llamado se hace desde opción Ver Completo, se cargan los datos del médico readonly y se habilita 
         	btnModificar-->
         <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
-        
-        <!-- Si presiona Modificar, desactiva readonly (inhabilitando DNI) y 
-        	tambíen activa btnEliminar con su correspondiente confirmación-->
-        <input type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger"> </input>
         </div>
         </div>
     </div>
