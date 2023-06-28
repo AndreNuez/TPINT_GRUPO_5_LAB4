@@ -65,7 +65,7 @@
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del médico</h4> <hr>
- <form action="" method="post">
+ <form action="ServletMedicos" method="post">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
@@ -74,11 +74,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name=txtNombre" placeholder="Nombre" required>
+				<input type="text" name="txtNombre" placeholder="Nombre" required>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name=txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" required>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>

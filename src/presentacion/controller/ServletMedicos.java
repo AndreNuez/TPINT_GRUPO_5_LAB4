@@ -145,10 +145,11 @@ public class ServletMedicos extends HttpServlet {
 			m.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
 			
 			int DNI = m.getDNI();
+			String apellido = m.getApellido();
 			boolean estado = true;
 			boolean estadohm = true;
 			boolean estadoum = true;
-			estadoum = uNeg.insertarUsuario(m.getApellido(), m.getDNI(), 1);
+			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
 			estado = mNeg.InsertarMedico(m);
 			estadohm = mNeg.InsertarHorario(m);
 				
