@@ -99,8 +99,7 @@
 			<td><%=p.getTelefono()%></td>
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
-			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
-			
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>	
 			</form>
 		</tr>
 		<%

@@ -13,18 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Direccion;
 import entidad.Especialidad;
+import entidad.Horario;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Persona;
 import entidad.Provincia;
 import negocio.DireccionNegocio;
 import negocio.EspecialidadNegocio;
+import negocio.HorarioNegocio;
 import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
 import negocio.UsuarioNegocio;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
+import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
@@ -40,6 +43,7 @@ public class ServletMedicos extends HttpServlet {
 	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
 	UsuarioNegocio uNeg = new UsuarioNegocioImpl();
+	HorarioNegocio hNeg = new HorarioNegocioImpl();
 	
     public ServletMedicos() {
         super();
@@ -140,18 +144,22 @@ public class ServletMedicos extends HttpServlet {
 			m.setTelefono(request.getParameter("txtTelefono"));
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
 			m.setEstado(1);
-			m.setDiaAtencion(request.getParameter("Dia"));
-			m.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
-			m.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
+			
+			Horario h = new Horario();
+				h.setDiaAtencion(request.getParameter("Dia"));
+				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
+				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
 			
 			int DNI = m.getDNI();
 			String apellido = m.getApellido();
+			
 			boolean estado = true;
 			boolean estadohm = true;
 			boolean estadoum = true;
+			
 			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
 			estado = mNeg.InsertarMedico(m);
-			estadohm = mNeg.InsertarHorario(m);
+			estadohm = hNeg.InsertarHorario(h,DNI);
 				
 			Direccion dm = new Direccion();
 				dm.setCalle(request.getParameter("txtCalle"));
@@ -165,6 +173,7 @@ public class ServletMedicos extends HttpServlet {
 			request.setAttribute("estadoHMedico", estadohm);
 			request.setAttribute("estadoDM", estadodm);
 			request.setAttribute("estadoUM", estadoum);
+			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");

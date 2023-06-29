@@ -92,9 +92,9 @@ public class MedicoDaoImpl implements MedicoDao {
 					esp.setDescripcion(rs.getString("especialidades.Nombre"));
 					
 					//Ver como hacemos cuando el medico tiene más de un registro en esta tabla
-					medico.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-					medico.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-					medico.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
+					//medico.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
+					//medico.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
+					//medico.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
 					
 					medico.setDireccion(direccion);
 					medico.setEspecialidad(esp);
@@ -179,28 +179,6 @@ public class MedicoDaoImpl implements MedicoDao {
 		return estado;
 	}
 
-	@Override
-	public boolean InsertarHorario(Medico medico) {
-		boolean estado = true;
-
-		cn = new Conexion();
-		cn.Open();	
-		
-		String query = "Insert into horariosxmedicos (DNIMedico, HoraInicio, HoraFin, DiaAtencion) VALUES ('"+medico.getDNI()+"','"+medico.getHoraInicio()+"','"+medico.getHoraFin()+"','"+medico.getDiaAtencion()+"')";
-		
-		try
-		 {
-			estado=cn.execute(query);
-		 }
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			cn.close();
-		}
-		return estado;
-	}
+	
 
 }
