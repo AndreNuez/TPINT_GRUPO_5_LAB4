@@ -100,7 +100,7 @@
             </div>
             <div class="mb-2">
                 <label for="Mail">Mail:</label>
-				<input type="email" name="txtMail" placeholder="Mail" required value=<%=paciente.getMail() %>>
+				<input type="email" name="txtMail" placeholder="Mail" required value=<%=paciente.getMail() %>>		
             </div>
             <div class="mb-2">
 				<label for="Telefono">Telefono:</label>
@@ -115,11 +115,7 @@
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="text" name="txtNumero" placeholder="Numero" value=<%=paciente.getDireccion().getNumero() %>>
-				<%} else {%>
-					<input type="text" name="txtNumero" placeholder="Numero" required>
-				<%}%>		
             </div>
             <div class="mb-2">
 				<label for="Procincia">Provincia:</label>
@@ -158,15 +154,18 @@
     </div>
     <div class="row">
         <div class="col-auto">
-        <!--<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>-->
+         <% if (request.getAttribute("verPaciente") == null) {%>
+        	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
+        <%} %>
         <br><br>
         <div>
-        
-        <% if (request.getAttribute("verPaciente") != null) {%>
+		 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 				<%} else {%>
 					<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
 				<%}%>	
+		
+		<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
     </div>
