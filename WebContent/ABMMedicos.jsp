@@ -65,7 +65,131 @@
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del médico</h4> <hr>
+ 
+ <%if (request.getAttribute("verCompleto") != null) {%>	
+
  <form action="ServletMedicos" method="post">
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-2">
+                <label for="DNI">DNI:</label>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" value=<%=medico.getDNI() %> readonly=true>
+            </div>
+            <div class="mb-2">
+                <label for="nombre">Nombre:</label>
+				<input type="text" name="txtNombre" placeholder="Nombre" value= <%=medico.getNombre() %> readonly=true>
+            </div>
+            <div class="mb-2">
+               <label for="Apellido">Apellido:</label>
+				<input type="text" name="txtApellido" placeholder="Apellido" value= <%=medico.getApellido() %> readonly=true>
+            </div>
+            <div class="mb-2">
+                <label for="Sexo">Sexo:</label>
+				<input type="radio" name="Sexo" value="Femenino" <%=esFemenino%>> Femenino
+				<input type="radio" name="Sexo" value="Masculino" <%=esMasculino%>> Masculino
+            </div>
+            <div class="mb-2">
+                <label for="Nacionalidad">Nacionalidad:</label>
+				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required>
+            </div>
+            <div class="mb-2">
+                <label for="FNac">Fecha de Nacimiento:</label>
+				<input type="date" name="FNac" required>
+            </div>
+            <div class="mb-2">
+                <label for="Mail">Mail:</label>
+				<input type="email" name="txtMail" placeholder="Mail" required>
+            </div>
+            <div class="mb-2">
+				<label for="Telefono">Teléfono:</label>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required>
+            </div>
+            <div class="mb-2">
+				<label for="Especialidad">Especialidad:</label>
+				<select name="Especialidad" required>
+					<%
+							for (Especialidad e : listaEsp) {
+						%>
+						<option value="<%=e.getIdEspecialidad()%>"><%=e.getDescripcion()%></option>
+						<%
+							}
+						%>
+				</select>
+            </div>
+        </div>
+
+        <div class="col-6">
+        <h5>Dirección</h5><hr>
+            <div class="mb-2">
+                <label for="Calle">Calle:</label>
+				<input type="text" name="txtCalle" placeholder="Calle" required>
+			</div>
+			<div class="mb-2">
+				<label for="Numero">Numero:</label>
+				<input type="text" name="txtNumero" placeholder="Número" required>	
+            </div>
+            <div class="mb-2">
+				<label for="Procincia">Provincia:</label>
+				<select name="Provincias" >
+					<%
+							for (Provincia p : listaProv) {
+						%>
+						<option value="<%=p.getIDProvincia()%>"><%=p.getDescripcion()%></option>
+						<%
+							}
+						%>
+				</select>
+            </div>
+            <div class="mb-2">
+				<label for="Localidad">Localidad:</label>
+				<select name="Localidades" >
+					<%
+							for (Localidad l : listaLoc) {
+						%>
+						<option value="<%=l.getIDLocalidad()%>"><%=l.getDescripcion()%></option>
+						<%
+							}
+						%>
+				</select>
+            </div>
+            <br>
+           <h5>Día y horario de atención</h5> <hr>  
+          <div class="mb-2">
+				<label for="Dia">Dia:</label>
+				<select name="Dia">
+					<option> Lunes </option>
+					<option> Martes </option>
+					<option> Miércoles </option>
+					<option> Jueves </option>
+					<option> Viernes </option>
+				</select>
+            </div>
+            <div class="mb-2">
+                <label for="Desde">De:</label>
+				<input type="number" name="txtDesde" min="7" max="13" required>
+ 
+                <label for="Hasta">A:</label>
+				<input type="number" name="txtHasta" min="14" max="20" required>
+            </div>
+          </div>         
+    </div>
+    <div class="row">
+        <div class="col-auto">
+        <input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
+        <br><br>
+        <div>
+        <input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
+        
+        <!-- Si el llamado se hace desde opción Ver Completo, se cargan los datos del médico readonly y se habilita 
+        	btnModificar-->
+        <input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
+        </div>
+        </div>
+    </div>
+    </form>
+    
+    <%} else { %>
+     <form action="ServletMedicos" method="post">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
@@ -183,7 +307,8 @@
         </div>
         </div>
     </div>
-    </form>   
+    </form>
+    <%} %>   
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

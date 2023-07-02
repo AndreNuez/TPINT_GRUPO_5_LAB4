@@ -87,7 +87,6 @@ public class PacienteDaoImpl implements PacienteDao {
 					direccion.setProvincia(new Provincia(rs.getInt("provincias.IDProvincia"),rs.getString("provincias.Nombre")));
 					
 					paciente.setDireccion(direccion);
-					System.out.println(paciente.getDireccion().getCalle());
 				}
 				
 			}

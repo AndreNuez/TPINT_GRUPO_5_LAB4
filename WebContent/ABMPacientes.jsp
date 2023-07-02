@@ -56,6 +56,11 @@
 		if (request.getAttribute("verPaciente") != null) {
 			paciente = (Persona)request.getAttribute("verPaciente");
 		}
+		
+		
+		if (request.getAttribute("ModificarPaciente") != null) {
+			paciente = (Persona)request.getAttribute("ModificarPaciente");
+		}
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
@@ -65,17 +70,87 @@
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del paciente</h4> <hr>
- <form action="ServletPacientes" method="post">
+
+ <!-- Si doy click a Ver Completo, solo veo los datos como lbl -->	
+ 
+ <% if (request.getAttribute("verPaciente") != null) {%>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-3">
+            <div class="mb-2">
+                <label for="DNI"> <b>DNI:</b> <%=paciente.getDNI() %></label>
+            </div>
+            <div class="mb-2">
+                <label for="Nombre"> <b>Nombre:</b> <%=paciente.getNombre() %></label>
+            </div>
+            <div class="mb-2">
+               <label for="Apellido"><b>Apellido:</b> <%=paciente.getApellido() %></label>
+            </div>
+            <div class="mb-2">
+                <label for="Sexo"><b>Sexo:</b></label>
+				<input type="radio" name="Sexo" value="Femenino" disabled <%=esFemenino%>> Femenino
+				<input type="radio" name="Sexo" value="Masculino" disabled <%=esMasculino%>> Masculino
+            </div>
+            <div class="mb-2">
+                <label for="FNac"><b>Fecha de Nacimiento:</b> <%=paciente.getFnac() %></label>
+            </div>
+            <div class="mb-2">
+                <label for="Nacionalidad"><b>Nacionalidad:</b> <%=paciente.getNacionalidad() %></label>
+            </div>
+            <div class="mb-2">
+                <label for="Mail"><b>Mail:</b> <%=paciente.getMail() %></label>	
+            </div>
+            <div class="mb-2">
+				<label for="Telefono"><b>Telefono:</b> <%=paciente.getTelefono() %></label>
+            </div>
+		</div>
+        
+        <div class="col-3">
+        <h5>Direccion</h5><hr>
+            <div class="mb-2">
+                <label for="Calle"><b>Calle:</b> <%=paciente.getDireccion().getCalle() %></label>
+			</div>
+			<div class="mb-2">
+				<label for="Numero"><b>Numero:</b> <%=paciente.getDireccion().getNumero() %></label>
+            </div>
+            <div class="mb-2">
+				<label for="Procincia"><b>Provincia:</b> </label>
+				<select name="Provincias" disabled >
+					<option value="<%=paciente.getDireccion().getProvincia().getIDProvincia()%>" selected><%=paciente.getDireccion().getProvincia().getDescripcion()%></option>
+				</select>
+            </div>
+            <div class="mb-2">
+				<label for="Localidad"><b>Localidad:</b> </label>
+				<select name="Localidades" disabled >
+					<option value="<%=paciente.getDireccion().getLocalidad().getIDLocalidad()%>" selected><%=paciente.getDireccion().getLocalidad().getDescripcion()%></option>
+				</select>
+            </div>
+            <br>
+          </div>         
+    </div>
+    <div class="row justify-content-center g-4">
+        <div class="col-auto">
+        <div>
+            <br><br>
+ 			<form action="ServletPacientes" method="post">
+            	<input type="hidden" name="dniPaciente" value= <%=paciente.getDNI()%>>
+				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
+			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
+			</form>	
+        </div>
+        </div>
+    </div>
+    <% } %> 
+ 
+ 
+<% if (request.getAttribute("ModificarPaciente") != null) { %>
+<!-- Si hago click en Modificar, se renderiza y muestra las cajas de txt para modificar -->
+	<form action="ServletPacientes" method="post">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
-                <label for="DNI">DNI:</label>
-               
-                <% if (request.getAttribute("verPaciente") != null) {%>
-				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required value=<%=paciente.getDNI() %> readonly=true>
-				<%} else {%>
-					<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" required>
-				<%}%>	
+                <label for="DNI">DNI:</label>       
+				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" required value=<%=paciente.getDNI() %> readonly=true style="background-color: #f2f2f2">
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -154,15 +229,12 @@
     </div>
     <div class="row">
         <div class="col-auto">
-         <% if (request.getAttribute("verPaciente") == null) {%>
-        	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
-        <%} %>
         <br><br>
         <div>
 		 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 				<%} else {%>
-					<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
+					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary"> </input>
 				<%}%>	
 		
 		<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
@@ -170,6 +242,7 @@
         </div>
     </div>
     </form>
+    <%} %>
 
 <!-- Pregunto por estado para chequear si se inserto. -->    
     <%
