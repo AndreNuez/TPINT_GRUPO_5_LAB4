@@ -16,7 +16,6 @@ import entidad.Especialidad;
 import entidad.Horario;
 import entidad.Localidad;
 import entidad.Medico;
-import entidad.Persona;
 import entidad.Provincia;
 import negocio.DireccionNegocio;
 import negocio.EspecialidadNegocio;
@@ -178,6 +177,31 @@ public class ServletMedicos extends HttpServlet {
 			request.setAttribute("listaMedicos", lista);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");
 			dispatcher.forward(request, response);			
+		}
+		
+		if(request.getParameter("btnVer") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniMedico"));
+			
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(mNeg.ListarUno(dni) != null)
+			{				
+				Medico medico = new Medico();
+				medico = mNeg.ListarUno(dni);
+				request.setAttribute("verMedico", medico);
+				request.setAttribute("dniMedico",dni);
+				
+				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+				request.setAttribute("listaHorarios", listaHorario);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 
 	}

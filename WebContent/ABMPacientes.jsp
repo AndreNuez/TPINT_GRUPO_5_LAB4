@@ -316,7 +316,7 @@
 		}
 	%>
 	
-	<!-- Pregunto por estado para chequear si se modifico. -->    
+<!-- Pregunto por estado para chequear si se modifico. -->    
     <%
 		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP") != null) {
 	%>
