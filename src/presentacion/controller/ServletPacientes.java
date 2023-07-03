@@ -152,14 +152,34 @@ public class ServletPacientes extends HttpServlet {
 				Persona paciente = new Persona();
 				paciente = pNeg.ListarUno(dni);	
 				request.setAttribute("verPaciente", paciente);
+				request.setAttribute("dniPaciente",dni);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		if(request.getParameter("btnModificar") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
+			
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(pNeg.ListarUno(dni) != null)
+			{				
+				Persona paciente = new Persona();
+				paciente = pNeg.ListarUno(dni);	
+				request.setAttribute("ModificarPaciente", paciente);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 				dispatcher.forward(request, response);
 			}
 		}
 		
 		
-		
-		if(request.getParameter("btnModificar") != null)
+		if(request.getParameter("btnConfirmar") != null)
 		{
 			Persona p = new Persona();
 			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));

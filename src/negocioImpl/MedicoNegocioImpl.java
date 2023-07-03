@@ -24,8 +24,7 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 
 	@Override
 	public Medico ListarUno(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		return mdao.ListarUno(dni);
 	}
 
 	@Override

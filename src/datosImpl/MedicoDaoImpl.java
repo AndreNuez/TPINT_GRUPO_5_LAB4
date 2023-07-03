@@ -70,35 +70,29 @@ public class MedicoDaoImpl implements MedicoDao {
 			
 		try
 			{
-				ResultSet rs= cn.query("SELECT m.DNI,m.Apellido,m.Nombres,m.Sexo, m.FechaNacimiento,m.Nacionalidad,m.Mail, m.Telefono,e.Nombre, m.Estado,dm.Calle, dm.Numero, l.IDLocalidad, l.Nombre,p.IDProvincia, p.Nombre, e.IDEspecialidad, e.Nombre, hxm.HoraInicio, hxm.HoraFin, hxm.DiaAtencion FROM medicos m INNER JOIN direccionesmedicos dm ON m.DNI = dm.DNI INNER JOIN localidades l ON dm.IDLocalidad = l.IDLocalidad INNER JOIN provincias p ON l.IDProvincia = p.IDProvincia INNER JOIN especialidades e ON e.IDEspecialidad = m.IDEspecialidad INNER JOIN horariosxmedicos hxm ON hxm.DNIMedico = m.DNI where m.Estado = 1 && m.DNI="+dni);
+				ResultSet rs= cn.query("SELECT m.DNI,m.Apellido,m.Nombres,m.Sexo, m.FechaNacimiento,m.Nacionalidad,m.Mail, m.Telefono,e.Nombre, m.Estado,dm.Calle, dm.Numero, l.IDLocalidad, l.Nombre,p.IDProvincia, p.Nombre, e.IDEspecialidad, e.Nombre FROM medicos m INNER JOIN direccionesmedicos dm ON m.DNI = dm.DNI INNER JOIN localidades l ON dm.IDLocalidad = l.IDLocalidad INNER JOIN provincias p ON l.IDProvincia = p.IDProvincia INNER JOIN especialidades e ON e.IDEspecialidad = m.IDEspecialidad where m.Estado = 1 && m.DNI="+dni);
 				rs.next();
 				{
-					medico.setDNI(rs.getInt("medicos.DNI"));
-					medico.setApellido(rs.getString("medicos.Apellido"));
-					medico.setNombre(rs.getString("medicos.Nombres"));
-					medico.setSexo(rs.getString("medicos.Sexo").charAt(0));
-					medico.setFnac(LocalDate.parse(rs.getString("medicos.FechaNacimiento")));
-					medico.setNacionalidad(rs.getString("medicos.Nacionalidad"));
-					medico.setMail(rs.getString("medicos.Mail"));
-					medico.setTelefono(rs.getString("medicos.Telefono"));
-					medico.setEstado(rs.getInt("medicos.Estado"));
+					medico.setDNI(rs.getInt("m.DNI"));
+					medico.setApellido(rs.getString("m.Apellido"));
+					medico.setNombre(rs.getString("m.Nombres"));
+					medico.setSexo(rs.getString("m.Sexo").charAt(0));
+					medico.setFnac(LocalDate.parse(rs.getString("m.FechaNacimiento")));
+					medico.setNacionalidad(rs.getString("m.Nacionalidad"));
+					medico.setMail(rs.getString("m.Mail"));
+					medico.setTelefono(rs.getString("m.Telefono"));
+					medico.setEstado(rs.getInt("m.Estado"));
 					
-					direccion.setCalle(rs.getString("direccionesmedicos.Calle"));
-					direccion.setNumero(rs.getInt("direccionesmedicos.Numero"));
-					direccion.setLocalidad(new Localidad(rs.getInt("localidades.IDLocalidad"),rs.getString("localidades.Nombre")));
-					direccion.setProvincia(new Provincia(rs.getInt("provincias.IDProvincia"),rs.getString("provincias.Nombre")));
+					direccion.setCalle(rs.getString("dm.Calle"));
+					direccion.setNumero(rs.getInt("dm.Numero"));
+					direccion.setLocalidad(new Localidad(rs.getInt("l.IDLocalidad"),rs.getString("l.Nombre")));
+					direccion.setProvincia(new Provincia(rs.getInt("p.IDProvincia"),rs.getString("p.Nombre")));
 					
-					esp.setIdEspecialidad(rs.getInt("especialidades.IDEspecialidad"));
-					esp.setDescripcion(rs.getString("especialidades.Nombre"));
-					
-					//Ver como hacemos cuando el medico tiene más de un registro en esta tabla
-					//medico.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-					//medico.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-					//medico.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
+					esp.setIdEspecialidad(rs.getInt("e.IDEspecialidad"));
+					esp.setDescripcion(rs.getString("e.Nombre"));
 					
 					medico.setDireccion(direccion);
 					medico.setEspecialidad(esp);
-					//System.out.println(medico.getDireccion().getCalle());
 				}
 				
 			}
