@@ -136,7 +136,7 @@ public class MedicoDaoImpl implements MedicoDao {
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE medicos SET Apellido='"+medico.getApellido()+"',Nombres='"+medico.getNombre()+"', Sexo='"+medico.getSexo()+"', FechaNacimiento='"+medico.getFnac()+"', Nacionalidad='"+medico.getNacionalidad()+"', Mail='"+medico.getMail()+"', Telefono='"+medico.getTelefono()+"', Especialidad= '"+medico.getEspecialidad().getIdEspecialidad()+"' where DNI="+medico.getDNI();
+		String query = "UPDATE medicos SET Apellido='"+medico.getApellido()+"',Nombres='"+medico.getNombre()+"', Sexo='"+medico.getSexo()+"', FechaNacimiento='"+medico.getFnac()+"', Nacionalidad='"+medico.getNacionalidad()+"', Mail='"+medico.getMail()+"', Telefono='"+medico.getTelefono()+"', IDEspecialidad= '"+medico.getEspecialidad().getIdEspecialidad()+"' where DNI="+medico.getDNI();
 		
 		try
 		 {
