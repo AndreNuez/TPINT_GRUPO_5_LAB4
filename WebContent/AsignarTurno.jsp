@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="entidad.Usuario"%>
+    <%@page import="entidad.Turno"%>
+    <%@page import="java.util.List"%>
+	<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,6 +27,14 @@
 
 </head>
 <body>
+
+	<%
+		List<Turno> listaTurnosPorAsignar = new ArrayList<Turno>();
+		if (request.getAttribute("listaTurnosPorAsignar") != null) {
+			listaTurnosPorAsignar = (List<Turno>) request.getAttribute("listaTurnosPorAsignar");
+		}
+	%>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -74,6 +85,7 @@
 	<table class="table table-striped" style="margin: 0 auto;" id="miTabla">
 		<thead>
 			<tr>
+				<th>ID de turno</th>
 				<th>Médico</th>
 				<th>Especialidad</th>
 				<th>Horario de atención</th>
@@ -83,55 +95,28 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Sofia Fernández</td>
-				<td>Cardiólogo</td>
-				<td>Lunes 10-18 hs</td>
-				<td>Lunes 14 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Juan Gómez</td>
-				<td>Oftalmólogo</td>
-				<td>Martes 9-21 hs</td>
-				<td>Martes 16 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Brian Marincola</td>
-				<td>Pediatra</td>
-				<td>Martes 8-13 hs</td>
-				<td>Martes 9 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Julian Pérez</td>
-				<td>Neurólogo</td>
-				<td>Viernes 14-18 hs</td>
-				<td>Viernes 15 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
+			<%
+			for (Turno t : listaTurnosPorAsignar) {
 
+			%>
+			<tr>
+				<form method="post" action="ServletTurno">
+				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
+				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
+				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
+				<td><%=t.getMedico().getDiaAtencion()+" "+t.getMedico().getHoraInicio()+"-"+t.getMedico().getHoraFin() %></td>
+				<td></td>
+				<td>
+				<div class="mb-3">
+                        <input type="text" class="form-control" id="dni" name="dni" required>
+                </div>
+                </td>
+				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
+				</form>
+			<tr>
+			<%
+			}
+			%>
 		</tbody>
 	</table>
 </div>

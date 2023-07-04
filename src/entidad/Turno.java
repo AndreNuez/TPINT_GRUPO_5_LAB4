@@ -1,5 +1,6 @@
 package entidad;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Turno {
@@ -8,8 +9,8 @@ public class Turno {
 	private Medico Medico;
 	private Persona Paciente;
 	private Especialidad Especialidad;
-	private LocalTime DiayHora;
-	private boolean Estado;
+	private LocalDateTime DiayHora;
+	private int Estado;
 	private String Observaciones;
 	
 	public Turno () {
@@ -17,7 +18,7 @@ public class Turno {
 	}
 
 	public Turno(int idTurno, entidad.Medico medico, Persona paciente, entidad.Especialidad especialidad,
-			LocalTime diayHora, boolean estado, String observaciones) {
+			LocalDateTime diayHora, int estado, String observaciones) {
 		this.idTurno = idTurno;
 		Medico = medico;
 		Paciente = paciente;
@@ -59,19 +60,19 @@ public class Turno {
 		Especialidad = especialidad;
 	}
 
-	public LocalTime getDiayHora() {
+	public LocalDateTime getDiayHora() {
 		return DiayHora;
 	}
 
-	public void setDiayHora(LocalTime diayHora) {
+	public void setDiayHora(LocalDateTime diayHora) {
 		DiayHora = diayHora;
 	}
 
-	public boolean isEstado() {
+	public int isEstado() {
 		return Estado;
 	}
 
-	public void setEstado(boolean estado) {
+	public void setEstado(int estado) {
 		Estado = estado;
 	}
 

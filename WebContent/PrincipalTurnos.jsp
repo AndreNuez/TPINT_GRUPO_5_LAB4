@@ -50,7 +50,7 @@
 				<a href="CrearTurno.jsp" class="btn btn-primary">Crear Turno</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AsignarTurno.jsp" class="btn btn-primary">Asignar Turno</a> <br>
+				<a href="ServletTurno?Param=list" class="btn btn-primary">Asignar Turno</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>
