@@ -54,6 +54,9 @@
 			<div class="d-grid mx-auto">
 				<a href="ServletMedicos?Param=list" class="btn btn-primary">Administrar Medicos</a> <br>
 			</div>
+			<div class="d-grid mx-auto">
+				<a href="ServletReportes?Param=list" class="btn btn-primary">Reportes e Informes</a> <br>
+			</div>
 			<br /> <br />
 			<div class="col-4"></div>
 			<div class="col-2"></div>
