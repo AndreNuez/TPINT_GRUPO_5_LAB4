@@ -4,6 +4,7 @@
    <%@page import="java.util.ArrayList"%>
    <%@page import="java.util.List"%>
    <%@page import="entidad.ReporteTurnosXEsp"%>
+   <%@page import="entidad.ReporteTurnosXMed"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,6 +24,12 @@
             $('#miTabla').DataTable();
         });
     </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#miTabla2').DataTable();
+        });
+    </script>
+    
 </head>
 <body>
     <!-- Header -->
@@ -50,14 +57,21 @@
 		if (request.getAttribute("reporteTurnosXEsp") != null) {
 			reporte1 = (List<ReporteTurnosXEsp>) request.getAttribute("reporteTurnosXEsp");
 		}
+		
+		List<ReporteTurnosXMed> reporte2 = new ArrayList<ReporteTurnosXMed>();
+		if (request.getAttribute("reporteTurnosXMed") != null) {
+			reporte2 = (List<ReporteTurnosXMed>) request.getAttribute("reporteTurnosXMed");
+		}
 	%>
     <!-- Tabla y botones -->
     <div class="container">
     <div class="text-center">
    		<h1>Reportes y Estadisticas</h1>
+   		<br>
     </div>
     <div >
-   		<h3>Turnos por Especialidad</h3>
+    	<br>
+   		<h3>Cantidad de turnos por Especialidad</h3>
     </div>
         <div class="row">
             <div class="col-4"></div>
@@ -68,20 +82,97 @@
                         <tr>
                             <th>Especialidad</th>
                             <th>Cantidad</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     <%
 			for (ReporteTurnosXEsp r : reporte1) {
-
 					%>	
                         <tr>
                             <td><%=r.getEspecialidad().getDescripcion()%></td>
                             <td><%=r.getCantidad()%></td>
-                            <td></td>
                         </tr>
 
                         <% } %>
                     </tbody>
-                    
+             </table>
+   <br>
+   <hr>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-4"></div>
+             	<div>
+             	 	<br>
+   					<h3>Cantidad de turnos por Medicos</h3>
+					<br>
+    			</div>
+            <br>
+            <div>
+                <table class="table table-striped" style="margin: 0 auto;" id="miTabla2">
+                    <thead>
+                        <tr>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <%
+			for (ReporteTurnosXMed r : reporte2) {
+					%>	
+                        <tr>
+                            <td><%=r.getApellido()%></td>
+                            <td><%=r.getNombre()%></td>
+                            <td><%=r.getCantidad()%></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                    </table>
+                    </div>
+		 </div>
+		 
+		 <% int cantArg = (int) request.getAttribute("cantArg");
+		 	int cantExt = (int) request.getAttribute("cantExtranjeros");
+		 	int cantTotal = (int) request.getAttribute("cantTotal");%>
+		 <hr>
+
+		 <table class="table table-striped" style="margin: 0 auto;" id="miTabla">
+                    <thead>
+                        <tr>
+                            <th>Cantidad pacientes argentinos</th>
+                            <th>Cantidad pacientes extranjeros</th>
+                            <th>Cantidad pacientes totales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><%=cantArg%></td>
+                            <td><%=cantExt%></td>
+                            <td><%=cantTotal%></td>
+                        </tr>
+
+                    </tbody>
+             </table>
+		<br>
+   		<hr>
+		<% int cantMayores = (int) request.getAttribute("cantMayores");
+		 	int cantMenores = (int) request.getAttribute("cantMenores");%>
+		 	
+		 	<table class="table table-striped" style="margin: 0 auto;" id="miTabla">
+                    <thead>
+                        <tr>
+                            <th>Cantidad pacientes mayores de edad</th>
+                            <th>Cantidad pacientes menores de edad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><%=cantMayores%></td>
+                            <td><%=cantMenores%></td>
+                        </tr>
+
+                    </tbody>
+             </table>
+ 	</div>
+        

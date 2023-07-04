@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import negocio.PacienteNegocio;
 import negocio.TurnosXEspNegocio;
+import negocio.TurnosXMedNegocio;
+import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.TurnosXEspNegocioImpl;
+import negocioImpl.TurnosXMedNegocioImpl;
 import entidad.ReporteTurnosXEsp;
 import entidad.ReporteTurnosXMed;
 
@@ -24,14 +27,13 @@ public class ServletReportes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	TurnosXEspNegocio rneg = new TurnosXEspNegocioImpl();
+	TurnosXMedNegocio rneg2 = new TurnosXMedNegocioImpl();
+	PacienteNegocio pNeg = new PacienteNegocioImpl();
 
     public ServletReportes() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("Param")!=null)
@@ -39,15 +41,30 @@ public class ServletReportes extends HttpServlet {
 			ArrayList <ReporteTurnosXEsp> reporteEsp = rneg.obtenerReporte();
 			request.setAttribute("reporteTurnosXEsp", reporteEsp);
 			
+			ArrayList <ReporteTurnosXMed> reporteMed = rneg2.obtenerReporte();
+			request.setAttribute("reporteTurnosXMed", reporteMed);
+			
+			int cantidadPacientes = pNeg.ContarPacientes();
+			request.setAttribute("cantTotal", cantidadPacientes);
+			
+			int cantidadArg = pNeg.ContarArg();
+			request.setAttribute("cantArg", cantidadArg);
+			
+			int cantidadExtranjeros = pNeg.contarExtranjeros();
+			request.setAttribute("cantExtranjeros", cantidadExtranjeros);
+			
+			int cantidadMayores = pNeg.ContarMayores();
+			request.setAttribute("cantMayores", cantidadMayores);
+			
+			int cantidadMenores = pNeg.ContarMenores();
+			request.setAttribute("cantMenores", cantidadMenores);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reportes.jsp");
 			dispatcher.forward(request, response);
 			
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doGet(request, response);
