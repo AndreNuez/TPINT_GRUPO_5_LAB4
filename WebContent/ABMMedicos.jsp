@@ -40,8 +40,8 @@
 	</div>
 	</nav>
 	<br>
-<!-- Llamado a listados  -->
 
+<!-- Llamado a listados  -->
 	<%
 		ArrayList<Provincia> listaProv = new ArrayList<Provincia>();
 		if (request.getAttribute("listaProv") != null) {
@@ -83,7 +83,7 @@
  
  <!-- Si doy click en AgregarNuevo, cargo todos los campos vacíos --> 
  
- <%if ((request.getAttribute("verCompleto") == null) && (request.getAttribute("modificarMedico") == null)) {%>	
+ <%if ((request.getAttribute("verMedico") == null) && (request.getAttribute("ModificarMedico") == null)) {%>	
 
  <form action="ServletMedicos" method="post">
     <div class="row ">
@@ -158,8 +158,8 @@
             <br>
            <h5>Día y horario de atención</h5> <hr>
            <div class="mb-2">
-				<label for="Día">Día:</label>
-				<select name="Día" required>
+				<label for="Dia">Dia:</label>
+				<select name="Dia" required>
 					<option value="">Seleccionar opcion...</option>
 					<option> Lunes </option>
 					<option> Martes </option>
@@ -170,10 +170,10 @@
             </div>
             <div class="mb-2">
                 <label for="Desde">De:</label>
-				<input type="number" name="txtDesde" min="8" max="20" required>
+				<input type="number" name="txtDesde" min="8" max="14" required>
  
                 <label for="Hasta">A:</label>
-				<input type="number" name="txtHasta" min="8" max="20" required>
+				<input type="number" name="txtHasta" min="15" max="21" required>
             </div>  
           	
           </div>         
@@ -184,7 +184,7 @@
         <br><br>
         <div>
         	<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>
-        	<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
+        	<a href="ServletMedicos?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
     </div>
@@ -273,7 +273,11 @@
 			<%}%>
 			</tbody>
 			</table>
-			<input type="submit" name="btnNuevoHorario" value="Agregar Nuevo" class="btn btn-primary"> </input>	
+			
+			<form action="ServletHorarios" method="post">
+					<input type="hidden" name="dniMedico" value= <%=medico.getDNI()%>>
+					<input type="submit" name="btnModificarHorario" value="Modificar Horario" class="btn btn-warning">
+			</form> 
        </div>     
     </div>
     <div class="row justify-content-center g-4">
@@ -290,8 +294,9 @@
     </div>
 <%} %>
 
-<% if (request.getAttribute("ModificarMedico") != null) { %>
 <!-- Si hago click en Modificar, se renderiza y muestra las cajas de txt para modificar -->
+
+<% if (request.getAttribute("ModificarMedico") != null) { %>
 
 <form action="ServletMedicos" method="post">
 	<div class="row justify-content-center g-4">
@@ -363,35 +368,13 @@
         		</select>  
             </div>
         </div>
-	<div class="col-md-4">
-		<h5>Dias y horarios de atencion</h5> <hr>  
-           <table class="table">       		
-				<tr>
-					<th>Dia</th>
-					<th>Desde</th>
-					<th>Hasta</th>
-				</tr>
-			<tbody>
-			<%
-				for (Horario h : listaH) {
-			%>	
-			<tr>
-				<td> <%=h.getDiaAtencion() %></td>
-				<td> <%=h.getHoraInicio() %></td>
-				<td> <%=h.getHoraFin() %></td>
-          	</tr>
-			<%}%>
-			</tbody>
-			</table>
-			<input type="submit" name="btnNuevoHorario" value="Agregar Nuevo" class="btn btn-primary"> </input>	
-       </div>     
     </div>
     <div class="row justify-content-center g-4">
         <div class="col-auto">
         <div>
         <br><br>
             	<% if (request.getAttribute("verMedico") != null) {%>
-				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
+				<input type="submit" name="btnModificar" value="Modificar Datos" class="btn btn-warning"> </input>
 				<%} else {%>
 					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary"> </input>
 				<%}%>
@@ -400,7 +383,9 @@
         </div>
     </div>
 </form>
-<%} %>   
+
+<%} %>  
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

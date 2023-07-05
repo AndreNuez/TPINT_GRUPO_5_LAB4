@@ -49,10 +49,11 @@ public class HorarioDaoImpl implements HorarioDao {
 			
 		try
 			{
-				ResultSet rs= cn.query("SELECT HoraInicio, HoraFin, DiaAtencion, Estado FROM horariosxmedicos where Estado=1 && DNIMedico="+dni);
+				ResultSet rs= cn.query("SELECT idHorario, HoraInicio, HoraFin, DiaAtencion, Estado FROM horariosxmedicos where Estado=1 && DNIMedico="+dni);
 				while(rs.next())
 				{
 					Horario horario = new Horario();
+					horario.setIdHorario(rs.getInt("idHorario"));
 					horario.setHoraInicio(rs.getInt("HoraInicio"));
 					horario.setHoraFin(rs.getInt("HoraFin"));
 					horario.setDiaAtencion(rs.getString("DiaAtencion"));

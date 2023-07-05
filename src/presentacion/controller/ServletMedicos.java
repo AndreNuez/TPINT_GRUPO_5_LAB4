@@ -244,7 +244,6 @@ public class ServletMedicos extends HttpServlet {
 			m.setMail(request.getParameter("txtMail"));
 			m.setTelefono(request.getParameter("txtTelefono"));
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
-			System.out.println(m.getEspecialidad().getIdEspecialidad());
 			
 			int DNI = m.getDNI();
 			
