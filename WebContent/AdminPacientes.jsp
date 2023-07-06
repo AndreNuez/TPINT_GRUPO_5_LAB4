@@ -99,12 +99,24 @@
 			<td><%=p.getTelefono()%></td>
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
-			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>	
 			</form>
 		</tr>
 		<%
 			}
 		%>
+
+		<% if(request.getAttribute("eliminando") != null) {
+			%>
+			<div class="row" height=100px>
+			<div class="col-3"></div>
+			<div class="col-3">
+				<h3 align="center">Desea eliminar el paciente?</h3> 
+				</div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarNo" class="btn btn-primary"> No </a></div>
+			</div>
+			<% } %>
 
 	</tbody>
 	</table>
@@ -112,6 +124,32 @@
 <div class="col-4"></div>
 </div>
 </div>
+
+	<%
+		if (request.getAttribute("estado") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente eliminado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	
+	<%
+		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente modificado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

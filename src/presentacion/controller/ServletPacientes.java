@@ -68,11 +68,37 @@ public class ServletPacientes extends HttpServlet {
 				dispatcher.forward(request, response);
 				break;
 			}
+			case "confirmarSi":
+			{
+				boolean estado;
+				int DNI = Integer.parseInt(request.getSession().getAttribute("dniPacienteAEliminar").toString());
+				estado = pNeg.EliminarPaciente(DNI);
+				
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				request.setAttribute("estado", estado);
+				request.removeAttribute("eliminando");
+				RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+				
+				rd.forward(request, response);	
+			}
+			case "confirmarNo":
+			{
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				request.removeAttribute("eliminando");
+				request.getSession().removeAttribute("dniPacienteAEliminar");
+				RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+				
+				rd.forward(request, response);	
+			}
 			
 			default:
 				break;
 			}
 		}
+		
+
 	}
 
 
@@ -126,27 +152,34 @@ public class ServletPacientes extends HttpServlet {
 				Persona paciente = new Persona();
 				paciente = pNeg.ListarUno(dni);	
 				request.setAttribute("verPaciente", paciente);
+				request.setAttribute("dniPaciente",dni);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 				dispatcher.forward(request, response);
 			}
 		}
 		
-		if(request.getParameter("btnEliminar") != null)
+		if(request.getParameter("btnModificar") != null) 
 		{
-			boolean estado;
-			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
+			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
 			
-			estado = pNeg.EliminarPaciente(DNI);
-
-			ArrayList<Persona> lista = pNeg.ListarTodos();
-			request.setAttribute("listaPacientes", lista);
-			request.setAttribute("estado", estado);
-			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
 			
-			rd.forward(request, response);			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(pNeg.ListarUno(dni) != null)
+			{				
+				Persona paciente = new Persona();
+				paciente = pNeg.ListarUno(dni);	
+				request.setAttribute("ModificarPaciente", paciente);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 		
-		if(request.getParameter("btnModificar") != null)
+		
+		if(request.getParameter("btnConfirmar") != null)
 		{
 			Persona p = new Persona();
 			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
@@ -178,6 +211,22 @@ public class ServletPacientes extends HttpServlet {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
 			dispatcher.forward(request, response);			
 		}
+		
+		if(request.getParameter("btnEliminar") != null)
+		{
+			
+			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
+			request.getSession().setAttribute("dniPacienteAEliminar", DNI);
+			ArrayList<Persona> lista = pNeg.ListarTodos();
+			request.setAttribute("listaPacientes", lista);
+			
+			boolean eliminando = true;
+			request.setAttribute("eliminando", eliminando);
+			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
+			
+			rd.forward(request, response);			
+		}
+		
 	}
 
 }

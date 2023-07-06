@@ -21,9 +21,8 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 	}
 
 	@Override
-	public Usuario insertarUsuario(String pass, int dni, int tipoUsuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean insertarUsuario(String pass, int dni, int tipoUsuario) {
+		return userDao.insertarUsuario(pass, dni, tipoUsuario);
 	}
 	
 }

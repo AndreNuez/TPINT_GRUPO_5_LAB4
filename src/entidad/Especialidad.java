@@ -13,6 +13,10 @@ public class Especialidad {
 		this.idEspecialidad = idEspecialidad;
 		Descripcion = descripcion;
 	}
+	
+	public Especialidad (int idEspecialidad) {
+		this.idEspecialidad = idEspecialidad;
+	}
 
 	public int getIdEspecialidad() {
 		return idEspecialidad;
