@@ -54,6 +54,7 @@ public class HorarioDaoImpl implements HorarioDao {
 				{
 					Horario horario = new Horario();
 					horario.setIdHorario(rs.getInt("idHorario"));
+					horario.setDNIMedico(dni);
 					horario.setHoraInicio(rs.getInt("HoraInicio"));
 					horario.setHoraFin(rs.getInt("HoraFin"));
 					horario.setDiaAtencion(rs.getString("DiaAtencion"));
@@ -116,5 +117,5 @@ public class HorarioDaoImpl implements HorarioDao {
 		
 		return estado;
 	}
-
+	
 }

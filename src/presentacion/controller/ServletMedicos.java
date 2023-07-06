@@ -144,14 +144,15 @@ public class ServletMedicos extends HttpServlet {
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
 			m.setEstado(1);
 			
+			int DNI = m.getDNI();
+			String apellido = m.getApellido();
+			
 			Horario h = new Horario();
+				h.setDNIMedico(DNI);
 				h.setDiaAtencion(request.getParameter("Dia"));
 				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
 				h.setEstado(1);
-			
-			int DNI = m.getDNI();
-			String apellido = m.getApellido();
 			
 			boolean estado = true;
 			boolean estadohm = true;

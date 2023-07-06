@@ -83,7 +83,7 @@
  
  <!-- Si doy click en AgregarNuevo, cargo todos los campos vacíos --> 
  
- <%if ((request.getAttribute("verMedico") == null) && (request.getAttribute("ModificarMedico") == null)) {%>	
+ <%if ((request.getAttribute("verMedico") == null) && (request.getAttribute("ModificarMedico") == null) && (request.getParameter("dniMedico") == null) ) {%>	
 
  <form action="ServletMedicos" method="post">
     <div class="row ">

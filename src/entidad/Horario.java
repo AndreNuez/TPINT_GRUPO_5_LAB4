@@ -3,6 +3,7 @@ package entidad;
 public class Horario {
 	
 	private int idHorario;
+	private int DNIMedico;
 	private String DiaAtencion;
 	private int HoraInicio;
 	private int HoraFin;
@@ -12,16 +13,15 @@ public class Horario {
 		
 	}
 
-
-	public Horario(int idHorario, String diaAtencion, int horaInicio, int horaFin, int estado) {
+	public Horario(int idHorario, int dNIMedico, String diaAtencion, int horaInicio, int horaFin, int estado) {
 		super();
 		this.idHorario = idHorario;
+		DNIMedico = dNIMedico;
 		DiaAtencion = diaAtencion;
 		HoraInicio = horaInicio;
 		HoraFin = horaFin;
 		Estado = estado;
 	}
-
 
 	public int getIdHorario() {
 		return idHorario;
@@ -65,11 +65,19 @@ public class Horario {
 		Estado = estado;
 	}
 
+	public int getDNIMedico() {
+		return DNIMedico;
+	}
+
+	public void setDNIMedico(int dNIMedico) {
+		DNIMedico = dNIMedico;
+	}
 
 	@Override
 	public String toString() {
-		return "Horario [idHorario=" + idHorario + ", DiaAtencion=" + DiaAtencion + ", HoraInicio=" + HoraInicio
-				+ ", HoraFin=" + HoraFin + ", Estado=" + Estado + "]";
+		return "Horario [idHorario=" + idHorario + ", DNIMedico=" + DNIMedico + ", DiaAtencion=" + DiaAtencion
+				+ ", HoraInicio=" + HoraInicio + ", HoraFin=" + HoraFin + ", Estado=" + Estado + "]";
 	}
+
 
 }

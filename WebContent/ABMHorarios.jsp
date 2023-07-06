@@ -82,9 +82,10 @@
 					</select>
 				</td>
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
-				<td><input type="number" name="txtHasta" min="14" max="21" value=<%=h.getHoraFin() %>></input></td>
-				<td> <input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></input> </td>
-          		<input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>>
+				<td><input type="number" name="txtHasta" min="14" max="21" value=<%=h.getHoraFin() %>></input><input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>></td>
+				<td><input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></input></td>
+				<td><input type="submit" value="Modificar" name="btnModificarH" class="btn btn-warning"/></input></td>
+          		<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
           	</tr>
 			<%}%>
 			</tbody>
