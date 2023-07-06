@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="entidad.Usuario"%>
+    <%@page import="entidad.Medico"%>
     <%@page import="entidad.Turno"%>
     <%@page import="java.util.List"%>
 	<%@page import="java.util.ArrayList"%>
@@ -33,6 +34,11 @@
 		if (request.getAttribute("listaTurnosPorAsignar") != null) {
 			listaTurnosPorAsignar = (List<Turno>) request.getAttribute("listaTurnosPorAsignar");
 		}
+		
+		ArrayList<Medico> listaMedicos = new ArrayList<Medico>();
+		if (request.getAttribute("listaMedicos") != null) {
+			listaMedicos = (ArrayList<Medico>) request.getAttribute("listaMedicos");
+		}
 	%>
 
 <!-- Header -->
@@ -61,18 +67,11 @@
 <div class="container">
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
-				<select name="Provincias" required>
-					<option> Seleccione un médico... </option>
-					<option> Antonio Gutiérrez </option>
-					<option> Germán Sosa </option>
-					<option> Lucia Vázquez </option>
-					<option> Sofía Fernández </option>
-				</select>
-
-				<select name="Especialidades" required>
-					<option> Seleccione una especialidad... </option>
-					<option> Cardiólogo </option>
-					<option> Oftalmólogo </option>
+				<select name="Medicos" required>
+					<option selected> Seleccione un médico... </option>
+					<% for (Medico m : listaMedicos) {%>
+        			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
+        			<%}%>
 				</select>
 
 				<td><input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info"></td>
@@ -104,8 +103,8 @@
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
-				<td><%=t.getMedico().getDiaAtencion()+" "+t.getMedico().getHoraInicio()+"-"+t.getMedico().getHoraFin() %></td>
-				<td></td>
+				<td><%=t.getMedico().getHorario().getDiaAtencion()+" "+t.getMedico().getHorario().getHoraInicio()+"-"+t.getMedico().getHorario().getHoraFin() %></td>
+				<td><%=t.getFecha()+" "+t.getHora()%></td>
 				<td>
 				<div class="mb-3">
                         <input type="text" class="form-control" id="dni" name="dni" required>

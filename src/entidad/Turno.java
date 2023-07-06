@@ -1,5 +1,6 @@
 package entidad;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -9,7 +10,8 @@ public class Turno {
 	private Medico Medico;
 	private Persona Paciente;
 	private Especialidad Especialidad;
-	private LocalDateTime DiayHora;
+	private LocalDate Fecha;
+	private LocalTime Hora;
 	private int Estado;
 	private String Observaciones;
 	
@@ -18,12 +20,13 @@ public class Turno {
 	}
 
 	public Turno(int idTurno, entidad.Medico medico, Persona paciente, entidad.Especialidad especialidad,
-			LocalDateTime diayHora, int estado, String observaciones) {
+			LocalDate fecha, LocalTime hora, int estado, String observaciones) {
 		this.idTurno = idTurno;
 		Medico = medico;
 		Paciente = paciente;
 		Especialidad = especialidad;
-		DiayHora = diayHora;
+		Fecha = fecha;
+		Hora = hora;
 		Estado = estado;
 		Observaciones = observaciones;
 	}
@@ -60,12 +63,20 @@ public class Turno {
 		Especialidad = especialidad;
 	}
 
-	public LocalDateTime getDiayHora() {
-		return DiayHora;
+	public LocalDate getFecha() {
+		return Fecha;
 	}
 
-	public void setDiayHora(LocalDateTime diayHora) {
-		DiayHora = diayHora;
+	public void setFecha(LocalDate fecha) {
+		Fecha = fecha;
+	}
+	
+	public LocalTime getHora() {
+		return Hora;
+	}
+
+	public void setHora(LocalTime hora) {
+		Hora = hora;
 	}
 
 	public int isEstado() {
@@ -87,8 +98,10 @@ public class Turno {
 	@Override
 	public String toString() {
 		return "Turno [idTurno=" + idTurno + ", Medico=" + Medico + ", Paciente=" + Paciente + ", Especialidad="
-				+ Especialidad + ", DiayHora=" + DiayHora + ", Estado=" + Estado + ", Observaciones=" + Observaciones
-				+ "]";
+				+ Especialidad + ", Fecha=" + Fecha + ", Hora=" + Hora + ", Estado=" + Estado + ", Observaciones="
+				+ Observaciones + "]";
 	}
+
+	
 	
 }

@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Direccion;
 import entidad.Localidad;
+import entidad.Medico;
 import entidad.Persona;
 import entidad.Turno;
+import negocio.MedicoNegocio;
 import negocio.TurnoNegocio;
+import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
 /**
@@ -25,6 +28,7 @@ import negocioImpl.TurnoNegocioImpl;
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TurnoNegocio tneg = new TurnoNegocioImpl();
+	MedicoNegocio mneg = new MedicoNegocioImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,6 +52,10 @@ public class ServletTurno extends HttpServlet {
 			{
 				ArrayList<Turno> lista = tneg.ListarTodos();
 				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 				dispatcher.forward(request, response);
 				break;
