@@ -82,15 +82,37 @@ public class ServletTurno extends HttpServlet {
 			t.setEstado(1);
 			
 			boolean estado = tneg.ActualizarTurno(t);
+			String mensajeDeActualizacion = "";
 			
 			if(estado == true) {
-				System.out.println("Se actualizó el turno");
+				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
 			}
+			else {
+				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado es válido.";
+			}
+			
+			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+			request.setAttribute("listaMedicos", listaMedicos);
 			
 			ArrayList<Turno> lista = tneg.ListarTodos();
 			request.setAttribute("listaTurnosPorAsignar", lista);
+			request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 			dispatcher.forward(request, response);			
+		}
+		
+		if(request.getParameter("btnFilter")!=null) 
+		{
+			Medico m = new Medico();
+			m.setDNI(Integer.parseInt(request.getParameter("Medicos")));
+			ArrayList<Turno> listaPorMedico = tneg.ListaTurnosPorMedico(m);
+			request.setAttribute("listaTurnosPorMedico", listaPorMedico);
+			
+			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+			request.setAttribute("listaMedicos", listaMedicos);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 

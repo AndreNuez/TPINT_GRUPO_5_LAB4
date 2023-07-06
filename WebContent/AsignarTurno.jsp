@@ -20,19 +20,37 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
+<% 
+String mensaje = "";
+if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
+{
+	mensaje = (String)request.getAttribute("mensajeDeActualizacionDeTurno"); 
+}
+%>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#miTabla').DataTable();
 	});
+	
+	var mensaje = "<%=mensaje%>";
+	if(mensaje != "")
+	{
+	    alert(mensaje);		
+	}
 </script>
 
 </head>
 <body>
 
 	<%
-		List<Turno> listaTurnosPorAsignar = new ArrayList<Turno>();
+		ArrayList<Turno> listaTurnosPorAsignar = new ArrayList<Turno>();
+	
 		if (request.getAttribute("listaTurnosPorAsignar") != null) {
-			listaTurnosPorAsignar = (List<Turno>) request.getAttribute("listaTurnosPorAsignar");
+			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorAsignar");
+		}
+		
+		if (request.getAttribute("listaTurnosPorMedico") != null) {
+			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorMedico");
 		}
 		
 		ArrayList<Medico> listaMedicos = new ArrayList<Medico>();
@@ -65,17 +83,18 @@
 <!-- Tabla y botones -->	
 
 <div class="container">
+<form action="ServletTurno" method="post">
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
-					<option selected> Seleccione un médico... </option>
+					<option value=0 selected> Seleccione un médico... </option>
 					<% for (Medico m : listaMedicos) {%>
         			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
         			<%}%>
 				</select>
 
 				<td><input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info"></td>
-  </div> 	
+  </div> 
   <div class="row">
     <div class="col-4"></div>
   	<br>
@@ -99,7 +118,6 @@
 
 			%>
 			<tr>
-				<form method="post" action="ServletTurno">
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
@@ -107,11 +125,10 @@
 				<td><%=t.getFecha()+" "+t.getHora()%></td>
 				<td>
 				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
+                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]+$" autofocus required title="Este campo solo admite números">
                 </div>
                 </td>
 				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-				</form>
 			<tr>
 			<%
 			}
@@ -121,6 +138,7 @@
 </div>
 <div class="col-4"></div>
 </div>
+</form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

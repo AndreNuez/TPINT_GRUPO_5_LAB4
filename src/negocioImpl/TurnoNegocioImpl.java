@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import entidad.Medico;
 import entidad.Persona;
 import entidad.Turno;
 import negocio.TurnoNegocio;
@@ -19,7 +20,11 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	}
 	
 	public ArrayList<Turno> ListarTodos(){
-		return (ArrayList<Turno>) tdao.ListarTodos();
+		return tdao.ListarTodos();
+	}
+	
+	public ArrayList<Turno> ListaTurnosPorMedico(Medico medico) {
+		return tdao.ListarTurnosPorMedico(medico);
 	}
 	
 }
