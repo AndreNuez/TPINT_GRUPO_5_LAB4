@@ -102,7 +102,7 @@ public class ServletTurno extends HttpServlet {
 			
 			
 			if(estado == true) {
-				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
+				mensajeDeActualizacion = "Se asignó el paciente al turno exitosamente.";
 			}
 			else {
 				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea válido.";
