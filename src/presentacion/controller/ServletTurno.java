@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Direccion;
+import entidad.Horario;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Persona;
 import entidad.Turno;
+import negocio.HorarioNegocio;
 import negocio.MedicoNegocio;
 import negocio.TurnoNegocio;
+import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
@@ -27,8 +30,10 @@ import negocioImpl.TurnoNegocioImpl;
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
+	HorarioNegocio hNeg = new HorarioNegocioImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -57,6 +62,16 @@ public class ServletTurno extends HttpServlet {
 				request.setAttribute("listaMedicos", listaMedicos);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			
+			case "listarM":
+			{
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
 				dispatcher.forward(request, response);
 				break;
 			}
@@ -152,6 +167,40 @@ public class ServletTurno extends HttpServlet {
 			
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 	    	dispatcher.forward(request, response);
+		}
+		
+		// LOGICA PARA CREAR TURNOS
+		
+		//Buscar datos del médico seleccionado
+		if(request.getParameter("btnBuscar")!= null) 
+		{
+			int dni = Integer.parseInt(request.getParameter("Medicos"));
+			
+			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+			request.setAttribute("listaMedicos", listaMedicos);
+			
+			if(mneg.ListarUno(dni) != null)
+			{				
+				Medico medico = new Medico();
+				medico = mneg.ListarUno(dni);
+				request.setAttribute("verDatos", medico);
+				
+				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+				request.setAttribute("listaHorarios", listaHorario);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		//Chequear si la fecha corresponde al día de atención + que ese día ya no tenga turnos
+		if(request.getParameter("btnChequear") != null) 
+		{
+			int dniMedico = Integer.parseInt(request.getParameter("dniMedico"));
+			String dia = request.getParameter("DiaAtencion");
+			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
+			
+			//Usar funcion calendar
 		}
 	}
 

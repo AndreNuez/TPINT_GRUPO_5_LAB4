@@ -47,7 +47,7 @@
 			<div class="col-2"></div>
 			<br />
 			<div class="d-grid mx-auto">
-				<a href="CrearTurno.jsp" class="btn btn-primary">Crear Turno</a> <br>
+				<a href="ServletTurno?Param=listarM" class="btn btn-primary">Crear Turno</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
 				<a href="ServletTurno?Param=list" class="btn btn-primary">Asignar Turno</a> <br>
