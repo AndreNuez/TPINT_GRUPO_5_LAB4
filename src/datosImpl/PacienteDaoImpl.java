@@ -87,7 +87,6 @@ public class PacienteDaoImpl implements PacienteDao {
 					direccion.setProvincia(new Provincia(rs.getInt("provincias.IDProvincia"),rs.getString("provincias.Nombre")));
 					
 					paciente.setDireccion(direccion);
-					System.out.println(paciente.getDireccion().getCalle());
 				}
 				
 			}
@@ -172,5 +171,145 @@ public class PacienteDaoImpl implements PacienteDao {
 		
 		return estado;
 	}
+
+	@Override
+	public int ContarExtranjeros() {
+		
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+		
+			try
+			{
+				ResultSet rs= cn.query("select count(p.DNI) as cantidad from pacientes p where p.Nacionalidad not like 'Argentina' and p.Estado = 1");
+				
+				while(rs.next())
+				{
+				cantidad = rs.getInt("cantidad");
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+
+		return cantidad;
+	}
 	
+	public int ContarPacientes() {
+		
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+		
+			try
+			{
+				ResultSet rs= cn.query("select count(p.DNI) as cantidad from pacientes p where p.Estado = 1");
+				
+				while(rs.next())
+				{
+				cantidad = rs.getInt("cantidad");
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+
+		return cantidad;
+	}
+	
+	public int ContarArg()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+		
+			try
+			{
+				ResultSet rs= cn.query("select count(p.DNI) as cantidad from pacientes p where p.Nacionalidad like 'Argentina' and p.Estado = 1");
+				
+				while(rs.next())
+				{
+				cantidad = rs.getInt("cantidad");
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+
+		return cantidad;
+	}
+	
+	public int ContarMayores()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+		
+			try
+			{
+				ResultSet rs= cn.query("select count(p.DNI) as cantidad from pacientes p where (timestampdiff (year, p.FechaNacimiento, curdate())) > 18 and p.Estado = 1");
+				
+				while(rs.next())
+				{
+				cantidad = rs.getInt("cantidad");
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+
+		return cantidad;
+	}
+	
+	public int ContarMenores()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+		
+			try
+			{
+				ResultSet rs= cn.query("select count(p.DNI) as cantidad from pacientes p where (timestampdiff (year, p.FechaNacimiento, curdate())) < 18 and p.Estado = 1");
+				
+				while(rs.next())
+				{
+				cantidad = rs.getInt("cantidad");
+				}
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+
+		return cantidad;
+	}
 }
