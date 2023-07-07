@@ -144,13 +144,15 @@ public class ServletMedicos extends HttpServlet {
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
 			m.setEstado(1);
 			
+			int DNI = m.getDNI();
+			String apellido = m.getApellido();
+			
 			Horario h = new Horario();
+				h.setDNIMedico(DNI);
 				h.setDiaAtencion(request.getParameter("Dia"));
 				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-			
-			int DNI = m.getDNI();
-			String apellido = m.getApellido();
+				h.setEstado(1);
 			
 			boolean estado = true;
 			boolean estadohm = true;
@@ -202,6 +204,67 @@ public class ServletMedicos extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);
 			}
+		}
+		
+		if(request.getParameter("btnModificar") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniMedico"));
+			
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			ArrayList<Especialidad> listaE = espNeg.obtenerTodos();
+			request.setAttribute("listaEsp",listaE);
+			
+			if(mNeg.ListarUno(dni) != null)
+			{				
+				Medico medico = new Medico();
+				medico = mNeg.ListarUno(dni);
+				request.setAttribute("ModificarMedico", medico);
+				
+				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+				request.setAttribute("listaHorarios", listaHorario);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		if(request.getParameter("btnConfirmar") != null)
+		{
+			Medico m = new Medico();
+			m.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
+			m.setApellido(request.getParameter("txtApellido"));
+			m.setNombre(request.getParameter("txtNombre"));
+			m.setSexo(request.getParameter("Sexo").charAt(0));
+			m.setFnac(LocalDate.parse(request.getParameter("FNac")));
+			m.setNacionalidad(request.getParameter("txtNacionalidad"));
+			m.setMail(request.getParameter("txtMail"));
+			m.setTelefono(request.getParameter("txtTelefono"));
+			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
+			
+			int DNI = m.getDNI();
+			
+			boolean modificado = true;
+			modificado = mNeg.EditarMedico(m);
+				
+			Direccion dm = new Direccion();
+				dm.setCalle(request.getParameter("txtCalle"));
+				dm.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+				dm.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+		
+			boolean modificadodm = true;
+			modificadodm = dmNeg.EditarDM(DNI, dm);
+			
+			request.setAttribute("modificado", modificado);
+			request.setAttribute("modificadoDP", modificadodm);
+			ArrayList<Medico> lista = mNeg.ListarTodos();
+			request.setAttribute("listaMedicos", lista);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");
+			dispatcher.forward(request, response);			
 		}
 
 	}

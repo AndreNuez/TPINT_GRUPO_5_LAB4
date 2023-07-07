@@ -34,8 +34,7 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 
 	@Override
 	public boolean EditarMedico(Medico medico) {
-		// TODO Auto-generated method stub
-		return false;
+		return mdao.EditarMedico(medico);
 	}
 
 	@Override

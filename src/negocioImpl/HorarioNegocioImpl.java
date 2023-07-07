@@ -25,4 +25,14 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 		return hdao.ListarTodos(dni);
 	}
 
+	@Override
+	public boolean ModificarHorario(Horario horario) {
+		return hdao.ModificarHorario(horario);
+	}
+
+	@Override
+	public boolean EliminarHorario(int idHorario) {
+		return hdao.EliminarHorario(idHorario);
+	}
+
 }
