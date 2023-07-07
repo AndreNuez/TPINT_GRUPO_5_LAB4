@@ -37,18 +37,18 @@
 	<%	ArrayList<Horario> listaH = new ArrayList<Horario>();
 		if (request.getAttribute("listaHorarios") != null) {
 			listaH = (ArrayList<Horario>) request.getAttribute("listaHorarios");
-		}
+		}		
 	%>
 
 <div class="container">
 
 <h5>Dias y horarios de atencion</h5> <hr>  
-
+<% int dniMedico = 0;%>
 	 <div class="row justify-content-center g-4">
         <div class="col-md-4">
-        <form action=ServletHorarios method= post>
            <table class="table">       		
 				<tr>
+					<th>ID</th>
 					<th>Dia</th>
 					<th>Desde</th>
 					<th>Hasta</th>
@@ -59,6 +59,8 @@
 				for (Horario h : listaH) {
 			%>	
 			<tr>
+				 <form action=ServletHorarios method= post>
+				<td><%=h.getIdHorario() %><input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>></td>
 				<td>
 					<select name="Dia" required>
 						
@@ -82,17 +84,23 @@
 					</select>
 				</td>
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
-				<td><input type="number" name="txtHasta" min="14" max="21" value=<%=h.getHoraFin() %>></input><input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>></td>
-				<td><input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></input></td>
-				<td><input type="submit" value="Modificar" name="btnModificarH" class="btn btn-warning"/></input></td>
-          		<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
+				<td><input type="number" name="txtHasta" min="14" max="21" value=<%=h.getHoraFin() %>></input></td>
+				<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
+				<td><input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></td>
+				<td><input type="submit" value="Modificar" name="btnModificarH" class="btn btn-warning"/></td>
+          		</form>
+          		<%
+				 dniMedico = h.getDNIMedico(); // Asignar el valor de dniMedico a la variable
+				%>
           	</tr>
 			<%}%>
+			
 			</tbody>
 			</table>
 		<div>
 		<br>
 				<h6>Agregar nuevo</h6>
+				<form action=ServletHorarios method= post>
 				<div class="mb-2">
 				<label for="DiaNuevo">Dia:</label>
 				<select name="DiaNuevo">
@@ -113,7 +121,8 @@
             </div>  
 		</div>
 		<br>
-		<input type="submit" value="Aceptar" name="btnAceptarH" class="btn btn-primary"/>
+			<input type="submit" value="Aceptar" name="btnAceptarH" class="btn btn-primary"/>
+			<input type="hidden" name="dniMedico" value=<%= dniMedico %>>
 		<a href="ServletMedicos?Param=list" class="btn btn-info">Regresar</a>
 		</form>
   </div>      		

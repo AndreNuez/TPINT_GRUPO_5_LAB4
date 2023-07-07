@@ -70,6 +70,7 @@ public class ServletHorarios extends HttpServlet {
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
 			
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
+			System.out.println(idHorario);
 			boolean eliminarhorario = true;
 			
 			eliminarhorario = hNeg.EliminarHorario(idHorario); 
@@ -100,28 +101,19 @@ public class ServletHorarios extends HttpServlet {
 		if(request.getParameter("btnAceptarH") != null) 
 		{
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
-			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
-			
-			Horario h = new Horario();
-				h.setIdHorario(idHorario);
-				h.setDiaAtencion(request.getParameter("Dia"));
-				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
-				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-				
-			boolean modificadoh = hNeg.ModificarHorario(h);
+			System.out.println(dni);
 			
 			if ((request.getParameter("DiaNuevo") != "") && ((request.getParameter("txtDesdeNuevo") != "")) && (request.getParameter("txtHastaNuevo") != "") ) 
 			{
 				Horario hn = new Horario();
-				hn.setDNIMedico(Integer.parseInt(request.getParameter("dniMedico")));
+				hn.setDNIMedico(dni);
 				hn.setDiaAtencion(request.getParameter("DiaNuevo"));
 				hn.setHoraInicio(Integer.parseInt(request.getParameter("txtDesdeNuevo")));
 				hn.setHoraFin(Integer.parseInt(request.getParameter("txtHastaNuevo")));
 				hn.setEstado(1);
 				
 				boolean agregadonh = hNeg.InsertarHorario(hn, dni);
-			}		
-
+					
 
 			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
 			request.setAttribute("listaProv", listaP);
@@ -141,7 +133,45 @@ public class ServletHorarios extends HttpServlet {
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);
-			}	
+			}
+			}
+		}
+		
+		if(request.getParameter("btnModificarH") != null) 
+		{
+			int dni =Integer.parseInt(request.getParameter("dniMedico"));
+			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
+			System.out.println(idHorario);
+			
+			Horario h = new Horario();
+				h.setIdHorario(idHorario);
+				h.setDiaAtencion(request.getParameter("Dia"));
+				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
+				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
+				
+				System.out.println(h);
+				
+			boolean modificadoh = hNeg.ModificarHorario(h);
+			
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(mNeg.ListarUno(dni) != null)
+			{				
+				Medico medico = new Medico();
+				medico = mNeg.ListarUno(dni);
+				request.setAttribute("verMedico", medico);
+				request.setAttribute("dniMedico",dni);
+				
+				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+				request.setAttribute("listaHorarios", listaHorario);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 	}
 
