@@ -1,5 +1,5 @@
 package Exceptions;
 
-public class DniIncorrecto {
+public class DniIncorrecto  {
 
 }

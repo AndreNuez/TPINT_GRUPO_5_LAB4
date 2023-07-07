@@ -41,7 +41,7 @@
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name=txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" required>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
