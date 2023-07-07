@@ -93,48 +93,48 @@ public class TurnoDaoImpl implements TurnoDao{
 	public ArrayList<Turno> ListarTurnosPorMedico(Medico medico) {
 		cn = new Conexion();
 		cn.Open();
-		
-		System.out.println("DNI: "+medico.getDNI());
 		ArrayList<Turno> list = new ArrayList<Turno>();
-
-			try
+		int dniMedico = medico.getDNI();
+		try
+		{
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre, horariosxmedicos.HoraInicio, horariosxmedicos.HoraFin, horariosxmedicos.DiaAtencion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad =  especialidades.IDEspecialidad INNER JOIN horariosxmedicos ON medicos.DNI = horariosxmedicos.DNIMedico WHERE turnos.IDEstado = 0 AND medicos.DNI = "+dniMedico);
+			while(rs.next())
 			{
-				ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre, horariosxmedicos.HoraInicio, horariosxmedicos.HoraFin, horariosxmedicos.DiaAtencion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad =  especialidades.IDEspecialidad INNER JOIN horariosxmedicos ON medicos.DNI = horariosxmedicos.DNIMedico WHERE turnos.IDEstado = 0 AND medicos.DNI = "+medico.getDNI());
-				while(rs.next());
-				{
-					Turno turno = new Turno();
-					Horario horario = new Horario();
-					Especialidad especialidad = new Especialidad();
-					
-					especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
-					especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
-					
-					horario.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-					horario.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-					horario.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
-					
-					medico.setApellido(rs.getString("medicos.Apellido"));
-					medico.setNombre(rs.getString("medicos.Nombres"));
-					medico.setEspecialidad(especialidad);
-					medico.setHorario(horario);
-					
-					turno.setMedico(medico);
-					turno.setIdTurno(rs.getInt("turnos.IDTurno"));
-					turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
-					turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));	
-					
-					list.add(turno);	
-				}	
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			finally
-			{
-				cn.close();
-			}
-			return list;
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Horario horario = new Horario();
+				Especialidad especialidad = new Especialidad();
+				
+				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
+				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
+				
+				horario.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
+				horario.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
+				horario.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
+				
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				m.setEspecialidad(especialidad);
+				m.setHorario(horario);
+				
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));	
+				
+				list.add(turno);	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return list;
 	}
 
 }

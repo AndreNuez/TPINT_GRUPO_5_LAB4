@@ -71,8 +71,25 @@ public class ServletTurno extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnVer")!=null) {
+		if(request.getParameter("btnAsignar")!=null) {
 			
+			String mensajeDeActualizacion = "";
+			
+			if(request.getParameter("dni") == null || request.getParameter("dni") == "") 
+			{
+				mensajeDeActualizacion = "Por favor, ingrese un DNI.";
+				
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+		    	dispatcher.forward(request, response);
+			}
+
 			Persona paciente = new Persona();
 			paciente.setDNI((Integer.parseInt(request.getParameter("dni"))));
 			
@@ -82,13 +99,13 @@ public class ServletTurno extends HttpServlet {
 			t.setEstado(1);
 			
 			boolean estado = tneg.ActualizarTurno(t);
-			String mensajeDeActualizacion = "";
+			
 			
 			if(estado == true) {
 				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
 			}
 			else {
-				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado es válido.";
+				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea válido.";
 			}
 			
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
@@ -105,14 +122,36 @@ public class ServletTurno extends HttpServlet {
 		{
 			Medico m = new Medico();
 			m.setDNI(Integer.parseInt(request.getParameter("Medicos")));
-			ArrayList<Turno> listaPorMedico = tneg.ListaTurnosPorMedico(m);
-			request.setAttribute("listaTurnosPorMedico", listaPorMedico);
 			
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
+			System.out.println(Integer.parseInt(request.getParameter("Medicos")));
 			
+			if(Integer.parseInt(request.getParameter("Medicos")) == 0)
+			{
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+			ArrayList<Turno> listaPorMedico = tneg.ListaTurnosPorMedico(m);
+			request.setAttribute("listaTurnosPorMedico", listaPorMedico);				
+		
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 			dispatcher.forward(request, response);
+		}
+		
+		if(request.getParameter("deleteFilters")!=null) 
+		{
+			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+			request.setAttribute("listaMedicos", listaMedicos);
+			
+			ArrayList<Turno> lista = tneg.ListarTodos();
+			request.setAttribute("listaTurnosPorAsignar", lista);
+			
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+	    	dispatcher.forward(request, response);
 		}
 	}
 

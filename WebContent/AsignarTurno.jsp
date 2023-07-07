@@ -37,6 +37,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 	{
 	    alert(mensaje);		
 	}
+	
 </script>
 
 </head>
@@ -92,8 +93,9 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
         			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
         			<%}%>
 				</select>
-
-				<td><input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info"></td>
+				
+				<input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info">
+				<input type="submit" value="Borrar Filtros" name="deleteFilters" class="btn btn-danger"/>
   </div> 
   <div class="row">
     <div class="col-4"></div>
@@ -125,11 +127,11 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<td><%=t.getFecha()+" "+t.getHora()%></td>
 				<td>
 				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]+$" autofocus required title="Este campo solo admite números">
+                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos.">
                 </div>
                 </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			<tr>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info"></td>
+			</tr>
 			<%
 			}
 			%>
