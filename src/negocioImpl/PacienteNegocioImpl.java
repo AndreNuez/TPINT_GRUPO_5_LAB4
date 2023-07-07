@@ -46,4 +46,29 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 		return pacienteDao.EliminarPaciente(dni);
 	}
 
+	@Override
+	public int contarExtranjeros() {
+		return pacienteDao.ContarExtranjeros();
+	}
+	
+	public int ContarPacientes()
+	{
+		return pacienteDao.ContarPacientes();
+	}
+	
+	public int ContarArg()
+	{
+		return pacienteDao.ContarArg();
+	}
+	
+	public int ContarMayores()
+	{
+		return pacienteDao.ContarMayores();
+	}
+	
+	public int ContarMenores()
+	{
+		return pacienteDao.ContarMenores();
+	}
+	
 }
