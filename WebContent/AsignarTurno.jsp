@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="entidad.Usuario"%>
+    <%@page import="entidad.Medico"%>
+    <%@page import="entidad.Turno"%>
+    <%@page import="java.util.List"%>
+	<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,14 +20,46 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
+<% 
+String mensaje = "";
+if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
+{
+	mensaje = (String)request.getAttribute("mensajeDeActualizacionDeTurno"); 
+}
+%>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#miTabla').DataTable();
 	});
+	
+	var mensaje = "<%=mensaje%>";
+	if(mensaje != "")
+	{
+	    alert(mensaje);		
+	}
+	
 </script>
 
 </head>
 <body>
+
+	<%
+		ArrayList<Turno> listaTurnosPorAsignar = new ArrayList<Turno>();
+	
+		if (request.getAttribute("listaTurnosPorAsignar") != null) {
+			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorAsignar");
+		}
+		
+		if (request.getAttribute("listaTurnosPorMedico") != null) {
+			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorMedico");
+		}
+		
+		ArrayList<Medico> listaMedicos = new ArrayList<Medico>();
+		if (request.getAttribute("listaMedicos") != null) {
+			listaMedicos = (ArrayList<Medico>) request.getAttribute("listaMedicos");
+		}
+	%>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -48,24 +84,19 @@
 <!-- Tabla y botones -->	
 
 <div class="container">
+<form action="ServletTurno" method="post">
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
-				<select name="Provincias" required>
-					<option> Seleccione un médico... </option>
-					<option> Antonio Gutiérrez </option>
-					<option> Germán Sosa </option>
-					<option> Lucia Vázquez </option>
-					<option> Sofía Fernández </option>
+				<select name="Medicos" required>
+					<option value=0 selected> Seleccione un médico... </option>
+					<% for (Medico m : listaMedicos) {%>
+        			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
+        			<%}%>
 				</select>
-
-				<select name="Especialidades" required>
-					<option> Seleccione una especialidad... </option>
-					<option> Cardiólogo </option>
-					<option> Oftalmólogo </option>
-				</select>
-
-				<td><input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info"></td>
-  </div> 	
+				
+				<input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info">
+				<input type="submit" value="Borrar Filtros" name="deleteFilters" class="btn btn-danger"/>
+  </div> 
   <div class="row">
     <div class="col-4"></div>
   	<br>
@@ -74,6 +105,7 @@
 	<table class="table table-striped" style="margin: 0 auto;" id="miTabla">
 		<thead>
 			<tr>
+				<th>ID de turno</th>
 				<th>Médico</th>
 				<th>Especialidad</th>
 				<th>Horario de atención</th>
@@ -83,60 +115,32 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Sofia Fernández</td>
-				<td>Cardiólogo</td>
-				<td>Lunes 10-18 hs</td>
-				<td>Lunes 14 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Juan Gómez</td>
-				<td>Oftalmólogo</td>
-				<td>Martes 9-21 hs</td>
-				<td>Martes 16 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Brian Marincola</td>
-				<td>Pediatra</td>
-				<td>Martes 8-13 hs</td>
-				<td>Martes 9 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>Julian Pérez</td>
-				<td>Neurólogo</td>
-				<td>Viernes 14-18 hs</td>
-				<td>Viernes 15 hs</td>
-				<td>
-				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnVer" class="btn btn-info"></td>
-			</tr>
+			<%
+			for (Turno t : listaTurnosPorAsignar) {
 
+			%>
+			<tr>
+				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
+				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
+				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
+				<td><%=t.getMedico().getHorario().getDiaAtencion()+" "+t.getMedico().getHorario().getHoraInicio()+"-"+t.getMedico().getHorario().getHoraFin() %></td>
+				<td><%=t.getFecha()+" "+t.getHora()%></td>
+				<td>
+				<div class="mb-3">
+                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos.">
+                </div>
+                </td>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info"></td>
+			</tr>
+			<%
+			}
+			%>
 		</tbody>
 	</table>
 </div>
 <div class="col-4"></div>
 </div>
+</form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
