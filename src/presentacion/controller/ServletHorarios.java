@@ -70,7 +70,6 @@ public class ServletHorarios extends HttpServlet {
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
 			
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
-			System.out.println(idHorario);
 			boolean eliminarhorario = true;
 			
 			eliminarhorario = hNeg.EliminarHorario(idHorario); 
@@ -101,7 +100,6 @@ public class ServletHorarios extends HttpServlet {
 		if(request.getParameter("btnAceptarH") != null) 
 		{
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
-			System.out.println(dni);
 			
 			if ((request.getParameter("DiaNuevo") != "") && ((request.getParameter("txtDesdeNuevo") != "")) && (request.getParameter("txtHastaNuevo") != "") ) 
 			{
@@ -141,15 +139,12 @@ public class ServletHorarios extends HttpServlet {
 		{
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
-			System.out.println(idHorario);
 			
 			Horario h = new Horario();
 				h.setIdHorario(idHorario);
 				h.setDiaAtencion(request.getParameter("Dia"));
 				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-				
-				System.out.println(h);
 				
 			boolean modificadoh = hNeg.ModificarHorario(h);
 			
