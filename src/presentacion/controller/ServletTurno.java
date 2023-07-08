@@ -232,6 +232,13 @@ public class ServletTurno extends HttpServlet {
 	    			
 	    			boolean exito = true;
 					request.setAttribute("exito", exito);
+					
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					
+					//Borramos el dni del medico de la session
+					request.getSession().removeAttribute("dniMedico");
+					
 	    			RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
 					dispatcher.forward(request, response);
 	        	}
@@ -239,18 +246,55 @@ public class ServletTurno extends HttpServlet {
 	        	{
 	        		boolean errorFechaOcupada = true;
 					request.setAttribute("errorFechaOcupada", errorFechaOcupada);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-					dispatcher.forward(request, response);
-	        	}
-	        
+					
+					int dni = (int)request.getSession().getAttribute("dniMedico");
 
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					
+					if(mneg.ListarUno(dni) != null)
+					{				
+						Medico medico = new Medico();
+						medico = mneg.ListarUno(dni);
+						request.setAttribute("verDatos", medico);
+						
+						ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+						request.setAttribute("listaHorarios", listaHorario);
+						
+						boolean buscar = true;
+						request.setAttribute("buscar", buscar);
+						
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+						dispatcher.forward(request, response);
+					}		
+	        	}   
 	        }
 	        else
         	{
         		boolean errorDia = true;
 				request.setAttribute("errorDia", errorDia);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-				dispatcher.forward(request, response);
+				
+				int dni = (int)request.getSession().getAttribute("dniMedico");
+				System.out.println(dni);
+
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
+				if(mneg.ListarUno(dni) != null)
+				{				
+					Medico medico = new Medico();
+					medico = mneg.ListarUno(dni);
+					request.setAttribute("verDatos", medico);
+					
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					
+					boolean buscar = true;
+					request.setAttribute("buscar", buscar);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					dispatcher.forward(request, response);
+				}
         	}
 		}
 	}
