@@ -3,6 +3,7 @@
 
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Horario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -23,7 +24,14 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<% 
+				Usuario usuario = (Usuario) session.getAttribute("usuario"); 
+				boolean administrador = ValidarUsuario.validarUsuarioAdmin(usuario);
+				
+				if (!administrador)
+					 response.sendRedirect("Principal.jsp");
+
+			%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
