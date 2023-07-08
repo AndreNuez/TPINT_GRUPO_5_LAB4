@@ -118,4 +118,35 @@ public class HorarioDaoImpl implements HorarioDao {
 		return estado;
 	}
 	
+	public Horario buscarHorario(int dniMedico, String dia)
+	{
+		cn = new Conexion();
+		cn.Open();
+			
+		Horario horario = new Horario();
+			
+		try
+			{
+				ResultSet rs= cn.query("SELECT idHorario, HoraInicio, HoraFin, DiaAtencion, Estado FROM horariosxmedicos where Estado=1 and DNIMedico = "+dniMedico+" and DiaAtencion = '"+ dia+"'");
+				rs.next();
+				
+					horario.setIdHorario(rs.getInt("idHorario"));
+					horario.setDNIMedico(dniMedico);
+					horario.setHoraInicio(rs.getInt("HoraInicio"));
+					horario.setHoraFin(rs.getInt("HoraFin"));
+					horario.setDiaAtencion(rs.getString("DiaAtencion"));
+					horario.setEstado(rs.getInt("Estado"));
+
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				cn.close();
+			}
+			return horario;
+	}
+	
 }

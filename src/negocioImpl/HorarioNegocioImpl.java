@@ -34,5 +34,8 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 	public boolean EliminarHorario(int idHorario) {
 		return hdao.EliminarHorario(idHorario);
 	}
-
+	
+	public Horario buscarHorario(int dniMedico, String dia) {
+		return hdao.buscarHorario(dniMedico, dia);
+	}
 }

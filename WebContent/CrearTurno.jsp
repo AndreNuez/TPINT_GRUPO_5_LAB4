@@ -63,28 +63,25 @@
 	
 <!-- Formulario y controles --> 
  <div class="container">
- <% int dniMedico = 0;%>
+ <% int dniMedico = 0;
+ %>
  
  <h4>Crear turno</h4> <hr>
  <form action="ServletTurno" method="post">
     <div class="row justify-content-center g-4">
         <div class="col-md-4">
             <div class="mb-2">
-				<label for="Medicos"><b>Medico:</b></label>
-				<select name="Medicos" required>
-					<option value=""> Seleccione un medico... </option>
-					<% for (Medico m : listaMedicos) {%>
-	        			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
-	        			
-	        			<%
-					 		dniMedico = m.getDNI(); // Asignar el valor de dniMedico a la variable
-						%>
-					
-        			<%}%>
-				</select>
+				<label for="Medicos">Medico: </label>
+					<select name="Medicos" required>
+						<% for (Medico m : listaMedicos) {
+      				if (request.getAttribute("verDatos") != null && m.getDNI() == medico.getDNI()) {%>
+        			<option value="<%=medico.getDNI() %>" selected><%=medico.getNombre()+" "+medico.getApellido()%></option>
+        		<%} else {%>
+        			<option value="<%=m.getDNI()%>"><%=m.getNombre()+" "+m.getApellido()%></option>
+        		<%}}%>
 				<input type="submit" name="btnBuscar" value="Buscar" class="btn btn-primary">
             </div>
-            
+
     <!-- Si se hizo click en buscar, se traen datos necesarios para crear turnos. -->
     
     <%if ((request.getAttribute("verDatos") != null) && (request.getAttribute("listaHorarios") != null)) {%>
@@ -148,6 +145,42 @@
     </div>
     </form>   
 </div>
+	<%
+		if (request.getAttribute("exito") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Turnos agregados con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	<%
+		if (request.getAttribute("errorDia") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("El medico no trabaja ese dia");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	
+	<%if (request.getAttribute("errorFechaOcupada") != null) {
+	%>
+		<script type="text/javascript">
+		function alertName(){
+		alert("Ya se han creado turnos para ese medico ese dia");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

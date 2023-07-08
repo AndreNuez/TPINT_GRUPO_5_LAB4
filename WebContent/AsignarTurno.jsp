@@ -108,7 +108,6 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<th>ID de turno</th>
 				<th>Médico</th>
 				<th>Especialidad</th>
-				<th>Horario de atención</th>
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -123,8 +122,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
-				<td><%=t.getMedico().getHorario().getDiaAtencion()+" "+t.getMedico().getHorario().getHoraInicio()+"-"+t.getMedico().getHorario().getHoraFin() %></td>
-				<td><%=t.getFecha()+" "+t.getHora()%></td>
+				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%></td>
 				<td>
 				<div class="mb-3">
                         <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos.">

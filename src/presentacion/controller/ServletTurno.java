@@ -10,6 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 import entidad.Direccion;
 import entidad.Horario;
@@ -175,7 +180,8 @@ public class ServletTurno extends HttpServlet {
 		if(request.getParameter("btnBuscar")!= null) 
 		{
 			int dni = Integer.parseInt(request.getParameter("Medicos"));
-			
+			request.getSession().setAttribute("dniMedico", dni);
+
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
 			
@@ -188,6 +194,9 @@ public class ServletTurno extends HttpServlet {
 				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
 				request.setAttribute("listaHorarios", listaHorario);
 				
+				boolean buscar = true;
+				request.setAttribute("buscar", buscar);
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -196,11 +205,56 @@ public class ServletTurno extends HttpServlet {
 		//Chequear si la fecha corresponde al día de atención + que ese día ya no tenga turnos
 		if(request.getParameter("btnChequear") != null) 
 		{
-			int dniMedico = Integer.parseInt(request.getParameter("dniMedico"));
+			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
 			String dia = request.getParameter("DiaAtencion");
 			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
-			
-			//Usar funcion calendar
+			//System.out.println(fecha);
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es"));
+	        String dayOfWeek = fecha.format(formatter);
+	        
+	        // Check if the day of the week matches any of the names
+	        
+	        if (dayOfWeek.equalsIgnoreCase(dia)) 
+	        {
+	        	if(!tneg.chequearFecha(fecha, dniMedico))
+	        	{
+	        		Horario h = hNeg.buscarHorario(dniMedico, dia);
+	        		
+	    			int cantHoras = h.getHoraFin() - h.getHoraInicio();
+	    			
+	    			for(int i = h.getHoraInicio(); i < h.getHoraFin();i++)
+	    			{
+	    				if(!tneg.insertarTurno(dniMedico, fecha, i))
+	    				{
+	    					boolean error = true;
+	    					request.setAttribute("error", error);
+	    					
+	    				}
+	    			}
+	    			
+	    			boolean exito = true;
+					request.setAttribute("exito", exito);
+	    			RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					dispatcher.forward(request, response);
+	        	}
+	        	else
+	        	{
+	        		boolean errorFechaOcupada = true;
+					request.setAttribute("errorFechaOcupada", errorFechaOcupada);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					dispatcher.forward(request, response);
+	        	}
+	        
+
+	        }
+	        else
+        	{
+        		boolean errorDia = true;
+				request.setAttribute("errorDia", errorDia);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+				dispatcher.forward(request, response);
+        	}
 		}
 	}
 
