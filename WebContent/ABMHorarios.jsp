@@ -37,13 +37,20 @@
 	<br>
 <!-- Llamado a listados  -->	
 	
-	<%	ArrayList<Horario> listaH = new ArrayList<Horario>();
+	<%	
+		ArrayList<Horario> listaH = new ArrayList<Horario>();
 		if (request.getAttribute("listaHorarios") != null) 
 		{
 			listaH = (ArrayList<Horario>) request.getAttribute("listaHorarios");
 		}
 		
 		int dniMedico = 0;
+		
+		if (request.getAttribute("dniMedico") != null)
+		{
+			dniMedico = (int)request.getAttribute("dniMedico");
+		}
+		
 		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
 		Set<String> diasSeleccionados = new HashSet<>();
 	%>
@@ -54,7 +61,6 @@
         <div class="col-md-4">
            <table class="table">       		
 				<tr>
-					<th>ID</th>
 					<th>Dia</th>
 					<th>Desde</th>
 					<th>Hasta</th>
@@ -66,7 +72,7 @@
 			%>	
 			<tr>
 				 <form action=ServletHorarios method= post>
-				<td><%=h.getIdHorario() %><input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>></td>
+				<input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>>
 				<td>
 					<select name="Dia" required>
 						<% String diaSeleccionado = h.getDiaAtencion();
@@ -114,7 +120,7 @@
 				<input type="number" name="txtDesdeNuevo" min="8" max="14">
  
                 <label for="Hasta">A:</label>
-				<input type="number" name="txtHastaNuevo" min="14" max="21">
+				<input type="number" name="txtHastaNuevo" min="15" max="21">
             </div>  
 		</div>
 		<br>
@@ -124,7 +130,23 @@
 		</form>
   </div>      		
 </div>
-</div>	
+</div>
+<!-- Alerta -->
+
+	<%
+		if (request.getAttribute("error") != null) {
+	%>
+		<script type="text/javascript">
+			function alertName()
+			{
+				alert("Primero debe completar los campos para agregar nuevo horario.");
+			} 
+		</script> 
+	<%
+		}
+	%>
+	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

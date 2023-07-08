@@ -208,20 +208,17 @@ public class ServletTurno extends HttpServlet {
 			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
 			String dia = request.getParameter("DiaAtencion");
 			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
-			//System.out.println(fecha);
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es"));
 	        String dayOfWeek = fecha.format(formatter);
 	        
-	        // Check if the day of the week matches any of the names
+	        // Chequeamos si el día que atiende el medico es igual al dia de la semana de la fecha
 	        
 	        if (dayOfWeek.equalsIgnoreCase(dia)) 
 	        {
 	        	if(!tneg.chequearFecha(fecha, dniMedico))
 	        	{
 	        		Horario h = hNeg.buscarHorario(dniMedico, dia);
-	        		
-	    			int cantHoras = h.getHoraFin() - h.getHoraInicio();
 	    			
 	    			for(int i = h.getHoraInicio(); i < h.getHoraFin();i++)
 	    			{
