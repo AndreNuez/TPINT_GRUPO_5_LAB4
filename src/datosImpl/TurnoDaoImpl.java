@@ -9,10 +9,12 @@ import java.util.List;
 
 import datos.TurnoDao;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Turno;
 import entidad.Medico;
 import entidad.Especialidad;
 import entidad.Horario;
+import entidad.Localidad;
 
 public class TurnoDaoImpl implements TurnoDao{
 	
@@ -73,7 +75,7 @@ public class TurnoDaoImpl implements TurnoDao{
 					turno.setMedico(medico);
 					turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 					turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
-					turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));
+					turno.setHora(rs.getInt("turnos.Hora"));
 					
 					list.add(turno);
 				}
@@ -121,7 +123,7 @@ public class TurnoDaoImpl implements TurnoDao{
 				turno.setMedico(m);
 				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
-				turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));	
+				turno.setHora(rs.getInt("turnos.Hora"));	
 				
 				list.add(turno);	
 			}	
@@ -136,5 +138,55 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 		return list;
 	}
+	public boolean ChequearFecha(LocalDate fecha, int dniMedico)
+	{
+		cn = new Conexion();
+		cn.Open();	
 
+		String query = "SELECT * FROM turnos where turnos.DNIMedico = "+ dniMedico +" and turnos.Fecha = '"+ fecha+"'";
+		
+		try
+		 {
+			ResultSet rs = cn.query(query);
+			if(rs.next())
+			{
+				return true;
+			}
+			
+
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return false;
+	}
+	
+	public boolean insertarTurno(int dniMedico, LocalDate fecha, int i)
+	{
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "insert into turnos (Fecha, Hora, DNIMedico, DNIPaciente, IDEstado, Observacion) values ('" + fecha + "'," + i + ","+ dniMedico + ", null, 0, null)";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+	}
 }

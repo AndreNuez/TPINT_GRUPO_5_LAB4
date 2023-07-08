@@ -11,7 +11,7 @@ public class Turno {
 	private Persona Paciente;
 	private Especialidad Especialidad;
 	private LocalDate Fecha;
-	private LocalTime Hora;
+	private int Hora;
 	private int Estado;
 	private String Observaciones;
 	
@@ -20,7 +20,7 @@ public class Turno {
 	}
 
 	public Turno(int idTurno, entidad.Medico medico, Persona paciente, entidad.Especialidad especialidad,
-			LocalDate fecha, LocalTime hora, int estado, String observaciones) {
+			LocalDate fecha, int hora, int estado, String observaciones) {
 		this.idTurno = idTurno;
 		Medico = medico;
 		Paciente = paciente;
@@ -71,11 +71,11 @@ public class Turno {
 		Fecha = fecha;
 	}
 	
-	public LocalTime getHora() {
+	public int getHora() {
 		return Hora;
 	}
 
-	public void setHora(LocalTime hora) {
+	public void setHora(int hora) {
 		Hora = hora;
 	}
 
