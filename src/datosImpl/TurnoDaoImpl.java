@@ -73,7 +73,7 @@ public class TurnoDaoImpl implements TurnoDao{
 					turno.setMedico(medico);
 					turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 					turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
-					turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));
+					turno.setHora(rs.getInt("turnos.Hora"));
 					
 					list.add(turno);
 				}
@@ -121,7 +121,7 @@ public class TurnoDaoImpl implements TurnoDao{
 				turno.setMedico(m);
 				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
-				turno.setHora(LocalTime.parse(rs.getString("turnos.Hora")));	
+				turno.setHora(rs.getInt("turnos.Hora"));	
 				
 				list.add(turno);	
 			}	
