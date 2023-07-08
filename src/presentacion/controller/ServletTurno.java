@@ -1,15 +1,18 @@
 package presentacion.controller;
 
 import java.io.IOException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,16 +32,19 @@ import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
+
 /**
  * Servlet implementation class ServletTurno
  */
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,6 +58,7 @@ public class ServletTurno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		if(request.getParameter("Param")!=null)
 		{
 			String param = request.getParameter("Param").toString();
@@ -85,12 +92,14 @@ public class ServletTurno extends HttpServlet {
 				break;
 			}
 		}
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		if(request.getParameter("btnAsignar")!=null) {
 			
 			String mensajeDeActualizacion = "";
@@ -122,10 +131,10 @@ public class ServletTurno extends HttpServlet {
 			
 			
 			if(estado == true) {
-				mensajeDeActualizacion = "Se asignó el paciente al turno exitosamente.";
+				mensajeDeActualizacion = "Se asignï¿½ el paciente al turno exitosamente.";
 			}
 			else {
-				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea válido.";
+				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea vï¿½lido.";
 			}
 			
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
@@ -176,7 +185,7 @@ public class ServletTurno extends HttpServlet {
 		
 		// LOGICA PARA CREAR TURNOS
 		
-		//Buscar datos del médico seleccionado
+		//Buscar datos del mï¿½dico seleccionado
 		if(request.getParameter("btnBuscar")!= null) 
 		{
 			int dni = Integer.parseInt(request.getParameter("Medicos"));
@@ -202,7 +211,7 @@ public class ServletTurno extends HttpServlet {
 			}
 		}
 		
-		//Chequear si la fecha corresponde al día de atención + que ese día ya no tenga turnos
+		//Chequear si la fecha corresponde al dï¿½a de atenciï¿½n + que ese dï¿½a ya no tenga turnos
 		if(request.getParameter("btnChequear") != null) 
 		{
 			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
@@ -256,6 +265,8 @@ public class ServletTurno extends HttpServlet {
 				dispatcher.forward(request, response);
         	}
 		}
+
+
 	}
 
 }
