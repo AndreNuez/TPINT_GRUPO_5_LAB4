@@ -63,9 +63,6 @@
 	
 <!-- Formulario y controles --> 
  <div class="container">
- <% int dniMedico = 0;
- %>
- 
  <h4>Crear turno</h4> <hr>
  <form action="ServletTurno" method="post">
     <div class="row justify-content-center g-4">
@@ -133,7 +130,7 @@
    
             <div>
             	<br>
-            	<b>---> Se crearán x turnos para xx médico en el día xx/xx/xxxx</b>
+            	
             </div>
         </div>
 

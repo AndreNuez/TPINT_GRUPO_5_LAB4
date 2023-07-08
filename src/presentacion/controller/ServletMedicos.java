@@ -145,7 +145,7 @@ public class ServletMedicos extends HttpServlet {
 			m.setEstado(1);
 			
 			int DNI = m.getDNI();
-			String apellido = m.getApellido();
+			String apellido = m.getApellido().toLowerCase();
 			
 			Horario h = new Horario();
 				h.setDNIMedico(DNI);
@@ -247,6 +247,7 @@ public class ServletMedicos extends HttpServlet {
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
 			
 			int DNI = m.getDNI();
+			String pass = m.getApellido().toLowerCase();
 			
 			boolean modificado = true;
 			modificado = mNeg.EditarMedico(m);
@@ -259,8 +260,12 @@ public class ServletMedicos extends HttpServlet {
 			boolean modificadodm = true;
 			modificadodm = dmNeg.EditarDM(DNI, dm);
 			
+			boolean modificarpass =true;
+			modificarpass = uNeg.editarUsuario(pass, DNI);
+			
 			request.setAttribute("modificado", modificado);
-			request.setAttribute("modificadoDP", modificadodm);
+			request.setAttribute("modificadoDM", modificadodm);
+			request.setAttribute("modificadoUM", modificarpass);
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");

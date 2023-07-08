@@ -4,6 +4,9 @@
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Horario"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Set"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,15 +38,18 @@
 <!-- Llamado a listados  -->	
 	
 	<%	ArrayList<Horario> listaH = new ArrayList<Horario>();
-		if (request.getAttribute("listaHorarios") != null) {
+		if (request.getAttribute("listaHorarios") != null) 
+		{
 			listaH = (ArrayList<Horario>) request.getAttribute("listaHorarios");
-		}		
+		}
+		
+		int dniMedico = 0;
+		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+		Set<String> diasSeleccionados = new HashSet<>();
 	%>
 
 <div class="container">
-
 <h5>Dias y horarios de atencion</h5> <hr>  
-<% int dniMedico = 0;%>
 	 <div class="row justify-content-center g-4">
         <div class="col-md-4">
            <table class="table">       		
@@ -63,28 +69,19 @@
 				<td><%=h.getIdHorario() %><input type="hidden" name="idHorario" value=<%=h.getIdHorario() %>></td>
 				<td>
 					<select name="Dia" required>
-						
-						<option><%=h.getDiaAtencion() %> </option>
-  						<% String diaDesdeBD = h.getDiaAtencion(); %>
-  						<% if (!diaDesdeBD.equals("Lunes")) { %>
-    					<option> Lunes </option>
-  						<% } %>
-  						<% if (!diaDesdeBD.equals("Martes")) { %>
-    					<option> Martes </option>
-  						<% } %>
- 						<% if (!diaDesdeBD.equals("Miércoles")) { %>
-    					<option> Miércoles </option>
-  						<% } %>
-  						<% if (!diaDesdeBD.equals("Jueves")) { %>
-    					<option> Jueves </option>
-  						<% } %>
-  						<% if (!diaDesdeBD.equals("Viernes")) { %>
-    					<option> Viernes </option>
-  						<% } %>
+						<% String diaSeleccionado = h.getDiaAtencion();
+						   diasSeleccionados.add(h.getDiaAtencion());
+						%>
+						<option><%=diaSeleccionado %> </option>
+  						<% for (String dia : diasDisponibles) {
+  						   if (!diasSeleccionados.contains(dia)) { %>
+  					    	<option><%= dia %></option>
+  					  		<% }
+  						} %>
 					</select>
 				</td>
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
-				<td><input type="number" name="txtHasta" min="14" max="21" value=<%=h.getHoraFin() %>></input></td>
+				<td><input type="number" name="txtHasta" min="15" max="21" value=<%=h.getHoraFin() %>></input></td>
 				<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
 				<td><input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></td>
 				<td><input type="submit" value="Modificar" name="btnModificarH" class="btn btn-warning"/></td>
@@ -105,11 +102,11 @@
 				<label for="DiaNuevo">Dia:</label>
 				<select name="DiaNuevo">
 					<option value="">Seleccionar opcion...</option>
-					<option> Lunes </option>
-					<option> Martes </option>
-					<option> Miércoles </option>
-					<option> Jueves </option>
-					<option> Viernes </option>
+  						<% for (String dia : diasDisponibles) {
+  						   if (!diasSeleccionados.contains(dia)) { %>
+  					    	<option><%= dia %></option>
+  					  		<% }
+  						} %>
 				</select>
             </div>
             <div class="mb-2">

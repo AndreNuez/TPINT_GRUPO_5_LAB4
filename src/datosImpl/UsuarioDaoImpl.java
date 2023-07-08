@@ -73,4 +73,30 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		return estado;
 	}
 
+	@Override
+	public boolean editarUsuario(String pass, int dni) {
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+		
+		String query = "UPDATE usuarios SET Contraseña='"+pass+"' where DNI="+dni;
+				
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
+
 }

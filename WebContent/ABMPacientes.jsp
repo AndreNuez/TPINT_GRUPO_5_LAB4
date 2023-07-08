@@ -81,7 +81,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>       
-				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" required>
+				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos." required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -110,7 +110,7 @@
             </div>
             <div class="mb-2">
 				<label for="Telefono">Telefono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" required>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" pattern="[0-9]+" title="Ingrese solo números" required>
             </div>
 		</div>
         <div class="col-6">
@@ -121,7 +121,7 @@
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" required>
+				<input type="text" name="txtNumero" placeholder="Numero" pattern="[0-9]+" title="Ingrese solo números" required>
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>

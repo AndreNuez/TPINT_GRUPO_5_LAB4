@@ -30,7 +30,7 @@
 	                <br>
 	            </div>
 	            <div class="d-grid mx-auto">
-	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
+	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" pattern="[a-z]+" title="Ingrese solo minúsculas" required ></input>
 	                <br>
 	            </div>   
 	             <div class="d-grid mx-auto">
