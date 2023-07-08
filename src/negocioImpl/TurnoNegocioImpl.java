@@ -6,6 +6,7 @@ import entidad.Turno;
 import negocio.TurnoNegocio;
 import datosImpl.TurnoDaoImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,4 +28,13 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 		return tdao.ListarTurnosPorMedico(medico);
 	}
 	
+	public boolean chequearFecha(LocalDate fecha, int dniMedico)
+	{
+		return tdao.ChequearFecha(fecha, dniMedico);
+	}
+	
+	public boolean insertarTurno(int dniMedico, LocalDate fecha, int i)
+	{
+		return tdao.insertarTurno(dniMedico, fecha, i);
+	}
 }
