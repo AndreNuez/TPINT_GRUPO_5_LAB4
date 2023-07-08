@@ -1,5 +1,9 @@
+<%@page import="entidad.Persona"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,6 +27,14 @@
 
 </head>
 <body>
+
+	<%
+		List<Persona> listaP = new ArrayList<Persona>();
+		if (request.getAttribute("listaPacientes") != null) {
+			listaP = (List<Persona>) request.getAttribute("listaPacientes");
+		}
+	%>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -30,12 +42,15 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
-			<ul class="text-end" style="margin: 5px 20px"> Usuario </ul>
+						<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
 		</div>
 	</div>
 	</nav>
@@ -48,7 +63,7 @@
   <div class="row">
     <div class="col-4"></div>
     <div class="text-center">
-         <a href="ABMPacientes.jsp" class="btn btn-primary">Agregar Nuevo</a>
+         <a href="ServletPacientes?Param=agregarNuevo" class="btn btn-primary">Agregar Nuevo</a>
   	</div>
   	<br>
   	<br>
@@ -62,64 +77,79 @@
 				<th>Sexo</th>
 				<th>Fecha de Nacimiento</th>
 				<th>Mail</th>
-				<th>Teléfono</th>
+				<th>Telefono</th>
 				<th>Estado</th>
+				<th></th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>12345678</td>
-				<td>Juan</td>
-				<td>López</td>
-				<td>Masculino</td>
-				<td>15/03/1985</td>
-				<td>juan.lopez@example.com</td>
-				<td>555-123456</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>23456789</td>
-				<td>María</td>
-				<td>Rodríguez</td>
-				<td>Femenino</td>
-				<td>28/07/1990</td>
-				<td>maria.rodriguez@example.com</td>
-				<td>555-987654</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>34567890</td>
-				<td>David</td>
-				<td>Smith</td>
-				<td>Masculino</td>
-				<td>10/12/1982</td>
-				<td>david.smith@example.com</td>
-				<td>555-456789</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
-			<tr>
-				<td>45678901</td>
-				<td>Laura</td>
-				<td>García</td>
-				<td>Femenino</td>
-				<td>05/09/1995</td>
-				<td>laura.garcia@example.com</td>
-				<td>555-987123</td>
-				<td>Activo</td>
-				<td><input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"></td>
-			</tr>
+		<%
+			for (Persona p : listaP) {
 
-		</tbody>
+		%>	
+		<tr>
+			<form method="post" action="ServletPacientes">
+			<td><%=p.getDNI()%> <input type="hidden" name = "dniPaciente" value = <%=p.getDNI()%>></td>
+			<td><%=p.getNombre()%></td>
+			<td><%=p.getApellido()%></td>
+			<td><%=p.getSexo()%></td>
+			<td><%=p.getFnac()%></td>
+			<td><%=p.getMail()%></td>
+			<td><%=p.getTelefono()%></td>
+			<td><%=p.getEstado()%></td>
+			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>	
+			</form>
+		</tr>
+		<%
+			}
+		%>
+
+		<% if(request.getAttribute("eliminando") != null) {
+			%>
+			<div class="row" height=100px>
+			<div class="col-3"></div>
+			<div class="col-3">
+				<h3 align="center">Desea eliminar el paciente?</h3> 
+				</div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
+			<div class="col-1"><a href="ServletPacientes?Param=confirmarNo" class="btn btn-primary"> No </a></div>
+			</div>
+			<% } %>
+
+	</tbody>
 	</table>
 </div>
 <div class="col-4"></div>
 </div>
 </div>
 
+	<%
+		if (request.getAttribute("estado") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente eliminado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+	
+	<%
+		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente modificado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

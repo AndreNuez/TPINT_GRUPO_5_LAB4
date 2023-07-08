@@ -11,7 +11,7 @@ public class Conexion {
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
 	private String pass = "root";
-	private String dbName = "bdarticulos??profileSQL=true&useSSL=false";
+	private String dbName = "clinicamedica";
 
 	protected Connection connection;
 	
@@ -44,6 +44,7 @@ public class Conexion {
 		}
 		return rs;
 	}
+
 	
 	public boolean execute(String query)
 	{
@@ -60,6 +61,7 @@ public class Conexion {
 		}
 		return save;
 	}
+	
 	
 	public boolean close()
 	{

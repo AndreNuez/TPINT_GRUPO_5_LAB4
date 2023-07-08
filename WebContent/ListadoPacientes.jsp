@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   <%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,13 +28,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="navbar-brand" href="PrincipalAdmin.jsp">
+                        <a class="navbar-brand" href="ServletUsuario?Param=1">
                             <img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
                         </a>
                     </li>
                 </ul>
-                <ul class="text-end" style="margin: 5px 20px">Usuario</ul>
-                <input type="submit" class="btn btn-danger" name="btnSalir" value="Salir"></input>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+                <form method="post" action="ServletUsuario">
+			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
             </div>
         </div>
     </nav>
@@ -60,12 +64,15 @@
                     
                     <tbody>
                         <tr>
-                            <td>Juan</td>
+ 							<form action="servletPersonas" method="get">
+                            <td>Juan <!-- usuario.getDNI() <input type="hidden" name="DNIUsuario" value=" %= usuario.getDNI() =%"  --></td>
                             <td>Pérez</td>
                             <td>12345678</td>
                             <td>10/05/1980</td>
                             <td>12/06/2023</td>
                             <td><input type="radio" name="confirmacion" value="asistio"></td>
+                            <td><input type="submit" value="Eliminar" name="btnEliminar""/></td>
+                            </form>
                         </tr>
                         <tr>
                             <td>María</td>

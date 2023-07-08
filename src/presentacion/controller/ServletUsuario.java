@@ -37,7 +37,22 @@ public class ServletUsuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		if(request.getParameter("Param") != null) {
+			
+			Usuario user = (Usuario) request.getSession().getAttribute("usuario");
+
+			if(user.getTipo().getIdTipoUsuario() == 0) {
+
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
+				dispatcher.forward(request, response);
+			}
+			else {
+				
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
 	}
 
 	/**
@@ -45,7 +60,7 @@ public class ServletUsuario extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getParameter("name=btnIngresar")!=null) {
+		if(request.getParameter("btnIngresar")!=null) {
 			
 			String pass = request.getParameter("txtContraseña");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
@@ -57,17 +72,24 @@ public class ServletUsuario extends HttpServlet {
 			if(user != null) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
-				    	request.setAttribute("usuario", user);
-				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
-						dispatcher.forward(request, response);
-					}
-					else {
-						request.setAttribute("usuario", user);
+						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
 						dispatcher.forward(request, response);
 					}
-
+					else {
+						
+						request.getSession().setAttribute("usuario", user);
+				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
+						dispatcher.forward(request, response);
+					}
 			}
+		}
+		
+		if(request.getParameter("btnSalir") != null)
+		{
+			request.getSession().removeAttribute("usuario");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+			dispatcher.forward(request, response);
 		}
 			
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,12 +19,15 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
-			<ul class="text-end" style="margin: 5px 20px"> Usuario </ul>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"><b> DNI Usuario actual: </b> <%= a.getDNI() %> </ul>
+			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
 		</div>
 	</div>
 	</nav>
@@ -36,7 +40,7 @@
 				<h2>Bienvenido Administrador</h2>
 			</div>
 			<div class="text-center text-muted">
-				<p>Seleccione una opción:</p>
+				<p>Seleccione una opcion:</p>
 			</div>
 			<div class="col-4"></div>
 			<div class="col-2"></div>
@@ -45,10 +49,13 @@
 				<a href="PrincipalTurnos.jsp" class="btn btn-primary">Administrar Turnos</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AdminPacientes.jsp" class="btn btn-primary">Administrar Pacientes</a> <br>
+				<a href="ServletPacientes?Param=list" class="btn btn-primary">Administrar Pacientes</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AdminMedicos.jsp" class="btn btn-primary">Administrar Médicos</a> <br>
+				<a href="ServletMedicos?Param=list" class="btn btn-primary">Administrar Medicos</a> <br>
+			</div>
+			<div class="d-grid mx-auto">
+				<a href="ServletReportes?Param=list" class="btn btn-primary">Reportes e Informes</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>

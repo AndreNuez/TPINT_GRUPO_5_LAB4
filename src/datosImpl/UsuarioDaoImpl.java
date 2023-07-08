@@ -22,7 +22,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		Usuario usuario = new Usuario();
 		
 		try {
-			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña from usuarios where DNI = " + dni + "and Contraseña = '" + pass + "'"); 
+			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña from usuarios where DNI = " + dni + " and Contraseña = '" + pass + "'"); 
 			rs.next();
 			
 			usuario.setDNI(rs.getInt("DNI"));
@@ -51,9 +51,26 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	}
 
 	@Override
-	public Usuario insertarUsuario(String pass, int dni, int tipoUsuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean insertarUsuario(String pass, int dni, int tipoUsuario) {
+
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+		
+		try {
+			
+			String query = "Insert into usuarios (DNI, IDTipoUsuario, Contraseña) VALUES ('"+dni+"','"+tipoUsuario+"','"+pass+"')";
+			estado=cn.execute(query);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			cn.close();
+		}
+		
+		return estado;
 	}
 
 }

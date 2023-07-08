@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,8 +24,11 @@
 					</a>
 				</li>
 			</ul>
-			<ul class="text-end" style="margin: 5px 20px"> Usuario </ul>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			</form>
 		</div>
 	</div>
 	</nav>
@@ -43,10 +47,10 @@
 			<div class="col-2"></div>
 			<br />
 			<div class="d-grid mx-auto">
-				<a href="CrearTurno.jsp" class="btn btn-primary">Crear Turno</a> <br>
+				<a href="ServletTurno?Param=listarM" class="btn btn-primary">Crear Turno</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="AsignarTurno.jsp" class="btn btn-primary">Asignar Turno</a> <br>
+				<a href="ServletTurno?Param=list" class="btn btn-primary">Asignar Turno</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>
