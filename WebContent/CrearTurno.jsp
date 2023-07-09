@@ -76,6 +76,7 @@
         		<%} else {%>
         			<option value="<%=m.getDNI()%>"><%=m.getNombre()+" "+m.getApellido()%></option>
         		<%}}%>
+        			</select>
 				<input type="submit" name="btnBuscar" value="Buscar" class="btn btn-primary">
             </div>
 

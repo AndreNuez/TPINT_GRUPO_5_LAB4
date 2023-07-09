@@ -99,7 +99,7 @@
 			<td><%=p.getTelefono()%></td>
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
-			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>	
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este paciente?')"/> </td>	
 			</form>
 		</tr>
 		<%
@@ -114,6 +114,7 @@
 
 <!-- Mensajes de confirmacion -->
 
+<!-- Eliminar -->
 	<%if (request.getAttribute("eliminado") != null) {%>
 	<script type="text/javascript">
 		function alertName(){
@@ -122,6 +123,7 @@
 		</script> 
 	<%}%>
 	
+<!-- Modificar -->		
 	<%if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {%>
 	<script type="text/javascript">
 		function alertName(){
@@ -129,6 +131,15 @@
 		} 
 		</script> 
 	<%}%>
+	
+<!-- Agregar -->
+	<%if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP")!= null) {%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente agregado con exito");
+		} 
+		</script> 
+	<%}%>	
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

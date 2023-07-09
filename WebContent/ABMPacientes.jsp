@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Alta/Modificacion paciente</title>
+<title>Alta/Modificacion Paciente</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
@@ -142,7 +142,7 @@
         	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         <br><br>
         <div>
-			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary"> </input>	
+			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea agregar este paciente?')"> </input>	
 			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
@@ -293,7 +293,7 @@
 		 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 				<%} else {%>
-					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary"> </input>
+					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea modificar este paciente?')"> </input>
 				<%}%>	
 		
 		<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>

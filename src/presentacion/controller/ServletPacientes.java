@@ -69,17 +69,6 @@ public class ServletPacientes extends HttpServlet {
 				break;
 			}
 
-			case "confirmarNo":
-			{
-				ArrayList<Persona> lista = pNeg.ListarTodos();
-				request.setAttribute("listaPacientes", lista);
-				request.removeAttribute("eliminando");
-				request.getSession().removeAttribute("dniPacienteAEliminar");
-				RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-				
-				rd.forward(request, response);	
-			}
-			
 			default:
 				break;
 			}
