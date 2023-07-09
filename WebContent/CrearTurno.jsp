@@ -63,8 +63,7 @@
 	
 <!-- Formulario y controles --> 
  <div class="container">
- <% int dniMedico = 0;
- %>
+ <% int dniMedico = 0; %>
  
  <h4>Crear turno</h4> <hr>
  <form action="ServletTurno" method="post">
@@ -112,8 +111,7 @@
             </div>
             <div class="mb-2">
 				<label for="DiaAtencion"><b>Dia de turno:</b></label>
-				<select name="DiaAtencion" required>
-					<option value="">Seleccionar opcion...</option>
+				<select name="DiaAtencion">
 					<% 
 						for (Horario h : listaH) { 
 					%>
@@ -123,18 +121,11 @@
             </div>
             <div class="mb-2">
             	<label for="FechaTurno"><b>Fecha del turno:</b></label>
-				<input type="date" name="FechaTurno" min="<%=LocalDate.now() %>" required>
+				<input type="date" name="FechaTurno" min="<%=LocalDate.now().plusDays(1) %>" value="<%=LocalDate.now().plusDays(1) %>">
 			</div>
-			 <div class="mb-2">
-				<input type="submit" name="btnChequear" value="Chequear Disponibilidad" class="btn btn-primary"> </input>
-            </div>
    <%} %>
    
-   
-            <div>
-            	<br>
-            	<b>---> Se crearán x turnos para xx médico en el día xx/xx/xxxx</b>
-            </div>
+            
         </div>
 
     <div class="row justify-content-center g-4">
@@ -147,15 +138,19 @@
 </div>
 	<%
 		if (request.getAttribute("exito") != null) {
+			
 	%>
 	<script type="text/javascript">
+	
+		var mensaje = 'Se crearon <%= request.getAttribute("cantTurnos") %> turnos para el medico <%= request.getAttribute("apellidoMedico") %> <%= request.getAttribute("nombreMedico") %> en la fecha <%= request.getAttribute("fecha") %>';
 		function alertName(){
-		alert("Turnos agregados con exito");
+		alert(mensaje);
 		} 
 		</script> 
 	<%
 		}
 	%>
+	
 	<%
 		if (request.getAttribute("errorDia") != null) {
 	%>
