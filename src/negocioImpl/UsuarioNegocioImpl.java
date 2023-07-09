@@ -15,9 +15,7 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 	
 	@Override
 	public Usuario obtenerUsuario(String pass, int dni) {
-		
 		 return (Usuario) userDao.obtenerUsuario(pass, dni);		
-	
 	}
 
 	@Override
