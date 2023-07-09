@@ -6,6 +6,7 @@
 <%@page import="entidad.Localidad"%>
 <%@page import="entidad.Persona"%>
 <%@page import="entidad.Usuario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
@@ -30,7 +31,18 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
+				        if (!administrador && !medico)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
