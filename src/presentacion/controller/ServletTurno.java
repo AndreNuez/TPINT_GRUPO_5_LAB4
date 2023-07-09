@@ -230,7 +230,7 @@ public class ServletTurno extends HttpServlet {
 		
 		// LOGICA PARA CREAR TURNOS
 		
-		//Buscar datos del m�dico seleccionado
+		//Buscar datos del mï¿½dico seleccionado
 		if(request.getParameter("btnBuscar")!= null) 
 		{
 			int dni = Integer.parseInt(request.getParameter("Medicos"));
@@ -255,11 +255,14 @@ public class ServletTurno extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}
-		
-		//Chequear si la fecha corresponde al d�a de atenci�n + que ese d�a ya no tenga turnos
-		if(request.getParameter("btnChequear") != null) 
+
+		if(request.getParameter("btnAceptar") != null) 
+
 		{
 			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
+			
+			Medico m = mneg.ListarUno(dniMedico);
+			int cont = 0;
 			String dia = request.getParameter("DiaAtencion");
 			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
 			//System.out.println(fecha);
@@ -274,8 +277,6 @@ public class ServletTurno extends HttpServlet {
 	        	if(!tneg.chequearFecha(fecha, dniMedico))
 	        	{
 	        		Horario h = hNeg.buscarHorario(dniMedico, dia);
-	        		
-	    			int cantHoras = h.getHoraFin() - h.getHoraInicio();
 	    			
 	    			for(int i = h.getHoraInicio(); i < h.getHoraFin();i++)
 	    			{
@@ -283,17 +284,30 @@ public class ServletTurno extends HttpServlet {
 	    				{
 	    					boolean error = true;
 	    					request.setAttribute("error", error);
-	    					
+
 	    				}
+	    				cont++;
 	    			}
-	    			
+
 	    			boolean exito = true;
 					request.setAttribute("exito", exito);
-	    			RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+	    			
+					request.setAttribute("cantTurnos", cont);
+					request.setAttribute("apellidoMedico", m.getApellido());
+					request.setAttribute("nombreMedico", m.getNombre());
+					request.setAttribute("fecha", fecha);
+					
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
 					dispatcher.forward(request, response);
 	        	}
 	        	else
 	        	{
+	        		ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					
 	        		boolean errorFechaOcupada = true;
 					request.setAttribute("errorFechaOcupada", errorFechaOcupada);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
@@ -304,6 +318,9 @@ public class ServletTurno extends HttpServlet {
 	        }
 	        else
         	{
+	        	ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
         		boolean errorDia = true;
 				request.setAttribute("errorDia", errorDia);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
