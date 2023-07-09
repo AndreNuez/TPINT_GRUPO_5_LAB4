@@ -134,7 +134,14 @@ public class ServletMedicos extends HttpServlet {
 			boolean estadohm = true;
 			boolean estadoum = true;
 			
-			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
+			//Bloque TRY CATCH para evaluar si el usuario ya existe
+			try {
+				estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
+			
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+						
 			estado = mNeg.InsertarMedico(m);
 			estadohm = hNeg.InsertarHorario(h,DNI);
 				

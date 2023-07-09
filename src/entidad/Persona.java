@@ -2,6 +2,8 @@ package entidad;
 
 import java.time.LocalDate;
 
+import Exceptions.DniInvalido;
+
 public class Persona {
 	
 	private int DNI;	
@@ -125,5 +127,23 @@ public class Persona {
 				+ ", Telefono=" + Telefono + ", Estado=" + Estado + "]";
 	}
 		
+	
+	public static boolean validarDNI(int dni) throws DniInvalido{
+		Boolean dniCorrecto = false;
+		
+		if (dni > 10000000 && String.valueOf(dni).length() > 8) {
+			dniCorrecto = true;
+		}
+		
+		if (!dniCorrecto) {
+			throw new DniInvalido();
+		}
+
+		if (dniCorrecto)
+			return true;
+		
+		return true;
+					
+	}
 }
 

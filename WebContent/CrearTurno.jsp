@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Medico"%>
 <%@page import="entidad.Horario"%>
@@ -9,6 +10,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
     
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,12 +27,14 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> MenÃº Principal
 					</a>
 				</li>
 			</ul>
+
 			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
 			<ul class="text-end" style="margin: 5px 20px"><b> DNI Usuario actual: </b> <%= a.getDNI() %> </ul>
+
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>
@@ -38,6 +42,7 @@
 	</div>
 	</nav>
 	<br>
+
 
 <!-- Llamado a listados -->
 	
@@ -87,7 +92,7 @@
 				<label for="Especialidad"> <b>Especialidad:</b> <%=medico.getEspecialidad().getDescripcion()%></label>
             </div>
             <div class="mb-2">
-                <label for="Horario"> <b>Día y horario de atención:</b></label>
+                <label for="Horario"> <b>DÃ­a y horario de atenciÃ³n:</b></label>
                 <table class="table">       		
 				<tr>
 					<th>Dia</th>
@@ -130,7 +135,6 @@
    
             <div>
             	<br>
-            	
             </div>
         </div>
 
@@ -138,10 +142,12 @@
         <div class="col-md-4">
         	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         	<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" style="margin-left: 50px"> </input>
+
         </div>
     </div>
     </form>   
 </div>
+
 	<%
 		if (request.getAttribute("exito") != null) {
 	%>
@@ -179,5 +185,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>
+
 </body>
 </html>
