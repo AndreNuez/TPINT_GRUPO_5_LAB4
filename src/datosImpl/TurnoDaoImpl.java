@@ -198,10 +198,8 @@ public class TurnoDaoImpl implements TurnoDao{
 		boolean existe = false;
 		try
 		{
-			String query = "SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1";
-			System.out.println(query);
 			ResultSet rs= cn.query("SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1");
-			if(rs.next());
+			if(rs.next())
 			{
 				existe = true;	
 			}	

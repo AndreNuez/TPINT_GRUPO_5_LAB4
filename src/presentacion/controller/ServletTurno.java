@@ -123,72 +123,77 @@ public class ServletTurno extends HttpServlet {
 		    	dispatcher.forward(request, response);
 			}
 
-			
-			paciente = pneg.ListarUno((Integer.parseInt(request.getParameter("dni"))));
-			if(paciente.getDNI() == 0) 
+			else 
 			{
-				//Carga de listas predeterminadas
-				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-				request.setAttribute("listaMedicos", listaMedicos);
-				ArrayList<Turno> lista = tneg.ListarTodos();
-				request.setAttribute("listaTurnosPorAsignar", lista);
+				paciente = pneg.ListarUno((Integer.parseInt(request.getParameter("dni"))));
+				if(paciente.getDNI() == 0) 
+				{
+					//Carga de listas predeterminadas
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					ArrayList<Turno> lista = tneg.ListarTodos();
+					request.setAttribute("listaTurnosPorAsignar", lista);
+					
+					//Paciente no existe
+					request.setAttribute("pacienteNoExiste", true);
+					System.out.println(Integer.parseInt(request.getParameter("dni")));
+					request.setAttribute("dniACrear", Integer.parseInt(request.getParameter("dni")));
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+					dispatcher.forward(request, response);				
+				}
 				
-				//Paciente no existe
-				request.setAttribute("pacienteNoExiste", true);
-				System.out.println(Integer.parseInt(request.getParameter("dni")));
-				request.setAttribute("dniACrear", Integer.parseInt(request.getParameter("dni")));
+				paciente.setDNI((Integer.parseInt(request.getParameter("dni"))));
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
-				dispatcher.forward(request, response);				
+				Turno t = new Turno();
+				t.setIdTurno((Integer.parseInt(request.getParameter("idTurno"))));
+				t.setFecha(LocalDate.parse(request.getParameter("fechaTurno")));
+				t.setHora(Integer.parseInt(request.getParameter("horaTurno")));			
+				t.setPaciente(paciente);
+				
+				if(tneg.existeTurnoEnHorarioFecha(t) == true) 
+				{
+					//Carga de listas predeterminadas
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					ArrayList<Turno> lista = tneg.ListarTodos();
+					request.setAttribute("listaTurnosPorAsignar", lista);
+					
+					//Mensaje de error
+					mensajeDeActualizacion = "El paciente ya tiene un turno asginado para esa fecha y hora.";
+					request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+					dispatcher.forward(request, response);
+					
+				}
+				else 
+				{
+					t.setEstado(1);
+					
+					boolean estado = tneg.ActualizarTurno(t);
+					
+					
+					if(estado == true) {
+						mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
+					}
+					else {
+						mensajeDeActualizacion = "No se pudo asignar el turno."+"\n"+"Verifique que el DNI ingresado sea valido.";
+					}
+					
+					//Carga de listas predeterminadas
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					ArrayList<Turno> lista = tneg.ListarTodos();
+					request.setAttribute("listaTurnosPorAsignar", lista);
+					
+					request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+					dispatcher.forward(request, response);							
+				}
+				
 			}
 			
-			paciente.setDNI((Integer.parseInt(request.getParameter("dni"))));
-			
-			Turno t = new Turno();
-			t.setIdTurno((Integer.parseInt(request.getParameter("idTurno"))));
-			t.setFecha(LocalDate.parse(request.getParameter("fechaTurno")));
-			t.setHora(Integer.parseInt(request.getParameter("horaTurno")));			
-			t.setPaciente(paciente);
-			
-			System.out.println("hora "+t.getHora()+" fecha: "+t.getFecha()+"dnipaciente: "+t.getPaciente().getDNI());
-			
-			if(tneg.existeTurnoEnHorarioFecha(t) == true) 
-			{
-				//Carga de listas predeterminadas
-				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-				request.setAttribute("listaMedicos", listaMedicos);
-				ArrayList<Turno> lista = tneg.ListarTodos();
-				request.setAttribute("listaTurnosPorAsignar", lista);
-				
-				//Mensaje de error
-				mensajeDeActualizacion = "El paciente ya tiene un turno asginado para esa fecha y hora.";
-				request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
-				
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
-				dispatcher.forward(request, response);				
-			}
-			
-			t.setEstado(1);
-			
-			boolean estado = tneg.ActualizarTurno(t);
-			
-			
-			if(estado == true) {
-				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
-			}
-			else {
-				mensajeDeActualizacion = "No se pudo asignar el turno."+"\n"+"Verifique que el DNI ingresado sea valido.";
-			}
-			
-			//Carga de listas predeterminadas
-			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-			request.setAttribute("listaMedicos", listaMedicos);
-			ArrayList<Turno> lista = tneg.ListarTodos();
-			request.setAttribute("listaTurnosPorAsignar", lista);
-			
-			request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
-			dispatcher.forward(request, response);			
 		}
 		
 		if(request.getParameter("btnFilter")!=null) 

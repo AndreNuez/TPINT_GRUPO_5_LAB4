@@ -101,6 +101,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
+					<option value=0>Seleccione un medico...</option>
         			<% for (Medico m : listaMedicos) {
       				if (request.getAttribute("listaTurnosPorMedico") != null && m.getDNI() == medicoSeleccionado.getDNI()) {%>
         			<option value="<%=m.getDNI() %>" selected><%=m.getNombre()+" "+m.getApellido()%></option>
