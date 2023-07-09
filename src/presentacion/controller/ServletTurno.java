@@ -27,9 +27,11 @@ import entidad.Persona;
 import entidad.Turno;
 import negocio.HorarioNegocio;
 import negocio.MedicoNegocio;
+import negocio.PacienteNegocio;
 import negocio.TurnoNegocio;
 import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
 
@@ -44,6 +46,7 @@ public class ServletTurno extends HttpServlet {
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+	PacienteNegocio pneg = new PacienteNegocioImpl();
 
        
     /**
@@ -102,15 +105,16 @@ public class ServletTurno extends HttpServlet {
 
 		if(request.getParameter("btnAsignar")!=null) {
 			
+			Persona paciente = new Persona();
 			String mensajeDeActualizacion = "";
 			
 			if(request.getParameter("dni") == null || request.getParameter("dni") == "") 
 			{
 				mensajeDeActualizacion = "Por favor, ingrese un DNI.";
 				
+				//Carga de listas predeterminadas
 				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 				request.setAttribute("listaMedicos", listaMedicos);
-				
 				ArrayList<Turno> lista = tneg.ListarTodos();
 				request.setAttribute("listaTurnosPorAsignar", lista);
 				
@@ -119,7 +123,25 @@ public class ServletTurno extends HttpServlet {
 		    	dispatcher.forward(request, response);
 			}
 
-			Persona paciente = new Persona();
+			
+			paciente = pneg.ListarUno((Integer.parseInt(request.getParameter("dni"))));
+			if(paciente.getDNI() == 0) 
+			{
+				//Carga de listas predeterminadas
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				//Paciente no existe
+				request.setAttribute("pacienteNoExiste", true);
+				System.out.println(Integer.parseInt(request.getParameter("dni")));
+				request.setAttribute("dniACrear", Integer.parseInt(request.getParameter("dni")));
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);				
+			}
+			
 			paciente.setDNI((Integer.parseInt(request.getParameter("dni"))));
 			
 			Turno t = new Turno();
@@ -131,17 +153,18 @@ public class ServletTurno extends HttpServlet {
 			
 			
 			if(estado == true) {
-				mensajeDeActualizacion = "Se asign� el paciente al turno exitosamente.";
+				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
 			}
 			else {
-				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea v�lido.";
+				mensajeDeActualizacion = "No se pudo asignar el turno."+"\n"+"Verifique que el DNI ingresado sea valido.";
 			}
 			
+			//Carga de listas predeterminadas
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
-			
 			ArrayList<Turno> lista = tneg.ListarTodos();
 			request.setAttribute("listaTurnosPorAsignar", lista);
+			
 			request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 			dispatcher.forward(request, response);			
@@ -152,9 +175,10 @@ public class ServletTurno extends HttpServlet {
 			Medico m = new Medico();
 			m.setDNI(Integer.parseInt(request.getParameter("Medicos")));
 			
+			request.setAttribute("medicoSeleccionado", m);
+			
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
-			System.out.println(Integer.parseInt(request.getParameter("Medicos")));
 			
 			if(Integer.parseInt(request.getParameter("Medicos")) == 0)
 			{
