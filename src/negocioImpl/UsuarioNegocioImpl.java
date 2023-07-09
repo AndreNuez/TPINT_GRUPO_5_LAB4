@@ -22,5 +22,10 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 	public boolean insertarUsuario(String pass, int dni, int tipoUsuario) {
 		return userDao.insertarUsuario(pass, dni, tipoUsuario);
 	}
+
+	@Override
+	public boolean editarUsuario(String pass, int dni) {
+		return userDao.editarUsuario(pass, dni);
+	}
 	
 }

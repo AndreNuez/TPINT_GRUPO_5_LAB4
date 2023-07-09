@@ -68,9 +68,6 @@
 	
 <!-- Formulario y controles --> 
  <div class="container">
- <% int dniMedico = 0;
- %>
- 
  <h4>Crear turno</h4> <hr>
  <form action="ServletTurno" method="post">
     <div class="row justify-content-center g-4">
@@ -84,6 +81,7 @@
         		<%} else {%>
         			<option value="<%=m.getDNI()%>"><%=m.getNombre()+" "+m.getApellido()%></option>
         		<%}}%>
+        			</select>
 				<input type="submit" name="btnBuscar" value="Buscar" class="btn btn-primary">
             </div>
 
@@ -128,7 +126,7 @@
             </div>
             <div class="mb-2">
             	<label for="FechaTurno"><b>Fecha del turno:</b></label>
-				<input type="date" name="FechaTurno" min="<%=LocalDate.now() %>" required>
+				<input type="date" name="FechaTurno" min="<%=LocalDate.now().plusDays(1) %>" required>
 			</div>
 			 <div class="mb-2">
 				<input type="submit" name="btnChequear" value="Chequear Disponibilidad" class="btn btn-primary"> </input>
@@ -138,7 +136,6 @@
    
             <div>
             	<br>
-            	<b>---> Se crearán x turnos para xx médico en el día xx/xx/xxxx</b>
             </div>
         </div>
 

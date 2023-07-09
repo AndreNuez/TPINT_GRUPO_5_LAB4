@@ -3,17 +3,19 @@ package entidad;
 public class Usuario {
 	
 	private int DNI;
-	private String Contraseña;
+	private String ContraseÃ±a;
 	private TipoUsuario Tipo;
-	private boolean estado;
+	private int estado;
 	
 	public Usuario() {
 		
 	}
+	
+	public Usuario(int dNI, String contraseÃ±a, TipoUsuario tipo, int estado) {
+		super();
 
-	public Usuario(int dNI, String contraseña, TipoUsuario tipo, boolean estado) {
 		DNI = dNI;
-		Contraseña = contraseña;
+		ContraseÃ±a = contraseÃ±a;
 		Tipo = tipo;
 		this.estado = estado;
 	}
@@ -26,37 +28,33 @@ public class Usuario {
 		DNI = dNI;
 	}
 
-	public String getContraseña() {
-		return Contraseña;
+	public String getContraseÃ±a() {
+		return ContraseÃ±a;
 	}
 
-	public void setContraseña(String contraseña) {
-		Contraseña = contraseña;
+	public void setContraseÃ±a(String contraseÃ±a) {
+		ContraseÃ±a = contraseÃ±a;
 	}
 
 	public TipoUsuario getTipo() {
 		return Tipo;
 	}
-	
-	//public String getTipo() {
-	//	return Tipo.getDescripcion();
-	//}
 
 	public void setTipo(TipoUsuario tipo) {
 		Tipo = tipo;
 	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
 	
-	public boolean getEstado() {
+	public int getEstado() {
 		return estado;
 	}
-	
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [DNI=" + DNI + ", Contraseña=" + Contraseña + ", Tipo=" + Tipo + "]";
+		return "Usuario [DNI=" + DNI + ", ContraseÃ±a=" + ContraseÃ±a + ", Tipo=" + Tipo + "]";
 	}
 	
 }

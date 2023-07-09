@@ -38,7 +38,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 				
 			usuario.setTipo(tipoUsuario);
 			
-			usuario.setEstado(rs.getBoolean("Estado"));
+			usuario.setEstado(rs.getInt("Estado"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,6 +69,32 @@ public class UsuarioDaoImpl implements UsuarioDao{
 			e.printStackTrace();
 		}
 		finally{
+			cn.close();
+		}
+		
+		return estado;
+	}
+
+	@Override
+	public boolean editarUsuario(String pass, int dni) {
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+		
+		String query = "UPDATE usuarios SET Contraseña='"+pass+"' where DNI="+dni;
+				
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
 			cn.close();
 		}
 		

@@ -80,30 +80,6 @@ public class ServletMedicos extends HttpServlet {
 				dispatcher.forward(request, response);
 				break;
 			}
-			case "confirmarSi":
-			{
-				boolean estado;
-				int DNI = Integer.parseInt(request.getSession().getAttribute("dniMedicoAEliminar").toString());
-				estado = mNeg.EliminarMedico(DNI);
-				
-				ArrayList<Medico> lista = mNeg.ListarTodos();
-				request.setAttribute("listaMedicos", lista);
-				request.setAttribute("estado", estado);
-				request.removeAttribute("eliminando");
-				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
-				
-				rd.forward(request, response);	
-			}
-			case "confirmarNo":
-			{
-				ArrayList<Medico> lista = mNeg.ListarTodos();
-				request.setAttribute("listaMedicos", lista);
-				request.removeAttribute("eliminando");
-				request.getSession().removeAttribute("dniMedicoAEliminar");
-				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
-				
-				rd.forward(request, response);	
-			}
 			
 			default:
 				break;
@@ -113,21 +89,21 @@ public class ServletMedicos extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//nuevo
 		if(request.getParameter("btnEliminar") != null)
 		{
 			
 			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
 			request.getSession().setAttribute("dniMedicoAEliminar", DNI);
 			
+			boolean eliminarm = mNeg.EliminarMedico(DNI);
+			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
 			
-			boolean eliminando = true;
-			request.setAttribute("eliminando", eliminando);
+			request.setAttribute("eliminarm", eliminarm);
 			RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
 			
-			rd.forward(request, response);			
+			rd.forward(request, response);		
 		}
 		
 		if(request.getParameter("btnAceptar")!=null) {
@@ -146,7 +122,7 @@ public class ServletMedicos extends HttpServlet {
 			m.setEstado(1);
 			
 			int DNI = m.getDNI();
-			String apellido = m.getApellido();
+			String apellido = m.getApellido().toLowerCase();
 			
 
 			
@@ -261,6 +237,7 @@ public class ServletMedicos extends HttpServlet {
 			m.setEspecialidad(new Especialidad(Integer.parseInt(request.getParameter("Especialidad"))));
 			
 			int DNI = m.getDNI();
+			String pass = m.getApellido().toLowerCase();
 			
 			boolean modificado = true;
 			
@@ -282,8 +259,12 @@ public class ServletMedicos extends HttpServlet {
 			boolean modificadodm = true;
 			modificadodm = dmNeg.EditarDM(DNI, dm);
 			
+			boolean modificarpass =true;
+			modificarpass = uNeg.editarUsuario(pass, DNI);
+			
 			request.setAttribute("modificado", modificado);
-			request.setAttribute("modificadoDP", modificadodm);
+			request.setAttribute("modificadoDM", modificadodm);
+			request.setAttribute("modificadoUM", modificarpass);
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminMedicos.jsp");
