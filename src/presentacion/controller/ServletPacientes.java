@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Exceptions.DniInvalido;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Persona;
@@ -80,6 +81,17 @@ public class ServletPacientes extends HttpServlet {
 		if(request.getParameter("btnAceptar")!=null) {
 			
 			Persona p = new Persona();
+			try {
+				Persona.validarDNI(Integer.parseInt(request.getParameter("txtDNI")));
+				
+			} catch (DniInvalido dniInv) {
+				System.out.println("Error al cargar el DNI");
+				dniInv.printStackTrace();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
 			p.setApellido(request.getParameter("txtApellido"));
 			p.setNombre(request.getParameter("txtNombre"));

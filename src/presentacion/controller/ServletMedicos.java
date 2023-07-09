@@ -136,7 +136,9 @@ public class ServletMedicos extends HttpServlet {
 			
 			} catch (Exception e) {
 				// TODO: handle exception
-				Medico.validarPersona();
+				
+				//Medico.validarPersonaExistente();
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
 			}
