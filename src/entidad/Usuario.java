@@ -11,7 +11,7 @@ public class Usuario {
 		
 	}
 
-	public Usuario(int dNI, String contraseña, TipoUsuario tipo, int estado) {
+	public Usuario(int dNI, String contraseña, TipoUsuario tipo, boolean estado) {
 		DNI = dNI;
 		Contraseña = contraseña;
 		Tipo = tipo;

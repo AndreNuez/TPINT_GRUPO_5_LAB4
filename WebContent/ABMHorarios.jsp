@@ -24,15 +24,19 @@
 					</a>
 				</li>
 			</ul>
-			<% 
-				Usuario usuario = (Usuario) session.getAttribute("usuario"); 
-				boolean administrador = ValidarUsuario.validarUsuarioAdmin(usuario);
-				
-				if (!administrador)
-					 response.sendRedirect("Principal.jsp");
-
-			%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+				<% 
+				    Usuario user = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (user == null) {
+				        response.sendRedirect("y.jsp"); // Redirect to the login page or an appropriate error page
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+				    
+				        if (!administrador)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>

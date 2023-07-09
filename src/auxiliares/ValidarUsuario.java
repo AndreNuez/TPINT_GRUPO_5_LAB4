@@ -6,7 +6,7 @@ public class ValidarUsuario {
 	
 	public static boolean validarUsuarioAdmin(Usuario user) {
         if (user != null) {
-            if (user.getTipo().getIdTipoUsuario() == 0) {
+            if (user.getTipo().getIdTipoUsuario() == 1) {
                 // Administrador
                 return true;
             } else {
@@ -21,7 +21,7 @@ public class ValidarUsuario {
 	
 	public static boolean validarUsuarioMedico(Usuario user) {
         if (user != null) {
-            if (user.getTipo().getIdTipoUsuario() == 1) {
+            if (user.getTipo().getIdTipoUsuario() == 0) {
                 // Medico
                 return true;
             } else {
