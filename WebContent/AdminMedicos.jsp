@@ -98,53 +98,46 @@
 			<td><%=m.getEspecialidad().getDescripcion()%></td>
 			<td><%=m.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
-			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger" onclick="return confirm('¿Esta seguro que desea eliminar este medico?')"/> </td>
 			</form>
 		</tr>
 		<%
 			}
 		%>
-		<% if(request.getAttribute("eliminando") != null) {
-			%>
-			<div class="row" height=100px>
-			<div class="col-3"></div>
-			<div class="col-3">
-				<h3 align="center">Desea eliminar el medico?</h3> 
-				</div>
-			<div class="col-1"><a href="ServletMedicos?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
-			<div class="col-1"><a href="ServletMedicos?Param=confirmarNo" class="btn btn-primary"> No </a></div>
-			</div>
-			<% } %>
 	</tbody>
 	</table>
 </div>
 <div class="col-4"></div>
 </div>
 </div>
-
-	<%
-		if (request.getAttribute("estado") != null) {
-	%>
+ <!-- Mensajes de confirmacion -->
+ 
+ <!-- Eliminar --> 
+	<% if (request.getAttribute("eliminarm") != null) { %>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Medico eliminado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
-	
-	<%
-		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {
-	%>
+	<%}%>
+
+<!-- Agregar -->
+		<% if ((request.getAttribute("estadoMedico") != null) && (request.getAttribute("estadoHMedico") != null) && (request.getAttribute("estadoDM") != null) && (request.getAttribute("estadoUM") != null)) { %>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Medico agregado con exito");
+		} 
+		</script> 
+	<%}%>
+
+<!-- Modificar -->
+		<% if ((request.getAttribute("modificado") != null) && (request.getAttribute("modificadoDM") != null) && (request.getAttribute("modificadoUM") != null)) { %>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Medico modificado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
+	<%}%>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

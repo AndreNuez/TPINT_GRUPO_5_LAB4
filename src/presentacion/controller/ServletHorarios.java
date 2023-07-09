@@ -43,8 +43,7 @@ public class ServletHorarios extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,8 +79,6 @@ public class ServletHorarios extends HttpServlet {
 			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
 			request.setAttribute("listaLoc", listaL);
 			
-			request.setAttribute("eliminarHorario", eliminarhorario);
-			
 			if(mNeg.ListarUno(dni) != null)
 			{				
 				Medico medico = new Medico();
@@ -91,6 +88,8 @@ public class ServletHorarios extends HttpServlet {
 				
 				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
 				request.setAttribute("listaHorarios", listaHorario);
+				
+				request.setAttribute("eliminarHorario", eliminarhorario);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);
@@ -125,6 +124,7 @@ public class ServletHorarios extends HttpServlet {
 					medico = mNeg.ListarUno(dni);
 					request.setAttribute("verMedico", medico);
 					request.setAttribute("dniMedico",dni);
+					request.setAttribute("agregadonh",agregadonh);
 					
 					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
 					request.setAttribute("listaHorarios", listaHorario);
@@ -171,7 +171,9 @@ public class ServletHorarios extends HttpServlet {
 			request.setAttribute("listaLoc", listaL);
 			
 			if(mNeg.ListarUno(dni) != null)
-			{				
+			{	
+				boolean hmod = true;
+				
 				Medico medico = new Medico();
 				medico = mNeg.ListarUno(dni);
 				request.setAttribute("verMedico", medico);
@@ -179,6 +181,7 @@ public class ServletHorarios extends HttpServlet {
 				
 				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
 				request.setAttribute("listaHorarios", listaHorario);
+				request.setAttribute("hmod", hmod);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);

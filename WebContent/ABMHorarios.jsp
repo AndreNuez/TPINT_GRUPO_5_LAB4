@@ -89,8 +89,8 @@
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
 				<td><input type="number" name="txtHasta" min="15" max="21" value=<%=h.getHoraFin() %>></input></td>
 				<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
-				<td><input type="submit" value="Eliminar" name="btnEliminarH" class="btn btn-danger"/></td>
-				<td><input type="submit" value="Modificar" name="btnModificarH" class="btn btn-warning"/></td>
+				<td><input type="submit" value="Eliminar" name="btnEliminarH" onclick="return confirm('¿Está seguro que desea eliminar este horario?')" class="btn btn-danger"/></td>
+				<td><input type="submit" value="Modificar" name="btnModificarH" onclick="return confirm('¿Está seguro que desea modificar este horario?')" class="btn btn-warning"/></td>
           		</form>
           		<%
 				 dniMedico = h.getDNIMedico(); // Asignar el valor de dniMedico a la variable
@@ -145,6 +145,8 @@
 	<%
 		}
 	%>
+	
+	
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

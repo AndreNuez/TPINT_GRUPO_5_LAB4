@@ -120,7 +120,7 @@
             </div>
             <div class="mb-2">
             	<label for="FechaTurno"><b>Fecha del turno:</b></label>
-				<input type="date" name="FechaTurno" min="<%=LocalDate.now() %>" required>
+				<input type="date" name="FechaTurno" min="<%=LocalDate.now().plusDays(1) %>" required>
 			</div>
 			 <div class="mb-2">
 				<input type="submit" name="btnChequear" value="Chequear Disponibilidad" class="btn btn-primary"> </input>

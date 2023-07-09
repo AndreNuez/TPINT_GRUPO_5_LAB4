@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Listado pacientes</title>
 
 <!-- Boostrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -105,19 +105,6 @@
 		<%
 			}
 		%>
-
-		<% if(request.getAttribute("eliminando") != null) {
-			%>
-			<div class="row" height=100px>
-			<div class="col-3"></div>
-			<div class="col-3">
-				<h3 align="center">Desea eliminar el paciente?</h3> 
-				</div>
-			<div class="col-1"><a href="ServletPacientes?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
-			<div class="col-1"><a href="ServletPacientes?Param=confirmarNo" class="btn btn-primary"> No </a></div>
-			</div>
-			<% } %>
-
 	</tbody>
 	</table>
 </div>
@@ -125,29 +112,23 @@
 </div>
 </div>
 
-	<%
-		if (request.getAttribute("estado") != null) {
-	%>
+<!-- Mensajes de confirmacion -->
+
+	<%if (request.getAttribute("eliminado") != null) {%>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Paciente eliminado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
+	<%}%>
 	
-	<%
-		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {
-	%>
+	<%if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {%>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Paciente modificado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
+	<%}%>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>
