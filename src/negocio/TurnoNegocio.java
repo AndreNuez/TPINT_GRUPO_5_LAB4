@@ -12,5 +12,6 @@ public interface TurnoNegocio {
 	public ArrayList<Turno> ListaTurnosPorMedico(Medico medico);
 	public boolean chequearFecha(LocalDate fecha, int dniMedico);
 	public boolean insertarTurno(int dniMedico, LocalDate fecha, int i);
+	public boolean existeTurnoEnHorarioFecha(Turno turno);
 
 }

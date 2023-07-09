@@ -146,7 +146,28 @@ public class ServletTurno extends HttpServlet {
 			
 			Turno t = new Turno();
 			t.setIdTurno((Integer.parseInt(request.getParameter("idTurno"))));
+			t.setFecha(LocalDate.parse(request.getParameter("fechaTurno")));
+			t.setHora(Integer.parseInt(request.getParameter("horaTurno")));			
 			t.setPaciente(paciente);
+			
+			System.out.println("hora "+t.getHora()+" fecha: "+t.getFecha()+"dnipaciente: "+t.getPaciente().getDNI());
+			
+			if(tneg.existeTurnoEnHorarioFecha(t) == true) 
+			{
+				//Carga de listas predeterminadas
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				//Mensaje de error
+				mensajeDeActualizacion = "El paciente ya tiene un turno asginado para esa fecha y hora.";
+				request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
+				
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);				
+			}
+			
 			t.setEstado(1);
 			
 			boolean estado = tneg.ActualizarTurno(t);

@@ -37,4 +37,8 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	{
 		return tdao.insertarTurno(dniMedico, fecha, i);
 	}
+	
+	public boolean existeTurnoEnHorarioFecha(Turno turno) {
+		return tdao.existeTurnoEnHorarioFecha(turno);
+	}
 }

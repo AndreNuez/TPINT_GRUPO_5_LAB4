@@ -111,7 +111,8 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info">
 				<input type="submit" value="Borrar Filtros" name="deleteFilters" class="btn btn-danger"/>
 
-  </div> 
+  </div>
+  </form>
   <div class="row">
     <div class="col-4"></div>
   	<br>
@@ -123,8 +124,6 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<th>ID de turno</th>
 				<th>Medico</th>
 				<th>Especialidad</th>
-
-
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -136,17 +135,19 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 
 			%>
 			<tr>
+				<form action="ServletTurno" method="post">
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
 
-				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%></td>
+				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>> <input type="hidden" name = "horaTurno" value = <%=t.getHora()%>> </td>
 				<td>
 				<div class="mb-3">
                         <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos.">
                 </div>
                 </td>
-				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('¿Está seguro que desea asignar este paciente?')"></td>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('¿Está seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				</form>
 			</tr>
 
 			<%
@@ -157,7 +158,6 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 </div>
 <div class="col-4"></div>
 </div>
-</form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
