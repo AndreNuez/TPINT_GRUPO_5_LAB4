@@ -158,7 +158,7 @@ public class ServletMedicos extends HttpServlet {
 			boolean estadohm = true;
 			boolean estadoum = true;
 			
-			
+			//Bloque TRY CATCH para evaluar si el usuario ya existe
 			try {
 				estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
 			
