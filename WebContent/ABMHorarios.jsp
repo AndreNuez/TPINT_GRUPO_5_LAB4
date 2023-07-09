@@ -23,12 +23,24 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> MenÃº Principal
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+				<% 
+				    Usuario user = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (user == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+				    
+				        if (!administrador)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user.getDNI() %> </ul>
+
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>
@@ -52,7 +64,7 @@
 			dniMedico = (int)request.getAttribute("dniMedico");
 		}
 		
-		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+		String[] diasDisponibles = {"Lunes", "Martes", "MiÃ©rcoles", "Jueves", "Viernes"};
 		Set<String> diasSeleccionados = new HashSet<>();
 	%>
 
@@ -90,8 +102,8 @@
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
 				<td><input type="number" name="txtHasta" min="15" max="21" value=<%=h.getHoraFin() %>></input></td>
 				<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
-				<td><input type="submit" value="Eliminar" name="btnEliminarH" onclick="return confirm('¿Está seguro que desea eliminar este horario?')" class="btn btn-danger"/></td>
-				<td><input type="submit" value="Modificar" name="btnModificarH" onclick="return confirm('¿Está seguro que desea modificar este horario?')" class="btn btn-warning"/></td>
+				<td><input type="submit" value="Eliminar" name="btnEliminarH" onclick="return confirm('Â¿EstÃ¡ seguro que desea eliminar este horario?')" class="btn btn-danger"/></td>
+				<td><input type="submit" value="Modificar" name="btnModificarH" onclick="return confirm('Â¿EstÃ¡ seguro que desea modificar este horario?')" class="btn btn-warning"/></td>
           		</form>
           		<%
 				 dniMedico = h.getDNIMedico(); // Asignar el valor de dniMedico a la variable

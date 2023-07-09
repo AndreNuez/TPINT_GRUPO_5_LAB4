@@ -92,7 +92,16 @@ public class ServletPacientes extends HttpServlet {
 			
 			int DNI = p.getDNI();
 			boolean estado = true;
-			estado = pNeg.InsertarPaciente(p);
+			
+			try {
+				estado = pNeg.InsertarPaciente(p);
+			} catch (Exception e) {
+				// TODO: handle exception
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+
 				
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
@@ -164,11 +173,20 @@ public class ServletPacientes extends HttpServlet {
 			p.setMail(request.getParameter("txtMail"));
 			p.setTelefono(request.getParameter("txtTelefono"));
 			
-			int DNI = p.getDNI();
 			
 			boolean modificado = true;
-			modificado = pNeg.EditarPaciente(p);
+			
+			try {
+				modificado = pNeg.EditarPaciente(p);
+			} catch (Exception e) {
+				// TODO: handle exception
 				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+							
+			int DNI = p.getDNI();
+			
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
 				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));

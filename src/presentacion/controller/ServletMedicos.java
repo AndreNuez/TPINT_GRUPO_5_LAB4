@@ -108,6 +108,7 @@ public class ServletMedicos extends HttpServlet {
 		
 		if(request.getParameter("btnAceptar")!=null) {
 			
+			
 			Medico m = new Medico();
 			m.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
 			m.setApellido(request.getParameter("txtApellido"));
@@ -123,12 +124,7 @@ public class ServletMedicos extends HttpServlet {
 			int DNI = m.getDNI();
 			String apellido = m.getApellido().toLowerCase();
 			
-			Horario h = new Horario();
-				h.setDNIMedico(DNI);
-				h.setDiaAtencion(request.getParameter("Dia"));
-				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
-				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-				h.setEstado(1);
+
 			
 			boolean estado = true;
 			boolean estadohm = true;
@@ -140,7 +136,18 @@ public class ServletMedicos extends HttpServlet {
 			
 			} catch (Exception e) {
 				// TODO: handle exception
+				Medico.validarPersona();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
 			}
+			
+			
+			Horario h = new Horario();
+			h.setDNIMedico(DNI);
+			h.setDiaAtencion(request.getParameter("Dia"));
+			h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
+			h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
+			h.setEstado(1);
 						
 			estado = mNeg.InsertarMedico(m);
 			estadohm = hNeg.InsertarHorario(h,DNI);
@@ -233,7 +240,16 @@ public class ServletMedicos extends HttpServlet {
 			String pass = m.getApellido().toLowerCase();
 			
 			boolean modificado = true;
-			modificado = mNeg.EditarMedico(m);
+			
+			try {
+				modificado = mNeg.EditarMedico(m);
+			} catch (Exception e) {
+				// TODO: handle exception
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+			
 				
 			Direccion dm = new Direccion();
 				dm.setCalle(request.getParameter("txtCalle"));
