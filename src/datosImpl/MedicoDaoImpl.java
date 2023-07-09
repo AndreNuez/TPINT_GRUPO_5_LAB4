@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.UsuarioRegistrado;
 import datos.MedicoDao;
 import entidad.Direccion;
 import entidad.Especialidad;
@@ -173,6 +174,30 @@ public class MedicoDaoImpl implements MedicoDao {
 		return estado;
 	}
 
-	
+	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado{
+		boolean existe = false;
+		int cantDniBD;
+		cn = new Conexion();
+		cn.Open();
+		
+		try {
+			ResultSet rs = cn.query("select count(DNI) as Cantidad from medicos where DNI = '" + dni + "'"); 
+			rs.next();
+			
+			cantDniBD = rs.getInt("Cantidad");
+			
+			if (cantDniBD == 1)
+				existe = true; 
+				throw new UsuarioRegistrado();
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			cn.close();
+		}
+		
+		return existe;
+	}
 
 }

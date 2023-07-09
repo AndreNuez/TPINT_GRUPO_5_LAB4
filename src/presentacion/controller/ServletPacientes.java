@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Exceptions.DniInvalido;
+import Exceptions.UsuarioRegistrado;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Persona;
@@ -81,17 +82,7 @@ public class ServletPacientes extends HttpServlet {
 		if(request.getParameter("btnAceptar")!=null) {
 			
 			Persona p = new Persona();
-			try {
-				Persona.validarDNI(Integer.parseInt(request.getParameter("txtDNI")));
-				
-			} catch (DniInvalido dniInv) {
-				System.out.println("Error al cargar el DNI");
-				dniInv.printStackTrace();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			
+					
 			p.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
 			p.setApellido(request.getParameter("txtApellido"));
 			p.setNombre(request.getParameter("txtNombre"));
@@ -105,6 +96,22 @@ public class ServletPacientes extends HttpServlet {
 			int DNI = p.getDNI();
 			boolean estado = true;
 			
+			//Bloque TRY CATCH para evaluar si el usuario ya existe
+			try {
+				pNeg.validarPacienteExistente(DNI);
+			} catch (UsuarioRegistrado userRegistrado) {
+				// TODO: handle exception
+				userRegistrado.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+			//Bloque TRY CATCH para insertar Paciente
 			try {
 				estado = pNeg.InsertarPaciente(p);
 			} catch (Exception e) {
@@ -185,9 +192,25 @@ public class ServletPacientes extends HttpServlet {
 			p.setMail(request.getParameter("txtMail"));
 			p.setTelefono(request.getParameter("txtTelefono"));
 			
-			
+			int DNI = p.getDNI();
 			boolean modificado = true;
 			
+			//Bloque TRY CATCH para evaluar si el usuario ya existe
+			try {
+				pNeg.validarPacienteExistente(DNI);
+			} catch (UsuarioRegistrado userRegistrado) {
+				// TODO: handle exception
+				userRegistrado.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+			//Bloque TRY CATCH para modificar Paciente
 			try {
 				modificado = pNeg.EditarPaciente(p);
 			} catch (Exception e) {
@@ -197,7 +220,7 @@ public class ServletPacientes extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 							
-			int DNI = p.getDNI();
+
 			
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));

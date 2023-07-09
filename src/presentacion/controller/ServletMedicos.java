@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Exceptions.UsuarioRegistrado;
 import entidad.Direccion;
 import entidad.Especialidad;
 import entidad.Horario;
@@ -133,12 +134,15 @@ public class ServletMedicos extends HttpServlet {
 			//Bloque TRY CATCH para evaluar si el usuario ya existe
 			try {
 				estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
-			
+				mNeg.validarMedicoExistente(DNI);
+			} catch (UsuarioRegistrado userRegistrado) {
+				// TODO: handle exception
+				userRegistrado.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);	
 			} catch (Exception e) {
 				// TODO: handle exception
-				
-				//Medico.validarPersonaExistente();
-				
+				e.printStackTrace();
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -242,17 +246,22 @@ public class ServletMedicos extends HttpServlet {
 			String pass = m.getApellido().toLowerCase();
 			
 			boolean modificado = true;
-			
+						
+			//Bloque TRY CATCH para evaluar si el usuario ya existe
 			try {
 				modificado = mNeg.EditarMedico(m);
+				mNeg.validarMedicoExistente(DNI);
+			} catch (UsuarioRegistrado userRegistrado) {
+				// TODO: handle exception
+				userRegistrado.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);	
 			} catch (Exception e) {
 				// TODO: handle exception
-				
+				e.printStackTrace();
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
-			}
-			
-				
+			}	
 			Direccion dm = new Direccion();
 				dm.setCalle(request.getParameter("txtCalle"));
 				dm.setNumero(Integer.parseInt(request.getParameter("txtNumero")));

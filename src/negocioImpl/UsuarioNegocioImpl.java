@@ -2,6 +2,8 @@ package negocioImpl;
 
 import entidad.Usuario;
 import negocio.UsuarioNegocio;
+import Exceptions.DniInvalido;
+import Exceptions.UsuarioRegistrado;
 import datos.UsuarioDao;
 import datosImpl.UsuarioDaoImpl;
 
@@ -28,4 +30,29 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 		return userDao.editarUsuario(pass, dni);
 	}
 	
+
+	@Override
+	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado {
+		// TODO Auto-generated method stub
+		return userDao.validarMedicoExistente(dni);
+	}
+
+
+	
+	public boolean validarDNI(int dni) throws DniInvalido{
+		Boolean dniCorrecto = false;
+		
+		if (dni > 10000000 && String.valueOf(dni).length() > 8) {
+			dniCorrecto = true;
+		}
+		
+		if (!dniCorrecto) {
+			throw new DniInvalido();
+		}
+
+		if (dniCorrecto)
+			return true;
+		
+		return true;			
+	}
 }

@@ -2,7 +2,6 @@ package datosImpl;
 
 import java.sql.ResultSet;
 
-import Exceptions.DniInvalido;
 import Exceptions.UsuarioRegistrado;
 import datos.UsuarioDao;
 import entidad.Usuario;
@@ -103,74 +102,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		return estado;
 	}
 	
-	public boolean validarDNI(int dni) throws DniInvalido{
-		Boolean dniCorrecto = false;
-		
-		if (dni > 10000000 && String.valueOf(dni).length() > 8) {
-			dniCorrecto = true;
-		}
-		
-		if (!dniCorrecto) {
-			throw new DniInvalido();
-		}
 
-		if (dniCorrecto)
-			return true;
-		
-		return true;
-					
-	}
-
-	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado{
-		boolean existe = false;
-		int cantDniBD;
-		cn = new Conexion();
-		cn.Open();
-		
-		try {
-			ResultSet rs = cn.query("select count(DNI) as Cantidad from medicos where DNI = '" + dni + "'"); 
-			rs.next();
-			
-			cantDniBD = rs.getInt("Cantidad");
-			
-			if (cantDniBD == 1)
-				existe = true; 
-				throw new UsuarioRegistrado();
-				
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally{
-			cn.close();
-		}
-		
-		return existe;
-	}
 	
-	public boolean validarPacienteExistente(int dni) throws UsuarioRegistrado{
-		boolean existe = false;
-		int cantDniBD;
-		cn = new Conexion();
-		cn.Open();
-		
-		try {
-			ResultSet rs = cn.query("select count(DNI) as Cantidad from pacientes where DNI = '" + dni + "'"); 
-			rs.next();
-			
-			cantDniBD = rs.getInt("Cantidad");
-			
-			if (cantDniBD == 1)
-				existe = true; 
-				throw new UsuarioRegistrado();
-				
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally{
-			cn.close();
-		}
-		
-		return existe;
+	
 
-	}
 }
