@@ -38,7 +38,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 				
 			usuario.setTipo(tipoUsuario);
 			
-			usuario.setEstado(rs.getBoolean("Estado"));
+			usuario.setEstado(rs.getInt("Estado"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

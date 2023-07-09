@@ -27,14 +27,7 @@
 					</a>
 				</li>
 			</ul>
-			<% 
-				Usuario usuario = (Usuario) session.getAttribute("usuario"); 
-				boolean administrador = ValidarUsuario.validarUsuarioAdmin(usuario);
-				
-				if (!administrador)
-					 response.sendRedirect("Principal.jsp");
-
-			%>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>

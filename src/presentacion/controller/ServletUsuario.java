@@ -70,7 +70,7 @@ public class ServletUsuario extends HttpServlet {
 			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
 			
 			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
-			if(user != null && user.getEstado()) {
+			if(user != null) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
 						request.getSession().setAttribute("usuario", user);

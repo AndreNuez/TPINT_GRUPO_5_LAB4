@@ -5,13 +5,14 @@ public class Usuario {
 	private int DNI;
 	private String Contraseña;
 	private TipoUsuario Tipo;
-	private boolean estado;
+	private int estado;
 	
 	public Usuario() {
 		
 	}
-
+	
 	public Usuario(int dNI, String contraseña, TipoUsuario tipo, int estado) {
+		super();
 		DNI = dNI;
 		Contraseña = contraseña;
 		Tipo = tipo;
@@ -41,15 +42,15 @@ public class Usuario {
 	public void setTipo(TipoUsuario tipo) {
 		Tipo = tipo;
 	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
 	
-	public boolean getEstado() {
+	public int getEstado() {
 		return estado;
 	}
-	
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [DNI=" + DNI + ", Contraseña=" + Contraseña + ", Tipo=" + Tipo + "]";
