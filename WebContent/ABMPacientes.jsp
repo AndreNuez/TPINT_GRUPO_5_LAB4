@@ -19,6 +19,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -65,7 +66,7 @@
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
-
+	
 	%>
 
 <!-- Formulario y controles --> 
@@ -81,7 +82,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>       
-				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" required>
+				<input type="text"  name="txtDNI" id="campoDNI" maxlength="8" placeholder="DNI" required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -332,5 +333,19 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>
+
+<script>
+
+	var dniPaciente = sessionStorage.getItem("dniPacienteACrear");
+	if(dniPaciente)
+	{
+		var campoDNI = document.getElementById("campoDNI");
+		campoDNI.value = dniPaciente;
+		sessionStorage.removeItem("dniPacienteACrear");
+	}
+
+
+</script>
+
 </body>
 </html>

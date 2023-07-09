@@ -1,15 +1,18 @@
 package presentacion.controller;
 
 import java.io.IOException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,10 +27,13 @@ import entidad.Persona;
 import entidad.Turno;
 import negocio.HorarioNegocio;
 import negocio.MedicoNegocio;
+import negocio.PacienteNegocio;
 import negocio.TurnoNegocio;
 import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
+
 
 /**
  * Servlet implementation class ServletTurno
@@ -35,10 +41,13 @@ import negocioImpl.TurnoNegocioImpl;
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+	PacienteNegocio pneg = new PacienteNegocioImpl();
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,6 +61,7 @@ public class ServletTurno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		if(request.getParameter("Param")!=null)
 		{
 			String param = request.getParameter("Param").toString();
@@ -85,23 +95,26 @@ public class ServletTurno extends HttpServlet {
 				break;
 			}
 		}
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		if(request.getParameter("btnAsignar")!=null) {
 			
+			Persona paciente = new Persona();
 			String mensajeDeActualizacion = "";
 			
 			if(request.getParameter("dni") == null || request.getParameter("dni") == "") 
 			{
 				mensajeDeActualizacion = "Por favor, ingrese un DNI.";
 				
+				//Carga de listas predeterminadas
 				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 				request.setAttribute("listaMedicos", listaMedicos);
-				
 				ArrayList<Turno> lista = tneg.ListarTodos();
 				request.setAttribute("listaTurnosPorAsignar", lista);
 				
@@ -110,29 +123,69 @@ public class ServletTurno extends HttpServlet {
 		    	dispatcher.forward(request, response);
 			}
 
-			Persona paciente = new Persona();
+			
+			paciente = pneg.ListarUno((Integer.parseInt(request.getParameter("dni"))));
+			if(paciente.getDNI() == 0) 
+			{
+				//Carga de listas predeterminadas
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				//Paciente no existe
+				request.setAttribute("pacienteNoExiste", true);
+				System.out.println(Integer.parseInt(request.getParameter("dni")));
+				request.setAttribute("dniACrear", Integer.parseInt(request.getParameter("dni")));
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);				
+			}
+			
 			paciente.setDNI((Integer.parseInt(request.getParameter("dni"))));
 			
 			Turno t = new Turno();
 			t.setIdTurno((Integer.parseInt(request.getParameter("idTurno"))));
+			t.setFecha(LocalDate.parse(request.getParameter("fechaTurno")));
+			t.setHora(Integer.parseInt(request.getParameter("horaTurno")));			
 			t.setPaciente(paciente);
+			
+			System.out.println("hora "+t.getHora()+" fecha: "+t.getFecha()+"dnipaciente: "+t.getPaciente().getDNI());
+			
+			if(tneg.existeTurnoEnHorarioFecha(t) == true) 
+			{
+				//Carga de listas predeterminadas
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
+				//Mensaje de error
+				mensajeDeActualizacion = "El paciente ya tiene un turno asginado para esa fecha y hora.";
+				request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
+				
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);				
+			}
+			
 			t.setEstado(1);
 			
 			boolean estado = tneg.ActualizarTurno(t);
 			
 			
 			if(estado == true) {
-				mensajeDeActualizacion = "Se asignó el paciente al turno exitosamente.";
+				mensajeDeActualizacion = "Se asigno el paciente al turno exitosamente.";
 			}
 			else {
-				mensajeDeActualizacion = "No se pudo asignar el turno. Verifique que el DNI ingresado sea válido.";
+				mensajeDeActualizacion = "No se pudo asignar el turno."+"\n"+"Verifique que el DNI ingresado sea valido.";
 			}
 			
+			//Carga de listas predeterminadas
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
-			
 			ArrayList<Turno> lista = tneg.ListarTodos();
 			request.setAttribute("listaTurnosPorAsignar", lista);
+			
 			request.setAttribute("mensajeDeActualizacionDeTurno", mensajeDeActualizacion);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 			dispatcher.forward(request, response);			
@@ -143,9 +196,10 @@ public class ServletTurno extends HttpServlet {
 			Medico m = new Medico();
 			m.setDNI(Integer.parseInt(request.getParameter("Medicos")));
 			
+			request.setAttribute("medicoSeleccionado", m);
+			
 			ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 			request.setAttribute("listaMedicos", listaMedicos);
-			System.out.println(Integer.parseInt(request.getParameter("Medicos")));
 			
 			if(Integer.parseInt(request.getParameter("Medicos")) == 0)
 			{
@@ -176,7 +230,7 @@ public class ServletTurno extends HttpServlet {
 		
 		// LOGICA PARA CREAR TURNOS
 		
-		//Buscar datos del médico seleccionado
+		//Buscar datos del mÃ¯Â¿Â½dico seleccionado
 		if(request.getParameter("btnBuscar")!= null) 
 		{
 			int dni = Integer.parseInt(request.getParameter("Medicos"));
@@ -201,9 +255,9 @@ public class ServletTurno extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}
-		
-		//Chequear si la fecha corresponde al día de atención + que ese día ya no tenga turnos
+
 		if(request.getParameter("btnAceptar") != null) 
+
 		{
 			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
 			
@@ -273,6 +327,8 @@ public class ServletTurno extends HttpServlet {
 				dispatcher.forward(request, response);
         	}
 		}
+
+
 	}
 
 }

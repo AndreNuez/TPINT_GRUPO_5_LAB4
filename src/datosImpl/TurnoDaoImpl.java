@@ -138,6 +138,7 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 		return list;
 	}
+	
 	public boolean ChequearFecha(LocalDate fecha, int dniMedico)
 	{
 		cn = new Conexion();
@@ -189,4 +190,32 @@ public class TurnoDaoImpl implements TurnoDao{
 		return estado;
 
 	}
+	
+	
+	public boolean existeTurnoEnHorarioFecha(Turno turno) {
+		cn = new Conexion();
+		cn.Open();
+		boolean existe = false;
+		try
+		{
+			String query = "SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1";
+			System.out.println(query);
+			ResultSet rs= cn.query("SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1");
+			if(rs.next());
+			{
+				existe = true;	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		System.out.println(existe);
+		return existe;
+	}
+	
 }
