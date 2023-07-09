@@ -3,6 +3,7 @@
 
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Horario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.Set"%>
@@ -26,7 +27,14 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<% 
+				Usuario usuario = (Usuario) session.getAttribute("usuario"); 
+				boolean administrador = ValidarUsuario.validarUsuarioAdmin(usuario);
+				
+				if (!administrador)
+					 response.sendRedirect("Principal.jsp");
+
+			%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>

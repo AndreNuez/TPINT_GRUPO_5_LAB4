@@ -37,7 +37,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 	{
 	    alert(mensaje);		
 	}
-	
+
 </script>
 
 </head>
@@ -67,7 +67,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="ServletUsuario?Param=1">
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> MenÃº Principal
 					</a>
 				</li>
 			</ul>
@@ -88,14 +88,16 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
-					<option value=0 selected> Seleccione un médico... </option>
+					<option value=0 selected> Seleccione un mÃ©dico... </option>
 					<% for (Medico m : listaMedicos) {%>
         			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
         			<%}%>
 				</select>
+
 				
 				<input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info">
 				<input type="submit" value="Borrar Filtros" name="deleteFilters" class="btn btn-danger"/>
+
   </div> 
   <div class="row">
     <div class="col-4"></div>
@@ -106,8 +108,10 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 		<thead>
 			<tr>
 				<th>ID de turno</th>
-				<th>Médico</th>
+				<th>MÃ©dico</th>
 				<th>Especialidad</th>
+
+
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -122,14 +126,16 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
+
 				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%></td>
 				<td>
 				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos.">
+                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un nÃºmero de 8 dÃ­gitos.">
                 </div>
                 </td>
 				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info"></td>
 			</tr>
+
 			<%
 			}
 			%>
