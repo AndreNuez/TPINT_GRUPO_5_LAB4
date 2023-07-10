@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import auxiliares.ErrorHandle;
 import entidad.Usuario;
 import negocio.UsuarioNegocio;
 import negocioImpl.UsuarioNegocioImpl;
+
+
 
 
 
@@ -59,6 +62,7 @@ public class ServletUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ErrorHandle errorHandle = new ErrorHandle();
 		
 		if(request.getParameter("btnIngresar")!=null) {
 			
@@ -70,7 +74,7 @@ public class ServletUsuario extends HttpServlet {
 			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
 			
 			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
-			if(user != null) {
+			if(user != null && user.getEstado() == 1) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
 						request.getSession().setAttribute("usuario", user);
@@ -86,11 +90,13 @@ public class ServletUsuario extends HttpServlet {
 			}
 			
 			//Usuario eliminado (baja lógica) // getEstado() == 0 -> False
-			else {
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+			else if (user != null && user.getEstado() == 0){
+				String errorMessage = errorHandle.usuarioSoftDeleted();
+			    request.getSession().setAttribute("errorMessage", errorMessage);
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 				dispatcher.forward(request, response);
 			}
-				
+					
 		}
 		
 		if(request.getParameter("btnSalir") != null)
