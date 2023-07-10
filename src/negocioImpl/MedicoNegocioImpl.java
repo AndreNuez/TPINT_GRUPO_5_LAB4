@@ -2,6 +2,7 @@ package negocioImpl;
 
 import java.util.ArrayList;
 
+import Exceptions.UsuarioRegistrado;
 import datos.MedicoDao;
 import datos.PacienteDao;
 import datosImpl.MedicoDaoImpl;
@@ -40,6 +41,12 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 	@Override
 	public boolean EliminarMedico(int dni) {
 		return mdao.EliminarMedico(dni);
+	}
+
+	@Override
+	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado {
+		// TODO Auto-generated method stub
+		return mdao.validarMedicoExistente(dni);
 	}
 
 

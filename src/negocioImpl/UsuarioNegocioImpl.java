@@ -30,14 +30,6 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 		return userDao.editarUsuario(pass, dni);
 	}
 	
-
-	@Override
-	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado {
-		// TODO Auto-generated method stub
-		return userDao.validarMedicoExistente(dni);
-	}
-
-
 	
 	public boolean validarDNI(int dni) throws DniInvalido{
 		Boolean dniCorrecto = false;
