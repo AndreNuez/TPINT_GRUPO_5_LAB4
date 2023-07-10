@@ -25,6 +25,7 @@ import entidad.Localidad;
 import entidad.Medico;
 import entidad.Persona;
 import entidad.Turno;
+import entidad.Usuario;
 import negocio.HorarioNegocio;
 import negocio.MedicoNegocio;
 import negocio.PacienteNegocio;
@@ -89,6 +90,17 @@ public class ServletTurno extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
 				dispatcher.forward(request, response);
 				break;
+			}
+			case "listarTurnos":
+			{
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
+				
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
 			}
 			
 			default:
@@ -327,8 +339,12 @@ public class ServletTurno extends HttpServlet {
 				dispatcher.forward(request, response);
         	}
 		}
-
-
+		
+		if(request.getParameter("btnAsistio")!=null) {
+			
+			
+		}
+		
 	}
 
 }

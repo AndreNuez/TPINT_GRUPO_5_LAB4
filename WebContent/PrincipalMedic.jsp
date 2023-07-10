@@ -25,7 +25,8 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); 
+				int dniMedico = a.getDNI();%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
@@ -44,7 +45,7 @@
                 <br>
                 <div class="d-grid gap-2">
                     <a href="ListadoPacientes.jsp" class="btn btn-blue btn-lg">Ver Listado de Pacientes</a>
-                    <a href="ListaTurno.jsp" class="btn btn-blue btn-lg">Ver Turnos</a>
+                    <a href="ServletTurno?Param=listarTurnos" class="btn btn-blue btn-lg">Ver Turnos</a>
                 </div>
             </div>
             <div class="col"></div>
