@@ -69,6 +69,7 @@ public class ServletUsuario extends HttpServlet {
 			
 			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
 			
+			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
 			if(user != null) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
@@ -83,6 +84,13 @@ public class ServletUsuario extends HttpServlet {
 						dispatcher.forward(request, response);
 					}
 			}
+			
+			//Usuario eliminado (baja lógica) // getEstado() == 0 -> False
+			else {
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+				
 		}
 		
 		if(request.getParameter("btnSalir") != null)

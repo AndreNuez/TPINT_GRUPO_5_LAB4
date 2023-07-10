@@ -305,12 +305,11 @@ public class ServletTurno extends HttpServlet {
 			int cont = 0;
 			String dia = request.getParameter("DiaAtencion");
 			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
-			//System.out.println(fecha);
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es"));
 	        String dayOfWeek = fecha.format(formatter);
 	        
-	        // Check if the day of the week matches any of the names
+	        // Chequeamos si el d�a que atiende el medico es igual al dia de la semana de la fecha
 	        
 	        if (dayOfWeek.equalsIgnoreCase(dia)) 
 	        {
@@ -331,16 +330,18 @@ public class ServletTurno extends HttpServlet {
 
 	    			boolean exito = true;
 					request.setAttribute("exito", exito);
-	    			
+
 					request.setAttribute("cantTurnos", cont);
 					request.setAttribute("apellidoMedico", m.getApellido());
 					request.setAttribute("nombreMedico", m.getNombre());
 					request.setAttribute("fecha", fecha);
+
 					
 					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
 					request.setAttribute("listaMedicos", listaMedicos);
-					
+
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+
 					dispatcher.forward(request, response);
 	        	}
 	        	else
@@ -350,11 +351,28 @@ public class ServletTurno extends HttpServlet {
 					
 	        		boolean errorFechaOcupada = true;
 					request.setAttribute("errorFechaOcupada", errorFechaOcupada);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-					dispatcher.forward(request, response);
-	        	}
-	        
+					
+					int dni = (int)request.getSession().getAttribute("dniMedico");
 
+					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					request.setAttribute("listaMedicos", listaMedicos);
+					
+					if(mneg.ListarUno(dni) != null)
+					{				
+						Medico medico = new Medico();
+						medico = mneg.ListarUno(dni);
+						request.setAttribute("verDatos", medico);
+						
+						ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+						request.setAttribute("listaHorarios", listaHorario);
+						
+						boolean buscar = true;
+						request.setAttribute("buscar", buscar);
+						
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+						dispatcher.forward(request, response);
+					}		
+	        	}   
 	        }
 	        else
         	{
@@ -363,8 +381,28 @@ public class ServletTurno extends HttpServlet {
 				
         		boolean errorDia = true;
 				request.setAttribute("errorDia", errorDia);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-				dispatcher.forward(request, response);
+				
+				int dni = (int)request.getSession().getAttribute("dniMedico");
+				System.out.println(dni);
+
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				
+				if(mneg.ListarUno(dni) != null)
+				{				
+					Medico medico = new Medico();
+					medico = mneg.ListarUno(dni);
+					request.setAttribute("verDatos", medico);
+					
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					
+					boolean buscar = true;
+					request.setAttribute("buscar", buscar);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					dispatcher.forward(request, response);
+				}
         	}
 		}
 		

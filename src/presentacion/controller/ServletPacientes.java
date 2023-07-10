@@ -68,39 +68,12 @@ public class ServletPacientes extends HttpServlet {
 				dispatcher.forward(request, response);
 				break;
 			}
-			case "confirmarSi":
-			{
-				boolean estado;
-				int DNI = Integer.parseInt(request.getSession().getAttribute("dniPacienteAEliminar").toString());
-				estado = pNeg.EliminarPaciente(DNI);
-				
-				ArrayList<Persona> lista = pNeg.ListarTodos();
-				request.setAttribute("listaPacientes", lista);
-				request.setAttribute("estado", estado);
-				request.removeAttribute("eliminando");
-				RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-				
-				rd.forward(request, response);	
-			}
-			case "confirmarNo":
-			{
-				ArrayList<Persona> lista = pNeg.ListarTodos();
-				request.setAttribute("listaPacientes", lista);
-				request.removeAttribute("eliminando");
-				request.getSession().removeAttribute("dniPacienteAEliminar");
-				RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-				
-				rd.forward(request, response);	
-			}
-			
+
 			default:
 				break;
 			}
 		}
-		
-
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -119,7 +92,16 @@ public class ServletPacientes extends HttpServlet {
 			
 			int DNI = p.getDNI();
 			boolean estado = true;
-			estado = pNeg.InsertarPaciente(p);
+			
+			try {
+				estado = pNeg.InsertarPaciente(p);
+			} catch (Exception e) {
+				// TODO: handle exception
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+
 				
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
@@ -191,11 +173,20 @@ public class ServletPacientes extends HttpServlet {
 			p.setMail(request.getParameter("txtMail"));
 			p.setTelefono(request.getParameter("txtTelefono"));
 			
-			int DNI = p.getDNI();
 			
 			boolean modificado = true;
-			modificado = pNeg.EditarPaciente(p);
+			
+			try {
+				modificado = pNeg.EditarPaciente(p);
+			} catch (Exception e) {
+				// TODO: handle exception
 				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+							
+			int DNI = p.getDNI();
+			
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
 				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
@@ -213,18 +204,17 @@ public class ServletPacientes extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnEliminar") != null)
-		{
-			
+		{	
 			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
-			request.getSession().setAttribute("dniPacienteAEliminar", DNI);
+			
+			boolean eliminado = pNeg.EliminarPaciente(DNI);
+			
 			ArrayList<Persona> lista = pNeg.ListarTodos();
 			request.setAttribute("listaPacientes", lista);
+			request.setAttribute("eliminado", eliminado);
 			
-			boolean eliminando = true;
-			request.setAttribute("eliminando", eliminando);
 			RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-			
-			rd.forward(request, response);			
+			rd.forward(request, response);	
 		}
 		
 	}
