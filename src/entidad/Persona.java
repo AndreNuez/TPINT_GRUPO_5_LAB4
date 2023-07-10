@@ -145,9 +145,5 @@ public class Persona {
 		return true;
 					
 	}
-	
-	public static boolean validarPersona() {
-		
-	}
 }
 
