@@ -41,4 +41,14 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	public boolean existeTurnoEnHorarioFecha(Turno turno) {
 		return tdao.existeTurnoEnHorarioFecha(turno);
 	}
+	
+	public boolean ActualizarEstadoTurnoAsistio(int idTurno, String observacion)
+	{
+		return tdao.ActualizarEstadoTurnoAsistio(idTurno, observacion);
+	}
+	
+	public boolean ActualizarEstadoTurnoAusente(int idTurno)
+	{
+		return tdao.ActualizarEstadoTurnoAusente(idTurno);
+	}
 }

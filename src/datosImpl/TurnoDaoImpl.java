@@ -200,7 +200,6 @@ public class TurnoDaoImpl implements TurnoDao{
 		boolean existe = false;
 		try
 		{
-			String query = "SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1";
 
 			ResultSet rs= cn.query("SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1");
 			if(rs.next());
@@ -267,6 +266,56 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 			return list;
 	}
+	
+	public boolean ActualizarEstadoTurnoAsistio(int idTurno, String observacion) 
+	{
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE turnos SET IDEstado = 3, Observacion = '" + observacion + "' where IDTurno=" + idTurno;
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
+
+	public boolean ActualizarEstadoTurnoAusente(int idTurno) 
+	{
+	
+	boolean estado = true;
+
+	cn = new Conexion();
+	cn.Open();	
+
+	String query = "UPDATE turnos SET IDEstado = 4 where IDTurno=" + idTurno;
+	try
+	 {
+		estado = cn.execute(query);
+	 }
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		cn.close();
+	}
+	
+	return estado;
+}
 }
 
 

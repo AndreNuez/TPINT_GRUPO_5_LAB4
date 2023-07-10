@@ -340,9 +340,25 @@ public class ServletTurno extends HttpServlet {
         	}
 		}
 		
-		if(request.getParameter("btnAsistio")!=null) {
+		if(request.getParameter("btnAsistio") != null) {
 			
+			int idTurno = Integer.parseInt(request.getParameter("idTurno"));
+			String observacion = request.getParameter("txtObservacion");
+
+			tneg.ActualizarEstadoTurnoAsistio(idTurno, observacion);
 			
+			Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+			Medico m = mneg.ListarUno(u.getDNI());
+			
+			ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+			request.setAttribute("listaTurnos", listaturnos);
+			
+			boolean exito = true;
+			request.setAttribute("actualizado", exito);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+			dispatcher.forward(request, response);
+
 		}
 		
 	}

@@ -15,5 +15,7 @@ public interface TurnoDao {
 	public boolean ChequearFecha(LocalDate fecha, int dniMedico);
 	public boolean insertarTurno(int dniMedico, LocalDate fecha, int i);
 	public boolean existeTurnoEnHorarioFecha(Turno turno);
+	public boolean ActualizarEstadoTurnoAsistio(int idTurno, String observacion);
+	public boolean ActualizarEstadoTurnoAusente(int idTurno);
 
 }

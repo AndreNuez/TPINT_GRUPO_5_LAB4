@@ -69,22 +69,24 @@ if (request.getAttribute("listaTurnos") != null) {
                             <th>Fecha y hora del Turno</th>
                             <th>Observaciones</th>
                             <th>Confirmar Asistencia</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     <%for (Turno t : listaT) { %>
-                    <form method="post" action="ServletTurno">
+                    
                         <tr>
+                        	<form method="post" action="ServletTurno">
                         	<td><%= t.getIdTurno() %> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
                             <td><%= t.getPaciente().getApellido() %> </td>
                             <td><%= t.getPaciente().getNombre() %> </td>
                             <td><%= t.getPaciente().getDNI() %> </td>
                             <td><%= t.getFecha() %>  -  <%= t.getHora() %> Hs.</td>
                             <td><input type="text" class="form-control" id="observacion" name="txtObservacion" autofocus></td>
-                            <td><input type="submit" name="btnAsistio" value="Asistió" class="btn btn-primary">
-                            <input type="submit" name="btnAusente" value="Ausente" class="btn btn-danger"/></td>
+                            <td><input type="submit" name="btnAsistio" value="Asistió" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente presente?')"></td>
+                            <td><input type="submit" name="btnAusente" value="Ausente" class="btn btn-danger"/></td>
+                        	</form>
                         </tr>
-                     </form>
                         <% } %>
                     </tbody>
                 </table>
@@ -149,6 +151,20 @@ if (request.getAttribute("listaTurnos") != null) {
                 </table>
      </div>
 
+<!-- Alerta asistio ok -->
+ 	<%
+		if (request.getAttribute("actualizado") != null) {
+	%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Turno actualizado con exito");
+		} 
+		</script> 
+	<%
+		}
+	%>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>
