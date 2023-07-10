@@ -161,32 +161,52 @@ public class ServletHorarios extends HttpServlet {
 				h.setDiaAtencion(request.getParameter("Dia"));
 				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-				
-			boolean modificadoh = hNeg.ModificarHorario(h);
 			
-			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
-			request.setAttribute("listaProv", listaP);
+			String dia = (request.getParameter("Dia"));
 			
-			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
-			request.setAttribute("listaLoc", listaL);
-			
-			if(mNeg.ListarUno(dni) != null)
-			{	
-				boolean hmod = true;
+			if (hNeg.buscarRepetido(dia, dni)) 
+			{
+				boolean hmod = hNeg.ModificarHorario(h);
 				
-				Medico medico = new Medico();
-				medico = mNeg.ListarUno(dni);
-				request.setAttribute("verMedico", medico);
-				request.setAttribute("dniMedico",dni);
+				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+				request.setAttribute("listaProv", listaP);
 				
-				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
-				request.setAttribute("listaHorarios", listaHorario);
-				request.setAttribute("hmod", hmod);
+				ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+				request.setAttribute("listaLoc", listaL);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
-				dispatcher.forward(request, response);
+				if(mNeg.ListarUno(dni) != null)
+				{				
+					Medico medico = new Medico();
+					medico = mNeg.ListarUno(dni);
+					request.setAttribute("verMedico", medico);
+					request.setAttribute("dniMedico",dni);
+					
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					request.setAttribute("hmod", hmod);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+					dispatcher.forward(request, response);
+					
+				} 
+			}	
+			else 
+			{
+				boolean repetido = true;
+				
+				if(hNeg.ListarTodos(dni) !=null) 
+				{
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					
+					request.setAttribute("dniMedico", dni);
+					request.setAttribute("repetido", repetido);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMHorarios.jsp");
+					dispatcher.forward(request, response);
+				}	
 			}
 		}
-	}
-
+	}	
 }
+

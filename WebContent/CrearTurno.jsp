@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Crear Turnos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
@@ -27,7 +27,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
@@ -93,7 +93,7 @@
 				<label for="Especialidad"> <b>Especialidad:</b> <%=medico.getEspecialidad().getDescripcion()%></label>
             </div>
             <div class="mb-2">
-                <label for="Horario"> <b>Día y horario de atención:</b></label>
+                <label for="Horario"> <b>Dia y horario de atencion:</b></label>
                 <table class="table">       		
 				<tr>
 					<th>Dia</th>

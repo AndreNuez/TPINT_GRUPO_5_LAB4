@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Administracion Turnos</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -47,10 +47,10 @@
 			<div class="col-2"></div>
 			<br />
 			<div class="d-grid mx-auto">
-				<a href="ServletTurno?Param=listarM" class="btn btn-primary">Crear Turno</a> <br>
+				<a href="ServletTurno?Param=listarM" class="btn btn-primary">Crear Turnos</a> <br>
 			</div>
 			<div class="d-grid mx-auto">
-				<a href="ServletTurno?Param=list" class="btn btn-primary">Asignar Turno</a> <br>
+				<a href="ServletTurno?Param=list" class="btn btn-primary">Asignar Turnos</a> <br>
 			</div>
 			<br /> <br />
 			<div class="col-4"></div>
