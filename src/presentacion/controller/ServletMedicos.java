@@ -24,6 +24,8 @@ import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
 import negocio.UsuarioNegocio;
+import negocio.TurnoNegocio;
+import negocioImpl.TurnoNegocioImpl;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
@@ -43,6 +45,7 @@ public class ServletMedicos extends HttpServlet {
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
 	UsuarioNegocio uNeg = new UsuarioNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletMedicos() {
         super();
@@ -83,7 +86,10 @@ public class ServletMedicos extends HttpServlet {
 			case "confirmarSi":
 			{
 				boolean estado;
+				boolean estado2;
 				int DNI = Integer.parseInt(request.getSession().getAttribute("dniMedicoAEliminar").toString());
+				
+				estado2 = tNeg.EliminarTurnosLibresPorMedico(DNI);
 				estado = mNeg.EliminarMedico(DNI);
 				
 				ArrayList<Medico> lista = mNeg.ListarTodos();
@@ -93,6 +99,7 @@ public class ServletMedicos extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
 				
 				rd.forward(request, response);	
+				break;
 			}
 			case "confirmarNo":
 			{
@@ -102,7 +109,8 @@ public class ServletMedicos extends HttpServlet {
 				request.getSession().removeAttribute("dniMedicoAEliminar");
 				RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");
 				
-				rd.forward(request, response);	
+				rd.forward(request, response);
+				break;
 			}
 			
 			default:

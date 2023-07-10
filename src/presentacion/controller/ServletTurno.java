@@ -372,22 +372,40 @@ public class ServletTurno extends HttpServlet {
 			
 			int idTurno = Integer.parseInt(request.getParameter("idTurno"));
 			String observacion = request.getParameter("txtObservacion");
+			
+			if (observacion.trim().isEmpty()) 
+			{
+				
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
 
-			tneg.ActualizarEstadoTurnoAsistio(idTurno, observacion);
-			
-			Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-			Medico m = mneg.ListarUno(u.getDNI());
-			
-			ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
-			request.setAttribute("listaTurnos", listaturnos);
-			
-			boolean exito = true;
-			request.setAttribute("actualizado", exito);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
-			dispatcher.forward(request, response);
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
 
+				boolean error = true;
+				request.setAttribute("error", error);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+				
+			} else {
+
+				tneg.ActualizarEstadoTurnoAsistio(idTurno, observacion);
+
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
+
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+
+				boolean exito = true;
+				request.setAttribute("actualizado", exito);
+
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
+		
 		
 		if(request.getParameter("btnAusente") != null) {
 			
@@ -462,12 +480,9 @@ public class ServletTurno extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
 				dispatcher.forward(request, response);
 			}
-			
-		
+
 		}
-		
-		
-		
+
 	}
 
 }

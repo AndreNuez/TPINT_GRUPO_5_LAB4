@@ -61,4 +61,9 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	{
 		return tdao.ActualizarEstadoTurnoAusente(idTurno);
 	}
+	
+	public boolean EliminarTurnosLibresPorMedico(int dniMedico)
+	{
+		return tdao.EliminarTurnosLibresPorMedico(dniMedico);
+	}
 }

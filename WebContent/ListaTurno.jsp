@@ -208,18 +208,17 @@
 		}
 	%>
 
-	<%
-		if (request.getAttribute("filtrando") != null) {
+<%
+		if (request.getAttribute("error") != null) {
 	%>
- 		<script type="text/javascript">
-        function tabla54() {
-        	var inputOculto = document.getElementById("inputOculto");
-            inputOculto.scrollIntoView();
-    </script>
+	<script type="text/javascript">
+		function alertName(){
+		alert("El campo Observacion no puede estar vacio. Agregue una por favor");
+		} 
+		</script> 
 	<%
 		}
 	%>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

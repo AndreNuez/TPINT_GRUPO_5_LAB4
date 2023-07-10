@@ -162,7 +162,7 @@
 	%>
 	<script type="text/javascript">
 		function alertName(){
-		alert("El medico no trabaja ese dia");
+		alert("La fecha elegida no corresponde al dia seleccionado.");
 		} 
 		</script> 
 	<%
@@ -173,7 +173,7 @@
 	%>
 		<script type="text/javascript">
 		function alertName(){
-		alert("Ya se han creado turnos para ese medico ese dia");
+		alert("Ya se han creado turnos para ese medico ese dia.");
 		} 
 		</script> 
 	<%

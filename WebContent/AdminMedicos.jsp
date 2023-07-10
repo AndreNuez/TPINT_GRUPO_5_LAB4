@@ -78,7 +78,6 @@
 				<th>Sexo</th>
 				<th>Mail</th>
 				<th>Especialidad</th>
-				<th>Estado</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -96,7 +95,6 @@
 			<td><%=m.getSexo()%></td>
 			<td><%=m.getMail()%></td>
 			<td><%=m.getEspecialidad().getDescripcion()%></td>
-			<td><%=m.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
 			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>
 			</form>

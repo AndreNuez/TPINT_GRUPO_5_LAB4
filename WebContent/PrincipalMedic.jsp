@@ -44,7 +44,6 @@
                 <h2>Bienvenido, Médico</h2>
                 <br>
                 <div class="d-grid gap-2">
-                    <a href="ListadoPacientes.jsp" class="btn btn-blue btn-lg">Ver Listado de Pacientes</a>
                     <a href="ServletTurno?Param=listarTurnos" class="btn btn-blue btn-lg">Ver Turnos</a>
                 </div>
             </div>
