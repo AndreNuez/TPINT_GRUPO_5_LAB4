@@ -224,33 +224,33 @@ public class TurnoDaoImpl implements TurnoDao{
 		cn.Open();
 		ArrayList<Turno> list = new ArrayList<Turno>();
 		int dniMedico = medico.getDNI();
+		LocalDate fechaHoy = LocalDate.now();
 		try
 		{
-			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha >= curdate()");
+			
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha = '" + fechaHoy + "'");
+		
+			
 			
 			while(rs.next())
 			{
 				Medico m = new Medico();
 				Turno turno = new Turno();
-				Horario horario = new Horario();
-				Especialidad especialidad = new Especialidad();
-				
-				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
-				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
-				
-				horario.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-				horario.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-				horario.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
-				
+				Persona p = new Persona();
+
 				m.setDNI(dniMedico);
 				m.setApellido(rs.getString("medicos.Apellido"));
 				m.setNombre(rs.getString("medicos.Nombres"));
-				m.setEspecialidad(especialidad);
-				m.setHorario(horario);
+				p.setDNI(rs.getInt("turnos.DNIPaciente"));
+				p.setApellido(rs.getString("pacientes.Apellido"));
+				p.setNombre(rs.getString("pacientes.Nombres"));
 				
+				turno.setPaciente(p);
 				turno.setMedico(m);
 				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
 				turno.setHora(rs.getInt("turnos.Hora"));	
 				
 				list.add(turno);
@@ -300,7 +300,7 @@ public class TurnoDaoImpl implements TurnoDao{
 	cn = new Conexion();
 	cn.Open();	
 
-	String query = "UPDATE turnos SET IDEstado = 4 where IDTurno=" + idTurno;
+	String query = "UPDATE turnos SET IDEstado = 2 where IDTurno=" + idTurno;
 	try
 	 {
 		estado = cn.execute(query);
@@ -315,7 +315,65 @@ public class TurnoDaoImpl implements TurnoDao{
 	}
 	
 	return estado;
-}
+	}
+	
+	public ArrayList<Turno> ListarTurnosPorMedicoYFecha(Medico medico, LocalDate fechaDesde, LocalDate fechaHasta)
+	{
+		cn = new Conexion();
+		cn.Open();
+		
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		
+		try
+		{
+			
+			ResultSet rs= cn.query("SELECT turnos.IDTurno, turnos.DNIMedico, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, turnos.IDEstado, turnos.Observacion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI  INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI AND medicos.DNI = 96396396 AND turnos.Fecha >= '"+ fechaDesde +"' AND turnos.Fecha <= '"+ fechaHasta +"' and (turnos.IDEstado = 2 or turnos.IDEstado = 3)");
+
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Persona p = new Persona();
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				p.setDNI(rs.getInt("turnos.DNIPaciente"));
+				p.setApellido(rs.getString("pacientes.Apellido"));
+				p.setNombre(rs.getString("pacientes.Nombres"));
+				
+				turno.setPaciente(p);
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				String observacion = rs.getString("turnos.Observacion");
+				
+				if (observacion == null)
+				{
+					turno.setObservaciones("Sin observacion");
+				} else {
+					turno.setObservaciones(observacion);
+				}
+				
+				
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));
+				turno.setEstado(rs.getInt("turnos.IDEstado"));	
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+			return list;
+	}
 }
 
 

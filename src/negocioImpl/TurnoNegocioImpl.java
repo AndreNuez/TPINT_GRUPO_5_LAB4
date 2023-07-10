@@ -28,6 +28,16 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 		return tdao.ListarTurnosPorMedico(medico);
 	}
 	
+	public ArrayList<Turno> ListarTurnosPorMedicoDiaActual(Medico medico)
+	{
+		return tdao.ListarTurnosPorMedicoDiaActual(medico);
+	}
+	
+	public ArrayList<Turno> ListarTurnosPorMedicoYFecha(Medico medico, LocalDate fechaDesde, LocalDate fechaHasta)
+	{
+		return tdao.ListarTurnosPorMedicoYFecha(medico, fechaDesde, fechaHasta);
+	}
+	
 	public boolean chequearFecha(LocalDate fecha, int dniMedico)
 	{
 		return tdao.ChequearFecha(fecha, dniMedico);

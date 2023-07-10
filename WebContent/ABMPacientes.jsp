@@ -63,6 +63,11 @@
 		if (request.getAttribute("ModificarPaciente") != null) {
 			paciente = (Persona)request.getAttribute("ModificarPaciente");
 		}
+		
+		if (request.getAttribute("verPacienteComoMedico") != null)
+		{
+			paciente = (Persona)request.getAttribute("verPaciente");
+		}
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
@@ -153,7 +158,7 @@
  
  <!-- Si doy click a VerCompleto, solo veo los datos como lbl -->	
  
- <% if (request.getAttribute("verPaciente") != null) {%>
+ <% if (request.getAttribute("verPaciente") != null || request.getAttribute("verPacienteComoMedico") != null) {%>
 
     <div class="row justify-content-center g-4">
         <div class="col-3">
@@ -213,9 +218,13 @@
         <div>
             <br><br>
  			<form action="ServletPacientes" method="post">
-            	<input type="hidden" name="dniPaciente" value= <%=paciente.getDNI()%>>
+ 			 <% if (request.getAttribute("verPacienteComoMedico") != null) {%>
+				<a href="ServletTurno?Param=listarTurnos" class="btn btn-info">Regresar</a>
+				<%} else{ %>
+				<input type="hidden" name="dniPaciente" value= <%=paciente.getDNI()%>>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
+			<% } %>
 			</form>	
         </div>
         </div>
