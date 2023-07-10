@@ -26,6 +26,10 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 {
 	mensaje = (String)request.getAttribute("mensajeDeActualizacionDeTurno"); 
 }
+
+if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null){
+	mensaje = "Paciente agregado con exito.";
+}
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -174,7 +178,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
     if (confirmacion)
     {
       sessionStorage.setItem('dniPacienteACrear', dniPaciente);    	  
-      window.location.href = "ABMPacientes.jsp";
+      window.location.href = "ServletPacientes?Param=agregarNuevo&Param2=retornarAsignarTurno";
     }
   }
 </script>

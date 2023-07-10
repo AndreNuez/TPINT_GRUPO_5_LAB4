@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
 import entidad.Direccion;
 import entidad.Localidad;
@@ -129,12 +130,26 @@ public class ServletPacientes extends HttpServlet {
 			boolean estadodp = true;
 			estadodp = dpNeg.InsertarDP(DNI, dp);
 			
+			
+				
 			request.setAttribute("estadoPaciente", estado);
 			request.setAttribute("estadoDP", estadodp);
-			ArrayList<Persona> lista = pNeg.ListarTodos();
-			request.setAttribute("listaPacientes", lista);
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
-			dispatcher.forward(request, response);			
+			
+			//Vuelve a Asignar Turno luego de crear el paciente faltante
+			if(request.getParameter("Param2") != null) 
+			{
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+			else 
+			{
+				ArrayList<Persona> lista = pNeg.ListarTodos();
+				request.setAttribute("listaPacientes", lista);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPacientes.jsp");
+				dispatcher.forward(request, response);							
+			}
+			
 		}
 
 		//GR Envia datos de paciente seleccionado en AdminPacientes al ABMPacientes.jsp

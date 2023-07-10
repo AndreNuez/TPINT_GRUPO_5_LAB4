@@ -341,7 +341,6 @@
 	{
 		var campoDNI = document.getElementById("campoDNI");
 		campoDNI.value = dniPaciente;
-		sessionStorage.removeItem("dniPacienteACrear");
 	}
 
 
