@@ -24,6 +24,8 @@ import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
 import negocio.UsuarioNegocio;
+import negocio.TurnoNegocio;
+import negocioImpl.TurnoNegocioImpl;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
@@ -43,6 +45,7 @@ public class ServletMedicos extends HttpServlet {
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
 	UsuarioNegocio uNeg = new UsuarioNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletMedicos() {
         super();
@@ -94,7 +97,8 @@ public class ServletMedicos extends HttpServlet {
 			
 			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
 			request.getSession().setAttribute("dniMedicoAEliminar", DNI);
-			
+      
+			boolean estado2 = tNeg.EliminarTurnosLibresPorMedico(DNI);
 			boolean eliminarm = mNeg.EliminarMedico(DNI);
 			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
