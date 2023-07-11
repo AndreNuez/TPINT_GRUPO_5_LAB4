@@ -26,6 +26,10 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 {
 	mensaje = (String)request.getAttribute("mensajeDeActualizacionDeTurno"); 
 }
+
+if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null){
+	mensaje = "Paciente agregado con exito.";
+}
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -101,6 +105,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
+					<option value=0>Seleccione un medico...</option>
         			<% for (Medico m : listaMedicos) {
       				if (request.getAttribute("listaTurnosPorMedico") != null && m.getDNI() == medicoSeleccionado.getDNI()) {%>
         			<option value="<%=m.getDNI() %>" selected><%=m.getNombre()+" "+m.getApellido()%></option>
@@ -172,8 +177,9 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 
     if (confirmacion)
     {
-      sessionStorage.setItem('dniPacienteACrear', dniPaciente);    	  
-      window.location.href = "ABMPacientes.jsp";
+      sessionStorage.setItem('dniPacienteACrear', dniPaciente);
+      var url = "ServletPacientes?Param=agregarNuevo&retornarAsignarTurnos=true";
+      window.location.href = url;
     }
   }
 </script>

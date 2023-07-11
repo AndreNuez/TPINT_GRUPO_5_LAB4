@@ -71,7 +71,7 @@
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
-	
+		
 	%>
 
 <!-- Formulario y controles --> 
@@ -153,6 +153,15 @@
         </div>
         </div>
     </div>
+    <%
+    	if(request.getAttribute("retornarAsignarTurnos") != null)
+    	{
+    %>
+    	<input type="hidden" name="retornarAsignarTurnos" value=true>
+    <%
+    }
+    %>
+    
     </form>
     <%} %>
  
@@ -367,8 +376,8 @@
 	{
 		var campoDNI = document.getElementById("campoDNI");
 		campoDNI.value = dniPaciente;
-		sessionStorage.removeItem("dniPacienteACrear");
 	}
+	sessionStorage.removeItem("dniPacienteACrear");
 
 
 </script>

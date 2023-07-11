@@ -202,9 +202,9 @@ public class TurnoDaoImpl implements TurnoDao{
 		boolean existe = false;
 		try
 		{
-
+      
 			ResultSet rs= cn.query("SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1");
-			if(rs.next());
+			if(rs.next())
 			{
 				existe = true;	
 			}	
@@ -231,9 +231,7 @@ public class TurnoDaoImpl implements TurnoDao{
 		{
 			
 			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha = '" + fechaHoy + "'");
-		
-			
-			
+
 			while(rs.next())
 			{
 				Medico m = new Medico();
