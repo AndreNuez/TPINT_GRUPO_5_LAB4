@@ -42,14 +42,9 @@ import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
-
-/**
- * Servlet implementation class ServletTurno
- */
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
@@ -59,17 +54,12 @@ public class ServletTurno extends HttpServlet {
 	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
 	DireccionNegocio dpNeg = new DireccionNegocioImpl();
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ServletTurno() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(request.getParameter("Param")!=null)
@@ -105,7 +95,7 @@ public class ServletTurno extends HttpServlet {
 				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 				Medico m = mneg.ListarUno(u.getDNI());
 				
-				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 				request.setAttribute("listaTurnos", listaturnos);
 				
 				boolean turnosProximos = true;
@@ -386,8 +376,11 @@ public class ServletTurno extends HttpServlet {
 				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 				Medico m = mneg.ListarUno(u.getDNI());
 
-				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosProximos = true;
+				request.setAttribute("turnosProximos", turnosProximos);
 
 				boolean error = true;
 				request.setAttribute("error", error);
@@ -402,8 +395,11 @@ public class ServletTurno extends HttpServlet {
 				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 				Medico m = mneg.ListarUno(u.getDNI());
 
-				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosProximos = true;
+				request.setAttribute("turnosProximos", turnosProximos);
 
 				boolean exito = true;
 				request.setAttribute("actualizado", exito);
@@ -423,8 +419,11 @@ public class ServletTurno extends HttpServlet {
 			Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 			Medico m = mneg.ListarUno(u.getDNI());
 			
-			ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+			ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 			request.setAttribute("listaTurnos", listaturnos);
+			
+			boolean turnosProximos = true;
+			request.setAttribute("turnosProximos", turnosProximos);
 			
 			boolean exito = true;
 			request.setAttribute("actualizado", exito);
@@ -469,15 +468,21 @@ public class ServletTurno extends HttpServlet {
 				Boolean errorFiltroFecha = true;
 				request.setAttribute("errorFiltroFecha", errorFiltroFecha);
 				
-				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosProximos = true;
+				request.setAttribute("turnosProximos", turnosProximos);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
 				dispatcher.forward(request, response);
 			} else {
 				
-				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosProximosPorMedico(m);
 				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosProximos = true;
+				request.setAttribute("turnosProximos", turnosProximos);
 				
 				ArrayList<Turno> listaTurnosFiltrada = tneg.ListarTurnosPorMedicoYFecha(m, fechaDesde, fechaHasta);
 				request.setAttribute("listaTurnosFiltrada", listaTurnosFiltrada);

@@ -87,7 +87,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>       
-				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos." required>
+				<input type="text"  name="txtDNI" id="campoDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos." required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
