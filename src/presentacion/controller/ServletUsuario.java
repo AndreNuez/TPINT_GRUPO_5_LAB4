@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Medico;
 import entidad.Usuario;
+import negocio.MedicoNegocio;
 import negocio.UsuarioNegocio;
+import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.UsuarioNegocioImpl;
 
 
@@ -23,6 +26,7 @@ public class ServletUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	UsuarioNegocio userNeg = new UsuarioNegocioImpl();
+	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -69,6 +73,7 @@ public class ServletUsuario extends HttpServlet {
 			
 			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
 			
+			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
 			if(user != null) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 
@@ -78,11 +83,22 @@ public class ServletUsuario extends HttpServlet {
 					}
 					else {
 						
+						Medico m = mNeg.ListarUno(dni);
+						
 						request.getSession().setAttribute("usuario", user);
+						request.getSession().setAttribute("medico", m);
+						
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
 						dispatcher.forward(request, response);
 					}
 			}
+			
+			//Usuario eliminado (baja lógica) // getEstado() == 0 -> False
+			else {
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+			}
+				
 		}
 		
 		if(request.getParameter("btnSalir") != null)

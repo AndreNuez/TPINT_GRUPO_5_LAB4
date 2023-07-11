@@ -20,8 +20,9 @@
             <div class="text-center text-muted">
                 <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
             </div>
-            <div class="col-4"></div>
-            <div class="col-2"></div>
+            <div class="col-4"><div class="alert alert-danger" role="alert">
+  				Usuario o contraseña incorrectos
+			</div></div>
             <br />
             <form action="ServletUsuario" method="post">
             
@@ -30,7 +31,7 @@
 	                <br>
 	            </div>
 	            <div class="d-grid mx-auto">
-	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" required ></input>
+	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" pattern="[a-z]+" title="Ingrese solo minúsculas" required ></input>
 	                <br>
 	            </div>   
 	             <div class="d-grid mx-auto">

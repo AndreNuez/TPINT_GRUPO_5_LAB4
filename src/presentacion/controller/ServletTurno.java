@@ -24,14 +24,22 @@ import entidad.Horario;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Turno;
+import entidad.Usuario;
+import negocio.DireccionNegocio;
 import negocio.HorarioNegocio;
+import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.PacienteNegocio;
+import negocio.ProvinciaNegocio;
 import negocio.TurnoNegocio;
+import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
+import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
+import negocioImpl.ProvinciaNegocioImpl;
 import negocioImpl.TurnoNegocioImpl;
 
 
@@ -47,7 +55,9 @@ public class ServletTurno extends HttpServlet {
 	MedicoNegocio mneg = new MedicoNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
 	PacienteNegocio pneg = new PacienteNegocioImpl();
-
+	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
+	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
+	DireccionNegocio dpNeg = new DireccionNegocioImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -87,6 +97,36 @@ public class ServletTurno extends HttpServlet {
 				request.setAttribute("listaMedicos", listaMedicos);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			case "listarTurnos":
+			{
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
+				
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosProximos = true;
+				request.setAttribute("turnosProximos", turnosProximos);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+				break;
+			}
+			case "listarTurnosDiaActual":
+			{
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
+				
+				ArrayList<Turno> listaturnos = tneg.ListarTurnosPorMedicoDiaActual(m);
+				request.setAttribute("listaTurnos", listaturnos);
+				
+				boolean turnosDiaActual = true;
+				request.setAttribute("turnosDiaActual", turnosDiaActual);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
 				dispatcher.forward(request, response);
 				break;
 			}
@@ -238,7 +278,7 @@ public class ServletTurno extends HttpServlet {
 		
 		// LOGICA PARA CREAR TURNOS
 		
-		//Buscar datos del mï¿½dico seleccionado
+		//Buscar datos del m�dico seleccionado
 		if(request.getParameter("btnBuscar")!= null) 
 		{
 			int dni = Integer.parseInt(request.getParameter("Medicos"));
@@ -298,18 +338,18 @@ public class ServletTurno extends HttpServlet {
 	    			}
 
 	    			boolean exito = true;
-					request.setAttribute("exito", exito);
+					  request.setAttribute("exito", exito);
 	    			
-					request.setAttribute("cantTurnos", cont);
-					request.setAttribute("apellidoMedico", m.getApellido());
-					request.setAttribute("nombreMedico", m.getNombre());
-					request.setAttribute("fecha", fecha);
+					  request.setAttribute("cantTurnos", cont);
+					  request.setAttribute("apellidoMedico", m.getApellido());
+					  request.setAttribute("nombreMedico", m.getNombre());
+					  request.setAttribute("fecha", fecha);
 					
-					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-					request.setAttribute("listaMedicos", listaMedicos);
+					  ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					  request.setAttribute("listaMedicos", listaMedicos);
 					
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-					dispatcher.forward(request, response);
+					  RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					  dispatcher.forward(request, response);
 	        	}
 	        	else
 	        	{
@@ -322,20 +362,134 @@ public class ServletTurno extends HttpServlet {
 					dispatcher.forward(request, response);
 	        	}
 	        
-
 	        }
 	        else
         	{
 	        	ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-				request.setAttribute("listaMedicos", listaMedicos);
+				    request.setAttribute("listaMedicos", listaMedicos);
 				
         		boolean errorDia = true;
-				request.setAttribute("errorDia", errorDia);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-				dispatcher.forward(request, response);
+				    request.setAttribute("errorDia", errorDia);
+				    RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+				    dispatcher.forward(request, response);
         	}
 		}
+		
+		if(request.getParameter("btnAsistio") != null) {
+			
+			int idTurno = Integer.parseInt(request.getParameter("idTurno"));
+			String observacion = request.getParameter("txtObservacion");
+			
+			if (observacion.trim().isEmpty()) 
+			{
+				
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
 
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+
+				boolean error = true;
+				request.setAttribute("error", error);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+				
+			} else {
+
+				tneg.ActualizarEstadoTurnoAsistio(idTurno, observacion);
+
+				Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+				Medico m = mneg.ListarUno(u.getDNI());
+
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+
+				boolean exito = true;
+				request.setAttribute("actualizado", exito);
+
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		
+		if(request.getParameter("btnAusente") != null) {
+			
+			int idTurno = Integer.parseInt(request.getParameter("idTurno"));
+
+			tneg.ActualizarEstadoTurnoAusente(idTurno);
+			
+			Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+			Medico m = mneg.ListarUno(u.getDNI());
+			
+			ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+			request.setAttribute("listaTurnos", listaturnos);
+			
+			boolean exito = true;
+			request.setAttribute("actualizado", exito);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+			dispatcher.forward(request, response);
+		}
+		
+		if(request.getParameter("btnVerInfoPacienteMedico") != null) {
+			
+			int dni =Integer.parseInt(request.getParameter("dniPaciente"));
+			
+			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+			request.setAttribute("listaProv", listaP);
+			
+			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+			request.setAttribute("listaLoc", listaL);
+			
+			if(pneg.ListarUno(dni) != null)
+			{				
+				Persona paciente = new Persona();
+				paciente = pneg.ListarUno(dni);	
+				request.setAttribute("verPaciente", paciente);
+				request.setAttribute("dniPaciente",dni);
+				boolean verPacienteComoMedico = true;
+				request.setAttribute("verPacienteComoMedico", verPacienteComoMedico);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+		}
+		
+		if(request.getParameter("btnBuscarxFecha") != null) {
+			
+			Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+			Medico m = mneg.ListarUno(u.getDNI());
+
+			LocalDate fechaDesde = LocalDate.parse(request.getParameter("fechaDesde"));
+			LocalDate fechaHasta = LocalDate.parse(request.getParameter("fechaHasta"));
+			
+			if(fechaDesde.isAfter(fechaHasta)) {
+				Boolean errorFiltroFecha = true;
+				request.setAttribute("errorFiltroFecha", errorFiltroFecha);
+				
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				
+				ArrayList<Turno> listaturnos = tneg.ListaTurnosPorMedico(m);
+				request.setAttribute("listaTurnos", listaturnos);
+				
+				ArrayList<Turno> listaTurnosFiltrada = tneg.ListarTurnosPorMedicoYFecha(m, fechaDesde, fechaHasta);
+				request.setAttribute("listaTurnosFiltrada", listaTurnosFiltrada);
+				
+				Boolean filtrando = true;
+				request.setAttribute("filtrando", filtrando);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaTurno.jsp");
+				dispatcher.forward(request, response);
+			}
+
+		}
 
 	}
 

@@ -11,4 +11,5 @@ public interface HorarioNegocio {
 	public boolean ModificarHorario (Horario horario);
 	public boolean EliminarHorario (int idHorario);
 	public Horario buscarHorario(int dniMedico, String dia);
+	public boolean buscarRepetido (String dia, int dni);
 }

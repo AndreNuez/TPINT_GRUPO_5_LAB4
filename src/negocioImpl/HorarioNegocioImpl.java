@@ -38,4 +38,18 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 	public Horario buscarHorario(int dniMedico, String dia) {
 		return hdao.buscarHorario(dniMedico, dia);
 	}
+	
+	public boolean buscarRepetido (String dia, int dni) {
+		
+		ArrayList<Horario> listaH = hdao.ListarTodos(dni);
+		
+		for (Horario horario : listaH) {
+			
+			if (horario.getDiaAtencion().equals(dia)) 
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }
