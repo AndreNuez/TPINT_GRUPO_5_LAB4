@@ -7,8 +7,10 @@ import negocio.TurnoNegocio;
 import datosImpl.TurnoDaoImpl;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import datos.TurnoDao;
 
@@ -66,7 +68,31 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	{
 		return tdao.EliminarTurnosLibresPorMedico(dniMedico);
 	}
-	
+
+	@Override
+	public boolean eliminarTurnosxDia(Medico medico, String dia) {
+		
+		ArrayList<Turno> listaT = tdao.ListarTurnosLibresPorMedico(medico);
+		
+		for (Turno turno : listaT) {
+			
+			LocalDate fecha = turno.getFecha();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es"));
+			String dayOfWeek = fecha.format(formatter);
+			 
+			 if (dayOfWeek.equalsIgnoreCase(dia)) 
+			 {
+				 tdao.eliminarTurnosxFecha(medico, fecha);
+			 }
+		}
+		
+		return true;
+	}
+
+	@Override
+	public ArrayList<Turno> ListarTurnosLibresPorMedico(Medico medico) {
+		return tdao.ListarTurnosLibresPorMedico(medico);
+
 	public int ContarTurnosLibres()
 	{
 		return tdao.ContarTurnosLibres();
@@ -82,5 +108,6 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	public int ContarTurnosAusentes()
 	{
 		return tdao.ContarTurnosAusentes();
+
 	}
 }

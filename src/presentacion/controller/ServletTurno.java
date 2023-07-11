@@ -330,18 +330,18 @@ public class ServletTurno extends HttpServlet {
 	    			}
 
 	    			boolean exito = true;
-					request.setAttribute("exito", exito);
+					  request.setAttribute("exito", exito);
 	    			
-					request.setAttribute("cantTurnos", cont);
-					request.setAttribute("apellidoMedico", m.getApellido());
-					request.setAttribute("nombreMedico", m.getNombre());
-					request.setAttribute("fecha", fecha);
+					  request.setAttribute("cantTurnos", cont);
+					  request.setAttribute("apellidoMedico", m.getApellido());
+					  request.setAttribute("nombreMedico", m.getNombre());
+					  request.setAttribute("fecha", fecha);
 					
-					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-					request.setAttribute("listaMedicos", listaMedicos);
+					  ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+					  request.setAttribute("listaMedicos", listaMedicos);
 					
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-					dispatcher.forward(request, response);
+					  RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+					  dispatcher.forward(request, response);
 	        	}
 	        	else
 	        	{
@@ -354,17 +354,16 @@ public class ServletTurno extends HttpServlet {
 					dispatcher.forward(request, response);
 	        	}
 	        
-
 	        }
 	        else
         	{
 	        	ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-				request.setAttribute("listaMedicos", listaMedicos);
+				    request.setAttribute("listaMedicos", listaMedicos);
 				
         		boolean errorDia = true;
-				request.setAttribute("errorDia", errorDia);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
-				dispatcher.forward(request, response);
+				    request.setAttribute("errorDia", errorDia);
+				    RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearTurno.jsp");
+				    dispatcher.forward(request, response);
         	}
 		}
 		

@@ -402,6 +402,74 @@ public class TurnoDaoImpl implements TurnoDao{
 
 	}
 	
+
+	public ArrayList<Turno> ListarTurnosLibresPorMedico(Medico medico) {
+		cn = new Conexion();
+		cn.Open();
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		try
+		{
+
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad WHERE turnos.IDEstado = 0 AND medicos.DNI = " + dniMedico);
+			
+			
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Especialidad especialidad = new Especialidad();
+				
+				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
+				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				m.setEspecialidad(especialidad);
+				
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean eliminarTurnosxFecha(Medico medico, LocalDate fecha) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "delete from turnos where turnos.DNIMedico = " + medico.getDNI() + " and turnos.Fecha = '"+ fecha +"'  and turnos.IDEstado = 0";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+
 	public int ContarTurnosLibres() {
 
 		cn = new Conexion();
@@ -522,6 +590,7 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 
 		return cantidad;
+
 	}
 }
 
