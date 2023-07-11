@@ -110,7 +110,7 @@
             </div>
             <div class="mb-2">
                 <label for="Nacionalidad">Nacionalidad:</label>
-				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required>
+				<input type="text" name="txtNacionalidad" placeholder="Nacionalidad" id="Nacionalidad" required>
             </div>
             <div class="mb-2">
                 <label for="FNac">Fecha de Nacimiento:</label>
@@ -321,7 +321,7 @@
             </div>
             <div class="mb-2">
                 <label for="Nacionalidad">Nacionalidad:</label>
-                <input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required value=<%=medico.getNacionalidad() %>>
+                <input type="text" name="txtNacionalidad" placeholder="Nacionalidad" required id="Nacionalidad" value=<%=medico.getNacionalidad() %>>
             </div>
             <div class="mb-2">
                 <label for="FNac">Fecha de Nacimiento:</label>
@@ -333,7 +333,7 @@
             </div>
             <div class="mb-2">
 				<label for="Telefono">Teléfono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" required value=<%=medico.getTelefono() %>>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" required pattern="[0-9]+" title="Ingrese solo numeros" value=<%=medico.getTelefono() %>>
             </div>
             <div class="mb-2">
 				<label for="Especialidad">Especialidad: </label>
@@ -355,7 +355,7 @@
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" value=<%=medico.getDireccion().getNumero() %>>
+				<input type="text" name="txtNumero" placeholder="Numero" pattern="[0-9]+" title="Ingrese solo numeros" value=<%=medico.getDireccion().getNumero() %>>
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
@@ -433,9 +433,10 @@
   function validarFormulario() {
     var Nombre = document.getElementById("Nombre").value.trim();
     var Apellido = document.getElementById("Apellido").value.trim();
+    var Nacionalidad = document.getElementById("Nacionalidad").value.trim();
     var Calle = document.getElementById("Calle").value.trim();
 
-    if (Nombre === "" || Apellido === "" || Calle === "") {
+    if (Nombre === "" || Apellido === "" || Nacionalidad === "" || Calle === "") {
       alert("No se pueden guardar espacios. Debe ingresar un valor en todos los campos.");
       return false;
     }
