@@ -66,4 +66,21 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	{
 		return tdao.EliminarTurnosLibresPorMedico(dniMedico);
 	}
+	
+	public int ContarTurnosLibres()
+	{
+		return tdao.ContarTurnosLibres();
+	}
+	public int ContarTurnosOcupados()
+	{
+		return tdao.ContarTurnosOcupados();
+	}
+	public int ContarTurnosPresentes()
+	{
+		return tdao.ContarTurnosPresentes();
+	}
+	public int ContarTurnosAusentes()
+	{
+		return tdao.ContarTurnosAusentes();
+	}
 }

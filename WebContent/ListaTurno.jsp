@@ -5,6 +5,7 @@
 <%@ page import="javax.naming.NamingException" %>
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Turno"%>
+<%@page import="entidad.Medico"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
@@ -42,20 +43,29 @@
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="navbar-brand" href="ServletUsuario?Param=1">
-                            <img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+                        <a class="navbar-brand mb-0 h1" href="ServletUsuario?Param=1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> 🢀  Volver a Menú Principal
                         </a>
                     </li>
+    				<div class="container">
+    					<a class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</a>
+  					</div>
                 </ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<% Usuario a = (Usuario) session.getAttribute("usuario"); 
+			Medico medico = (Medico) session.getAttribute("medico");%>
+			<div class="row">
+				<div class="col-6">
+					<ul class="text-end navbar-brand mb-0 fs-6" style=""> <b>Medico:</b> <%= medico.getApellido()%>, <%= medico.getNombre()%> </ul>
+					<ul class="text-end navbar-brand mb-0 fs-6" style=""> <b> DNI:</b> <%= a.getDNI() %> </ul>
+				</div>
+			</div>
                 <form method="post" action="ServletUsuario">
-			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+			<input type=submit class="btn btn-danger" name="btnSalir" value="Salir"></input>
 			</form>
             </div>
         </div>
@@ -77,6 +87,7 @@
         <div class="row">
             <div class="col-12">
                 <h1>Listado de Turnos</h1>
+                <hr>
                 <% if(request.getAttribute("turnosProximos") != null) { %>
                 	<a href="ServletTurno?Param=listarTurnosDiaActual" class="btn btn-info">Mostrar solo turnos del dia de hoy</a>
                 <% } else { %>
@@ -119,8 +130,8 @@
             </div>
         </div>
     </div>
-    
      <div class="container">
+     <hr>
         <div class="row">
         <h4>Filtrar turnos por fecha</h4>
         	<div class="col-2">
@@ -133,7 +144,8 @@
 					<input type="date" name="fechaHasta" value="<%=LocalDate.now().plusDays(1)%>"> 
 					<br>
 					<br>
-					<input type="submit" name="btnBuscarxFecha" value="Buscar" class="btn btn-primary">
+					<input type="submit" name="btnBuscarxFecha" value="Buscar" class="btn btn-primary text-center">
+					<hr>
 					</form>
             	</div>
         	</div>

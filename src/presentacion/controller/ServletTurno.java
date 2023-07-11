@@ -449,6 +449,7 @@ public class ServletTurno extends HttpServlet {
 			}
 			
 		}
+		
 		if(request.getParameter("btnBuscarxFecha") != null) {
 			
 			Usuario u = (Usuario) request.getSession().getAttribute("usuario");

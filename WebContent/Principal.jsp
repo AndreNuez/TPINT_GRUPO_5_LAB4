@@ -20,8 +20,9 @@
             <div class="text-center text-muted">
                 <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
             </div>
-            <div class="col-4"></div>
-            <div class="col-2"></div>
+            <div class="col-4"><div class="alert alert-danger" role="alert">
+  				Usuario o contraseña incorrectos
+			</div></div>
             <br />
             <form action="ServletUsuario" method="post">
             
