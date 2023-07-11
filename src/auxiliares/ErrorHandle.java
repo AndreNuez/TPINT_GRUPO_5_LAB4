@@ -7,9 +7,10 @@ import entidad.Usuario;
 
 public class ErrorHandle {
 	
-	public String usuarioSoftDeleted() {
-			
-		return "Usted a sido dado de baja. Contactarse con el sindicato"; 
+	public boolean usuarioValidateNotNull(Usuario user) {
+			if (user != null) {
+				return true; 
+			}
+		return false;
 	}
-	
 }

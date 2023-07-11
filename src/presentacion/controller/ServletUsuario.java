@@ -71,12 +71,19 @@ public class ServletUsuario extends HttpServlet {
 			
 			Usuario user = null;
 			
-			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
+			try {
+				user = (Usuario) userNeg.obtenerUsuario(pass, dni);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
 			
 			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
-			if(user != null && user.getEstado() == 1) {
+			if(user != null) {
+					
+				if (user.getEstado() == 1) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
-
 						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
 						dispatcher.forward(request, response);
@@ -87,16 +94,20 @@ public class ServletUsuario extends HttpServlet {
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
 						dispatcher.forward(request, response);
 					}
+				}
+				
+				else if (user.getEstado() == 0) {
+						request.getSession().setAttribute("errorMessage", "Usted ha sido dado de baja en el sistema. Comuníquese con el sindicato");
+				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+						dispatcher.forward(request, response);	
+				}			
 			}
 			
-			//Usuario eliminado (baja lógica) // getEstado() == 0 -> False
-			else if (user != null && user.getEstado() == 0){
-				String errorMessage = errorHandle.usuarioSoftDeleted();
-			    request.getSession().setAttribute("errorMessage", errorMessage);
+			else if (user == null) {
+				request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 				dispatcher.forward(request, response);
 			}
-					
 		}
 		
 		if(request.getParameter("btnSalir") != null)
@@ -104,8 +115,6 @@ public class ServletUsuario extends HttpServlet {
 			request.getSession().removeAttribute("usuario");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 			dispatcher.forward(request, response);
-		}
-			
+		}	
 	}
-
 }
