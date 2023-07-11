@@ -15,16 +15,22 @@ import javax.websocket.Session;
 
 import entidad.Direccion;
 import entidad.Localidad;
+import entidad.Medico;
 import entidad.Persona;
 import entidad.Provincia;
+import entidad.Turno;
 import negocio.DireccionNegocio;
 import negocio.LocalidadNegocio;
+import negocio.MedicoNegocio;
 import negocio.PacienteNegocio;
 import negocio.ProvinciaNegocio;
+import negocio.TurnoNegocio;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
+import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
+import negocioImpl.TurnoNegocioImpl;
 
 @WebServlet("/ServletPacientes")
 public class ServletPacientes extends HttpServlet {
@@ -34,6 +40,8 @@ public class ServletPacientes extends HttpServlet {
 	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
 	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
 	DireccionNegocio dpNeg = new DireccionNegocioImpl();
+	TurnoNegocio tneg = new TurnoNegocioImpl();
+	MedicoNegocio mneg = new MedicoNegocioImpl();
 	
     public ServletPacientes() {
         super();
@@ -50,6 +58,11 @@ public class ServletPacientes extends HttpServlet {
 			
 			case "agregarNuevo":
 			{
+				String retornarAsignarTurnos = request.getParameter("retornarAsignarTurnos");
+				if (retornarAsignarTurnos != null && !retornarAsignarTurnos.isEmpty()) {
+					request.setAttribute("retornarAsignarTurnos", retornarAsignarTurnos);
+				}
+				
 				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
 				request.setAttribute("listaProv", listaP);
 				
@@ -136,8 +149,14 @@ public class ServletPacientes extends HttpServlet {
 			request.setAttribute("estadoDP", estadodp);
 			
 			//Vuelve a Asignar Turno luego de crear el paciente faltante
-			if(request.getParameter("Param2") != null) 
+		    if (request.getParameter("retornarAsignarTurnos") != null)
 			{
+		    	//Carga de listas predeterminadas
+				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
+				request.setAttribute("listaMedicos", listaMedicos);
+				ArrayList<Turno> lista = tneg.ListarTodos();
+				request.setAttribute("listaTurnosPorAsignar", lista);
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 				dispatcher.forward(request, response);
 			}

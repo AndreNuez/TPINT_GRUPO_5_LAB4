@@ -177,8 +177,9 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 
     if (confirmacion)
     {
-      sessionStorage.setItem('dniPacienteACrear', dniPaciente);    	  
-      window.location.href = "ServletPacientes?Param=agregarNuevo&Param2=retornarAsignarTurno";
+      sessionStorage.setItem('dniPacienteACrear', dniPaciente);
+      var url = "ServletPacientes?Param=agregarNuevo&retornarAsignarTurnos=true";
+      window.location.href = url;
     }
   }
 </script>

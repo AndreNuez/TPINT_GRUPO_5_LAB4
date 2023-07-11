@@ -212,6 +212,7 @@ public class TurnoDaoImpl implements TurnoDao{
 		{
 			cn.close();
 		}
+		System.out.println(existe);
 		return existe;
 	}
 	
