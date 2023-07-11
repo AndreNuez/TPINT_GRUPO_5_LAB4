@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Exceptions.DniInvalido;
 import auxiliares.ErrorHandle;
 import entidad.Usuario;
 import negocio.UsuarioNegocio;
@@ -62,8 +63,7 @@ public class ServletUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ErrorHandle errorHandle = new ErrorHandle();
-		
+
 		if(request.getParameter("btnIngresar")!=null) {
 			
 			String pass = request.getParameter("txtContraseña");
@@ -72,16 +72,28 @@ public class ServletUsuario extends HttpServlet {
 			Usuario user = null;
 			
 			try {
-				user = (Usuario) userNeg.obtenerUsuario(pass, dni);
+			    user = (Usuario) userNeg.obtenerUsuario(pass, dni);		
+			    
+			    try {
+				    userNeg.validarDNI(user.getDNI());
+			    } catch (DniInvalido dniInv) {
+			    	dniInv.printStackTrace();
+			    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+					dispatcher.forward(request, response);
+					return;
+			    } catch (Exception e) {
+					// TODO: handle exception
+				}
+
 			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
+			    e.printStackTrace();
+			    request.getSession().setAttribute("errorMessage", "An error occurred during user authentication");
+			    RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+			    dispatcher.forward(request, response);
 			}
 			
-			
 			//Usuario not null y sin eliminar (baja lógica) // getEstado() == 1 -> True
-			if(user != null) {
-					
+			if(user.getDNI() != 0) {	
 				if (user.getEstado() == 1) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 						request.getSession().setAttribute("usuario", user);
@@ -103,10 +115,11 @@ public class ServletUsuario extends HttpServlet {
 				}			
 			}
 			
-			else if (user == null) {
-				request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
+			else if (user.getDNI() == 0) {
+				//request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 				dispatcher.forward(request, response);
+				return;
 			}
 		}
 		

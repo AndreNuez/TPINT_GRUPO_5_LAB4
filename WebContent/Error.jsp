@@ -8,11 +8,9 @@
 <title>ERROR !</title>
 </head>
 <body>
-	<% 
-	    String mensaje = session.getAttribute("usuario").toString(); 
-	%>
+	<p>THIS ERROR</p>
 	
-	<p><%= mensaje %></p>
+
 	
 </body>
 </html>
