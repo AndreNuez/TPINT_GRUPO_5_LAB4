@@ -92,5 +92,22 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	@Override
 	public ArrayList<Turno> ListarTurnosLibresPorMedico(Medico medico) {
 		return tdao.ListarTurnosLibresPorMedico(medico);
+
+	public int ContarTurnosLibres()
+	{
+		return tdao.ContarTurnosLibres();
+	}
+	public int ContarTurnosOcupados()
+	{
+		return tdao.ContarTurnosOcupados();
+	}
+	public int ContarTurnosPresentes()
+	{
+		return tdao.ContarTurnosPresentes();
+	}
+	public int ContarTurnosAusentes()
+	{
+		return tdao.ContarTurnosAusentes();
+
 	}
 }

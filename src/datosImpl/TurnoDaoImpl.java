@@ -97,10 +97,12 @@ public class TurnoDaoImpl implements TurnoDao{
 		cn.Open();
 		ArrayList<Turno> list = new ArrayList<Turno>();
 		int dniMedico = medico.getDNI();
+		LocalDate fechaHoy = LocalDate.now();
+		
 		try
 		{
 
-			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico);
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha >= '" + fechaHoy + "'");
 			
 			
 			while(rs.next())
@@ -328,7 +330,7 @@ public class TurnoDaoImpl implements TurnoDao{
 		try
 		{
 			
-			ResultSet rs= cn.query("SELECT turnos.IDTurno, turnos.DNIMedico, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, turnos.IDEstado, turnos.Observacion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI  INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI AND medicos.DNI = 96396396 AND turnos.Fecha >= '"+ fechaDesde +"' AND turnos.Fecha <= '"+ fechaHasta +"' and (turnos.IDEstado = 2 or turnos.IDEstado = 3)");
+			ResultSet rs= cn.query("SELECT turnos.IDTurno, turnos.DNIMedico, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, turnos.IDEstado, turnos.Observacion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI  INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI AND medicos.DNI = "+ dniMedico +" AND turnos.Fecha >= '"+ fechaDesde +"' AND turnos.Fecha <= '"+ fechaHasta +"' and (turnos.IDEstado = 2 or turnos.IDEstado = 3)");
 
 			while(rs.next())
 			{
@@ -354,7 +356,6 @@ public class TurnoDaoImpl implements TurnoDao{
 				} else {
 					turno.setObservaciones(observacion);
 				}
-				
 				
 				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
 				turno.setHora(rs.getInt("turnos.Hora"));
@@ -401,6 +402,7 @@ public class TurnoDaoImpl implements TurnoDao{
 
 	}
 	
+
 	public ArrayList<Turno> ListarTurnosLibresPorMedico(Medico medico) {
 		cn = new Conexion();
 		cn.Open();
@@ -467,6 +469,128 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 		
 		return estado;
+
+	public int ContarTurnosLibres() {
+
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 0";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+
+	}
+	
+	
+	public int ContarTurnosOcupados()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 1";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+	}
+	
+	public int ContarTurnosPresentes()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 3";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+	}
+	
+	public int ContarTurnosAusentes()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 2";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+
 	}
 }
 

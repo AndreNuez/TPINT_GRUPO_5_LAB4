@@ -20,4 +20,12 @@ public interface TurnoNegocio {
 	public boolean ActualizarEstadoTurnoAusente(int idTurno);
 	public boolean EliminarTurnosLibresPorMedico(int dniMedico);
 	public boolean eliminarTurnosxDia (Medico medico, String fecha);
+	public int ContarTurnosLibres();
+	public int ContarTurnosOcupados();
+	public int ContarTurnosPresentes();
+	public int ContarTurnosAusentes();
+	
+	
+
+
 }
