@@ -2,6 +2,7 @@ package datosImpl;
 
 import java.sql.ResultSet;
 
+import Exceptions.UsuarioRegistrado;
 import datos.UsuarioDao;
 import entidad.Usuario;
 import entidad.TipoUsuario;
@@ -100,5 +101,9 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 		return estado;
 	}
+	
+
+	
+	
 
 }

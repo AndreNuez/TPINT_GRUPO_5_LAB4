@@ -37,6 +37,7 @@
 				    
 				        if (administrador)
 				            response.sendRedirect("Principal.jsp");
+				        
 				    }
 				%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user.getDNI() %> </ul>

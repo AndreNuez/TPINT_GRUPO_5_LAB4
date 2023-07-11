@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.UsuarioRegistrado;
 import datos.PacienteDao;
 import entidad.Direccion;
 import entidad.Localidad;
@@ -311,5 +312,32 @@ public class PacienteDaoImpl implements PacienteDao {
 			}
 
 		return cantidad;
+	}
+	
+	public boolean validarPacienteExistente(int dni) throws UsuarioRegistrado{
+		boolean existe = false;
+		int cantDniBD;
+		cn = new Conexion();
+		cn.Open();
+		
+		try {
+			ResultSet rs = cn.query("select count(DNI) as Cantidad from pacientes where DNI = '" + dni + "'"); 
+			rs.next();
+			
+			cantDniBD = rs.getInt("Cantidad");
+			
+			if (cantDniBD == 1)
+				existe = true; 
+				throw new UsuarioRegistrado();
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			cn.close();
+		}
+		
+		return existe;
+
 	}
 }

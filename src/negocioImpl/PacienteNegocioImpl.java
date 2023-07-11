@@ -3,6 +3,7 @@ package negocioImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.UsuarioRegistrado;
 import datos.PacienteDao;
 import datosImpl.PacienteDaoImpl;
 import entidad.Persona;
@@ -71,4 +72,9 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 		return pacienteDao.ContarMenores();
 	}
 	
+	@Override
+	public boolean validarPacienteExistente(int dni) throws UsuarioRegistrado {
+		// TODO Auto-generated method stub
+		return pacienteDao.validarPacienteExistente(dni);
+	}
 }

@@ -7,6 +7,7 @@
 <%@page import="entidad.Medico"%>
 <%@page import="entidad.Especialidad"%>
 <%@page import="entidad.Horario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 
 
 <!-- Librerias -->
@@ -32,7 +33,18 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+				    
+				        if (!administrador)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>

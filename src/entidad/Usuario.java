@@ -3,7 +3,7 @@ package entidad;
 public class Usuario {
 	
 	private int DNI;
-	private String Contrase�a;
+	private String Contraseña;
 	private TipoUsuario Tipo;
 	private int estado;
 	
@@ -11,11 +11,11 @@ public class Usuario {
 		
 	}
 	
-	public Usuario(int dNI, String contrase�a, TipoUsuario tipo, int estado) {
+	public Usuario(int dNI, String contraseña, TipoUsuario tipo, int estado) {
 		super();
 
 		DNI = dNI;
-		Contrase�a = contrase�a;
+		Contraseña = contraseña;
 		Tipo = tipo;
 		this.estado = estado;
 	}
@@ -28,12 +28,12 @@ public class Usuario {
 		DNI = dNI;
 	}
 
-	public String getContrase�a() {
-		return Contrase�a;
+	public String getContraseña() {
+		return Contraseña;
 	}
 
-	public void setContrase�a(String contrase�a) {
-		Contrase�a = contrase�a;
+	public void setContraseña(String contraseña) {
+		Contraseña = contraseña;
 	}
 
 	public TipoUsuario getTipo() {
@@ -54,7 +54,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [DNI=" + DNI + ", Contraseña=" + Contrase�a + ", Tipo=" + Tipo + "]";
+		return "Usuario [DNI=" + DNI + ", Contraseña=" + Contraseña + ", Tipo=" + Tipo + "]";
 	}
 	
 }
