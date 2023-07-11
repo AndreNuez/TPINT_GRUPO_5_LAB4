@@ -115,8 +115,7 @@
             </div>
             <div class="mb-2">
 				<label for="DiaAtencion"><b>Dia de turno:</b></label>
-				<select name="DiaAtencion" required>
-					<option value="">Seleccionar opcion...</option>
+				<select name="DiaAtencion">
 					<% 
 						for (Horario h : listaH) { 
 					%>
@@ -126,14 +125,9 @@
             </div>
             <div class="mb-2">
             	<label for="FechaTurno"><b>Fecha del turno:</b></label>
-				<input type="date" name="FechaTurno" min="<%=LocalDate.now().plusDays(1) %>" required>
+				<input type="date" name="FechaTurno" min="<%=LocalDate.now().plusDays(1) %>" value="<%=LocalDate.now().plusDays(1) %>">
 			</div>
-			 <div class="mb-2">
-				<input type="submit" name="btnChequear" value="Chequear Disponibilidad" class="btn btn-primary"> </input>
-            </div>
    <%} %>
-   
-   
             <div>
             	<br>
             </div>
@@ -151,21 +145,25 @@
 
 	<%
 		if (request.getAttribute("exito") != null) {
+			
 	%>
 	<script type="text/javascript">
+	
+		var mensaje = 'Se crearon <%= request.getAttribute("cantTurnos") %> turnos para el medico <%= request.getAttribute("apellidoMedico") %> <%= request.getAttribute("nombreMedico") %> en la fecha <%= request.getAttribute("fecha") %>';
 		function alertName(){
-		alert("Turnos agregados con exito");
+		alert(mensaje);
 		} 
 		</script> 
 	<%
 		}
 	%>
+	
 	<%
 		if (request.getAttribute("errorDia") != null) {
 	%>
 	<script type="text/javascript">
 		function alertName(){
-		alert("El medico no trabaja ese dia");
+		alert("La fecha elegida no corresponde al dia seleccionado.");
 		} 
 		</script> 
 	<%
@@ -176,7 +174,7 @@
 	%>
 		<script type="text/javascript">
 		function alertName(){
-		alert("Ya se han creado turnos para ese medico ese dia");
+		alert("Ya se han creado turnos para ese medico ese dia.");
 		} 
 		</script> 
 	<%

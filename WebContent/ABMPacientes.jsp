@@ -19,6 +19,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
+
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -62,17 +63,22 @@
 		if (request.getAttribute("ModificarPaciente") != null) {
 			paciente = (Persona)request.getAttribute("ModificarPaciente");
 		}
+		
+		if (request.getAttribute("verPacienteComoMedico") != null)
+		{
+			paciente = (Persona)request.getAttribute("verPaciente");
+		}
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
-
+	
 	%>
 
 <!-- Formulario y controles --> 
  <div class="container">
  	<h4>Datos del paciente</h4> <hr>
  
- <!-- Si doy click en AgregarNuevo, cargo todos los campos vacíos -->
+ <!-- Si doy click en AgregarNuevo, cargo todos los campos vacÃ­os -->
  
  <% if ((request.getAttribute("verPaciente") == null) && (request.getAttribute("ModificarPaciente") == null)) { %>
 
@@ -81,7 +87,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>       
-				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos." required>
+				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un nÃºmero de 8 dÃ­gitos." required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -110,7 +116,7 @@
             </div>
             <div class="mb-2">
 				<label for="Telefono">Telefono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" pattern="[0-9]+" title="Ingrese solo números" required>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" pattern="[0-9]+" title="Ingrese solo nÃºmeros" required>
             </div>
 		</div>
         <div class="col-6">
@@ -121,7 +127,7 @@
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Numero" pattern="[0-9]+" title="Ingrese solo números" required>
+				<input type="text" name="txtNumero" placeholder="Numero" pattern="[0-9]+" title="Ingrese solo nÃºmeros" required>
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
@@ -142,7 +148,7 @@
         	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         <br><br>
         <div>
-			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea agregar este paciente?')"> </input>	
+			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('Â¿EstÃ¡ seguro que desea agregar este paciente?')"> </input>	
 			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
@@ -152,7 +158,7 @@
  
  <!-- Si doy click a VerCompleto, solo veo los datos como lbl -->	
  
- <% if (request.getAttribute("verPaciente") != null) {%>
+ <% if (request.getAttribute("verPaciente") != null || request.getAttribute("verPacienteComoMedico") != null) {%>
 
     <div class="row justify-content-center g-4">
         <div class="col-3">
@@ -212,9 +218,13 @@
         <div>
             <br><br>
  			<form action="ServletPacientes" method="post">
-            	<input type="hidden" name="dniPaciente" value= <%=paciente.getDNI()%>>
+ 			 <% if (request.getAttribute("verPacienteComoMedico") != null) {%>
+				<a href="ServletTurno?Param=listarTurnos" class="btn btn-info">Regresar</a>
+				<%} else{ %>
+				<input type="hidden" name="dniPaciente" value= <%=paciente.getDNI()%>>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
+			<% } %>
 			</form>	
         </div>
         </div>
@@ -293,7 +303,7 @@
 		 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 				<%} else {%>
-					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea modificar este paciente?')"> </input>
+					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary" onclick="return confirm('Â¿EstÃ¡ seguro que desea modificar este paciente?')"> </input>
 				<%}%>	
 		
 		<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
@@ -348,5 +358,19 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>
+
+<script>
+
+	var dniPaciente = sessionStorage.getItem("dniPacienteACrear");
+	if(dniPaciente)
+	{
+		var campoDNI = document.getElementById("campoDNI");
+		campoDNI.value = dniPaciente;
+		sessionStorage.removeItem("dniPacienteACrear");
+	}
+
+
+</script>
+
 </body>
 </html>

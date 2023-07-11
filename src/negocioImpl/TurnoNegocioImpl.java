@@ -28,6 +28,16 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 		return tdao.ListarTurnosPorMedico(medico);
 	}
 	
+	public ArrayList<Turno> ListarTurnosPorMedicoDiaActual(Medico medico)
+	{
+		return tdao.ListarTurnosPorMedicoDiaActual(medico);
+	}
+	
+	public ArrayList<Turno> ListarTurnosPorMedicoYFecha(Medico medico, LocalDate fechaDesde, LocalDate fechaHasta)
+	{
+		return tdao.ListarTurnosPorMedicoYFecha(medico, fechaDesde, fechaHasta);
+	}
+	
 	public boolean chequearFecha(LocalDate fecha, int dniMedico)
 	{
 		return tdao.ChequearFecha(fecha, dniMedico);
@@ -36,5 +46,24 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 	public boolean insertarTurno(int dniMedico, LocalDate fecha, int i)
 	{
 		return tdao.insertarTurno(dniMedico, fecha, i);
+	}
+	
+	public boolean existeTurnoEnHorarioFecha(Turno turno) {
+		return tdao.existeTurnoEnHorarioFecha(turno);
+	}
+	
+	public boolean ActualizarEstadoTurnoAsistio(int idTurno, String observacion)
+	{
+		return tdao.ActualizarEstadoTurnoAsistio(idTurno, observacion);
+	}
+	
+	public boolean ActualizarEstadoTurnoAusente(int idTurno)
+	{
+		return tdao.ActualizarEstadoTurnoAusente(idTurno);
+	}
+	
+	public boolean EliminarTurnosLibresPorMedico(int dniMedico)
+	{
+		return tdao.EliminarTurnosLibresPorMedico(dniMedico);
 	}
 }

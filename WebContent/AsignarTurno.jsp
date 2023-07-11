@@ -37,7 +37,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 	{
 	    alert(mensaje);		
 	}
-
+	
 </script>
 
 </head>
@@ -50,6 +50,11 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorAsignar");
 		}
 		
+		Medico medicoSeleccionado = new Medico();
+		if(request.getAttribute("medicoSeleccionado") != null){
+			medicoSeleccionado = (Medico) (request.getAttribute("medicoSeleccionado"));
+		}
+		
 		if (request.getAttribute("listaTurnosPorMedico") != null) {
 			listaTurnosPorAsignar = (ArrayList<Turno>) request.getAttribute("listaTurnosPorMedico");
 		}
@@ -57,6 +62,14 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 		ArrayList<Medico> listaMedicos = new ArrayList<Medico>();
 		if (request.getAttribute("listaMedicos") != null) {
 			listaMedicos = (ArrayList<Medico>) request.getAttribute("listaMedicos");
+		}
+		
+		int dniPacienteACrear = 0;
+		boolean crearPaciente = false;
+		if(request.getAttribute("pacienteNoExiste") != null && request.getAttribute("dniACrear") != null)
+		{
+			crearPaciente = true;
+			dniPacienteACrear = (int) request.getAttribute("dniACrear");
 		}
 	%>
 
@@ -67,7 +80,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="ServletUsuario?Param=1">
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Men√∫ Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
@@ -88,17 +101,18 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
-					<option value=0 selected> Seleccione un m√©dico... </option>
-					<% for (Medico m : listaMedicos) {%>
-        			<option value="<%=m.getDNI()%>" ><%=m.getNombre()+" "+m.getApellido()%></option>
-        			<%}%>
+        			<% for (Medico m : listaMedicos) {
+      				if (request.getAttribute("listaTurnosPorMedico") != null && m.getDNI() == medicoSeleccionado.getDNI()) {%>
+        			<option value="<%=m.getDNI() %>" selected><%=m.getNombre()+" "+m.getApellido()%></option>
+        		<%} else {%>
+        			<option value="<%=m.getDNI()%>"><%=m.getNombre()+" "+m.getApellido()%></option>
+        		<%}}%>
 				</select>
-
-				
 				<input type="submit" value="Filtrar" name="btnFilter" class="btn btn-info">
 				<input type="submit" value="Borrar Filtros" name="deleteFilters" class="btn btn-danger"/>
 
-  </div> 
+  </div>
+  </form>
   <div class="row">
     <div class="col-4"></div>
   	<br>
@@ -108,10 +122,8 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 		<thead>
 			<tr>
 				<th>ID de turno</th>
-				<th>M√©dico</th>
+				<th>Medico</th>
 				<th>Especialidad</th>
-
-
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -123,17 +135,19 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 
 			%>
 			<tr>
+				<form action="ServletTurno" method="post">
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
 
-				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%></td>
+				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>> <input type="hidden" name = "horaTurno" value = <%=t.getHora()%>> </td>
 				<td>
 				<div class="mb-3">
-                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un n√∫mero de 8 d√≠gitos.">
+                        <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos.">
                 </div>
                 </td>
-				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info"></td>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('øEst· seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				</form>
 			</tr>
 
 			<%
@@ -144,9 +158,24 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 </div>
 <div class="col-4"></div>
 </div>
-</form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
+
+<script>
+  var crearPaciente = <%=crearPaciente%>;
+  var dniPaciente = <%=dniPacienteACrear%>;
+
+  if (crearPaciente) {
+    var confirmacion = confirm("El DNI ingresado no se encuentra en la base de datos."+"\n"+"øDeseea crear un paciente utilizando este DNI?");
+
+    if (confirmacion)
+    {
+      sessionStorage.setItem('dniPacienteACrear', dniPaciente);    	  
+      window.location.href = "ABMPacientes.jsp";
+    }
+  }
+</script>
+
 </html>
