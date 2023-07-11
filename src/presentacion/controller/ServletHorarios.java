@@ -20,12 +20,14 @@ import negocio.HorarioNegocio;
 import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
+import negocio.TurnoNegocio;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
+import negocioImpl.TurnoNegocioImpl;
 
 @WebServlet("/ServletHorarios")
 public class ServletHorarios extends HttpServlet {
@@ -37,6 +39,7 @@ public class ServletHorarios extends HttpServlet {
 	EspecialidadNegocio espNeg = new EspecialidadNegocioImpl();
 	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletHorarios() {
         super();
@@ -69,9 +72,9 @@ public class ServletHorarios extends HttpServlet {
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
 			
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
-			boolean eliminarhorario = true;
-			
-			eliminarhorario = hNeg.EliminarHorario(idHorario); 
+			String dia = request.getParameter("Dia");
+			System.out.println(dia);
+			boolean eliminarhorario = hNeg.EliminarHorario(idHorario); 
 
 			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
 			request.setAttribute("listaProv", listaP);
@@ -83,6 +86,7 @@ public class ServletHorarios extends HttpServlet {
 			{				
 				Medico medico = new Medico();
 				medico = mNeg.ListarUno(dni);
+				tNeg.eliminarTurnosxDia(medico, dia); //elimino turnos libres del dia eliminado.
 				request.setAttribute("verMedico", medico);
 				request.setAttribute("dniMedico",dni);
 				

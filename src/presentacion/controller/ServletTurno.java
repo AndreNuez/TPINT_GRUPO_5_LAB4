@@ -354,9 +354,6 @@ public class ServletTurno extends HttpServlet {
 					
 					int dni = (int)request.getSession().getAttribute("dniMedico");
 
-					ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-					request.setAttribute("listaMedicos", listaMedicos);
-					
 					if(mneg.ListarUno(dni) != null)
 					{				
 						Medico medico = new Medico();
@@ -384,9 +381,6 @@ public class ServletTurno extends HttpServlet {
 				
 				int dni = (int)request.getSession().getAttribute("dniMedico");
 				System.out.println(dni);
-
-				ArrayList<Medico> listaMedicos = mneg.ListarTodos();
-				request.setAttribute("listaMedicos", listaMedicos);
 				
 				if(mneg.ListarUno(dni) != null)
 				{				
