@@ -76,7 +76,7 @@
  
  <% if ((request.getAttribute("verPaciente") == null) && (request.getAttribute("ModificarPaciente") == null)) { %>
 
-	<form action="ServletPacientes" method="post">
+	<form action="ServletPacientes" method="post" onsubmit="return validarFormulario()">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
@@ -85,11 +85,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name="txtNombre" placeholder="Nombre" required>
+				<input type="text" name="txtNombre" placeholder="Nombre" required id="Nombre">
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" id="Apellido">
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -117,7 +117,7 @@
         <h5>Direccion</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" required>
+				<input type="text" name="txtCalle" placeholder="Calle" required id="Calle">
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
@@ -225,7 +225,7 @@
 <% if (request.getAttribute("ModificarPaciente") != null) { %>
 
 <!-- Si hago click en Modificar, se renderiza y muestra las cajas de txt para modificar -->
-	<form action="ServletPacientes" method="post">
+	<form action="ServletPacientes" method="post" onsubmit="return validarFormulario()">
     <div class="row">
         <div class="col-6">
             <div class="mb-2">
@@ -234,11 +234,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name="txtNombre" placeholder="Nombre" required value=<%=paciente.getNombre() %>>
+				<input type="text" name="txtNombre" placeholder="Nombre" required id="Nombre" value=<%=paciente.getNombre() %>>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" required value=<%=paciente.getApellido() %>>
+				<input type="text" name="txtApellido" placeholder="Apellido" required id="Apellido" value=<%=paciente.getApellido() %>>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -266,7 +266,7 @@
         <h5>Direccion</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" value=<%=paciente.getDireccion().getCalle() %>>
+				<input type="text" name="txtCalle" placeholder="Calle" id="Calle" value=<%=paciente.getDireccion().getCalle() %>>
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
@@ -328,7 +328,23 @@
 	<%
 		}
 	%>
-       
+ 
+ <!-- Validar espacios vacios. -->
+<script>
+  function validarFormulario() {
+    var Nombre = document.getElementById("Nombre").value.trim();
+    var Apellido = document.getElementById("Apellido").value.trim();
+    var Calle = document.getElementById("Calle").value.trim();
+
+    if (Nombre === "" || Apellido === "" || Calle === "") {
+      alert("No se pueden guardar espacios. Debe ingresar un valor en todos los campos.");
+      return false;
+    }
+    return true;
+  }
+</script>
+
+      
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

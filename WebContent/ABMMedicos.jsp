@@ -8,9 +8,10 @@
 <%@page import="entidad.Especialidad"%>
 <%@page import="entidad.Horario"%>
 
+
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.time.LocalDate" %>
+<%@page import="java.time.LocalDate"%>
  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -72,6 +73,8 @@
 			medico = (Medico)request.getAttribute("ModificarMedico");
 		}
 		
+		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+		
 		String esMasculino = medico.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = medico.getSexo() == 'F' ? "checked" : "";
 		
@@ -85,7 +88,7 @@
  
  <%if ((request.getAttribute("verMedico") == null) && (request.getAttribute("ModificarMedico") == null) && (request.getParameter("dniMedico") == null) ) {%>	
 
- <form action="ServletMedicos" method="post">
+ <form action="ServletMedicos" method="post" onsubmit="return validarFormulario()">
     <div class="row ">
         <div class="col-6">
             <div class="mb-2">
@@ -94,11 +97,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-				<input type="text" name="txtNombre" placeholder="Nombre" required>
+				<input type="text" name="txtNombre" placeholder="Nombre" required id="Nombre">
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" required>
+				<input type="text" name="txtApellido" placeholder="Apellido" required id="Apellido">
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -138,7 +141,7 @@
         <h5>Dirección</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-				<input type="text" name="txtCalle" placeholder="Calle" required>
+				<input type="text" name="txtCalle" placeholder="Calle" required id="Calle">
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
@@ -161,11 +164,9 @@
 				<label for="Dia">Dia:</label>
 				<select name="Dia" required>
 					<option value="">Seleccionar opcion...</option>
-					<option> Lunes </option>
-					<option> Martes </option>
-					<option> Miércoles </option>
-					<option> Jueves </option>
-					<option> Viernes </option>
+					<% for (String dia : diasDisponibles) {%>
+  					    <option><%= dia %></option>
+  					 <%}%>
 				</select>
             </div>
             <div class="mb-2">
@@ -298,7 +299,7 @@
 
 <% if (request.getAttribute("ModificarMedico") != null) { %>
 
-<form id=mod action="ServletMedicos" method="post">
+<form id=mod action="ServletMedicos" method="post" onsubmit="return validarFormulario()">
 	<div class="row justify-content-center g-4">
 		<div class="col-md-4">
        		<div class="mb-2">
@@ -307,11 +308,11 @@
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
-                <input type="text" name="txtNombre" placeholder="Nombre" required value=<%=medico.getNombre() %>>
+                <input type="text" name="txtNombre" placeholder="Nombre" id="Nombre" value=<%=medico.getNombre() %>>
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-               <input type="text" name="txtApellido" placeholder="Apellido" required value=<%=medico.getApellido() %>>
+               <input type="text" name="txtApellido" placeholder="Apellido" required id="Apellido" value=<%=medico.getApellido() %>>
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>
@@ -350,7 +351,7 @@
         <h5>Direccion</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
-                <input type="text" name="txtCalle" placeholder="Calle" value=<%=medico.getDireccion().getCalle() %>>
+                <input type="text" name="txtCalle" placeholder="Calle" id="Calle" value=<%=medico.getDireccion().getCalle() %>>
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
@@ -426,6 +427,21 @@
 	<%
 		}
 	%>
+
+ <!-- Validar espacios vacios. -->
+<script>
+  function validarFormulario() {
+    var Nombre = document.getElementById("Nombre").value.trim();
+    var Apellido = document.getElementById("Apellido").value.trim();
+    var Calle = document.getElementById("Calle").value.trim();
+
+    if (Nombre === "" || Apellido === "" || Calle === "") {
+      alert("No se pueden guardar espacios. Debe ingresar un valor en todos los campos.");
+      return false;
+    }
+    return true;
+  }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

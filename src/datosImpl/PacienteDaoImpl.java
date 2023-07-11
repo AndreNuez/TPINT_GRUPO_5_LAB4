@@ -31,7 +31,7 @@ public class PacienteDaoImpl implements PacienteDao {
 			List<Persona> list = new ArrayList<Persona>();
 			try
 			{
-				ResultSet rs= cn.query("SELECT DNI, Apellido, Nombres, Sexo, Nacionalidad, Nacionalidad, FechaNacimiento, Mail, Telefono, Estado FROM pacientes WHERE Estado = 1");
+				ResultSet rs= cn.query("SELECT DNI, Apellido, Nombres, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, Estado FROM pacientes WHERE Estado = 1");
 				while(rs.next())
 				{
 					Persona paciente = new Persona();
@@ -68,7 +68,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		Direccion direccion = new Direccion();
 			try
 			{
-				ResultSet rs= cn.query("SELECT pacientes.DNI,pacientes.Apellido,pacientes.Nombres,pacientes.Sexo, pacientes.Nacionalidad,pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono,pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.IDLocalidad, localidades.Nombre,provincias.IDProvincia, provincias.Nombre FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia where pacientes.Estado = 1 && pacientes.DNI="+dni);
+				ResultSet rs= cn.query("SELECT pacientes.DNI,pacientes.Apellido,pacientes.Nombres,pacientes.Sexo, pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono,pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.IDLocalidad, localidades.Nombre,provincias.IDProvincia, provincias.Nombre FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia where pacientes.Estado = 1 && pacientes.DNI="+dni);
 				rs.next();
 				{
 					paciente.setDNI(rs.getInt("pacientes.DNI"));
