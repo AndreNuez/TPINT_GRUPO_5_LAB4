@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import entidad.Medico;
 import Exceptions.DniInvalido;
 import auxiliares.ErrorHandle;
+import auxiliares.Seguridad;
 import entidad.Usuario;
 import negocio.MedicoNegocio;
 import negocio.UsuarioNegocio;
@@ -55,12 +56,15 @@ public class ServletUsuario extends HttpServlet {
 			String pass = request.getParameter("txtContraseña");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
+			Seguridad seguridad = new Seguridad();
 			Usuario user = null;
+			boolean eliminado = true;
 			
 			try {
 
 				user = (Usuario) userNeg.obtenerUsuario(pass, dni);
 				userNeg.validarDNI(user.getDNI());
+				eliminado = seguridad.usuarioEliminado(user);
 
 			} catch (DniInvalido dniInv) {
 				
@@ -82,7 +86,7 @@ public class ServletUsuario extends HttpServlet {
 			} 
 			
 			if(user.getDNI() != 0) {	
-				if (user.getEstado() == 1) {
+				if (!eliminado) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
 						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
@@ -100,8 +104,9 @@ public class ServletUsuario extends HttpServlet {
 					}
 				}
 				
-				else if (user.getEstado() == 0) {
-						request.getSession().setAttribute("errorMessage", "Usted ha sido dado de baja en el sistema. Comuniquese con el sindicato");
+				else if (eliminado) {
+						String mensajeBajaSistema = "Usted ha sido dado de baja en el sistema. Comuniquese con el sindicato";
+						request.getSession().setAttribute("errorMessage", mensajeBajaSistema);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 						dispatcher.forward(request, response);	
 				}			
@@ -110,8 +115,8 @@ public class ServletUsuario extends HttpServlet {
 			else if (user.getDNI() == 0) {
 				
 				//request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
-				dispatcher.forward(request, response);
+		    	//RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+				//dispatcher.forward(request, response);
 				return;
 			}
 		}
