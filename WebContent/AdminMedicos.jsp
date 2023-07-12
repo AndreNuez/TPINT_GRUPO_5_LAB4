@@ -5,8 +5,6 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
-<%@ page import="auxiliares.Seguridad" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,36 +29,13 @@
 </head>
 <body>
 
-<!-- Listar m�dicos -->
-	<%
+<%
 		List<Medico> listaM = new ArrayList<Medico>();
 		if (request.getAttribute("listaMedicos") != null) {
 			listaM = (List<Medico>) request.getAttribute("listaMedicos");
 		}
 	%>
 
-<!-- Seguridad de acceso -->
-<% 
-	Usuario user = (Usuario) session.getAttribute("usuario"); 
-	Seguridad seguridad = new Seguridad();
-	
-	if (user == null) {
-		String mensajeUsuarioNull = "Usuario no registrado";
-		request.setAttribute("errorMessage", mensajeUsuarioNull);
-		response.sendRedirect("Error.jsp"); 
-	
-	} else if(seguridad.usuarioEliminado(user)){
-			String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
-			request.setAttribute("errorMessage", mensajeUsuarioNull);
-			response.sendRedirect("Error.jsp"); 
-		
-	} else {
-		boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
-	
-		if (!administrador)
-			response.sendRedirect("Principal.jsp");
-	}
-%>
 <!-- Header -->
 				<% 
 				    Usuario user = (Usuario) session.getAttribute("usuario"); 

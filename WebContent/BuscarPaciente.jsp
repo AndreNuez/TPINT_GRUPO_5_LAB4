@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@page import="entidad.Usuario"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
-<%@ page import="auxiliares.Seguridad" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,30 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-<!-- Seguridad de acceso -->
-<% 
-	Usuario user = (Usuario) session.getAttribute("usuario"); 
-	Seguridad seguridad = new Seguridad();
-	ValidarUsuario validarUsuario = new ValidarUsuario();
-	
-	if (user == null) {
-		String mensajeUsuarioNull = "Usuario no registrado";
-		request.setAttribute("errorMessage", mensajeUsuarioNull);
-		response.sendRedirect("Error.jsp"); 
-	
-	} else if(seguridad.usuarioEliminado(user)){
-			String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
-			request.setAttribute("errorMessage", mensajeUsuarioNull);
-			response.sendRedirect("Error.jsp"); 
-		
-	} else {
-		boolean administrador = validarUsuario.validarUsuarioAdmin(user);
-		boolean medico = validarUsuario.validarUsuarioMedico(user);
-		
-		if (!administrador || !medico)
-			response.sendRedirect("Principal.jsp");
-	}
-%>
 <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
