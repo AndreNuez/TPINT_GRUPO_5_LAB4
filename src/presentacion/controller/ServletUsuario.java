@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Medico;
 import Exceptions.DniInvalido;
-import auxiliares.ErrorHandle;
-import auxiliares.Seguridad;
 import entidad.Usuario;
 import negocio.MedicoNegocio;
 import negocio.TurnoNegocio;
@@ -71,7 +69,7 @@ public class ServletUsuario extends HttpServlet {
 
 		if(request.getParameter("btnIngresar")!=null) {
 			
-			String pass = request.getParameter("txtContraseÃ±a");
+			String pass = request.getParameter("txtContraseña");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
 			try 
@@ -80,7 +78,6 @@ public class ServletUsuario extends HttpServlet {
 			} 
 			catch (DniInvalido dniInv) 
 			{
-
 				
 				System.out.println(dniInv.getMessage());
 
@@ -112,7 +109,6 @@ public class ServletUsuario extends HttpServlet {
 				{
 					if(user.getTipo().getIdTipoUsuario() == 0) 
 					{
-
 						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
 						dispatcher.forward(request, response);
@@ -143,13 +139,11 @@ public class ServletUsuario extends HttpServlet {
 						dispatcher.forward(request, response);
 					}
 				}
-
 				else if (user.getEstado() == 0) {
 					
 						request.setAttribute("errorDadoDeBaja", true);
 
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-
 						dispatcher.forward(request, response);	
 						return;
 				}			
@@ -158,10 +152,8 @@ public class ServletUsuario extends HttpServlet {
 			{
 				request.setAttribute("errorCredenciales", true);
 				
-
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
-
 				return;
 			}
 		}

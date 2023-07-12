@@ -5,11 +5,15 @@ import entidad.Usuario;
 public class ValidarUsuario {
 	
 	public static boolean validarUsuarioAdmin(Usuario user) {
-        if (user != null) {
-            if (user.getTipo().getIdTipoUsuario() == 1) {
+		
+        if (user != null) 
+        {
+            if (user.getTipo().getIdTipoUsuario() == 1) 
+            {
                 // Administrador
                 return true;
-            } else {
+            } else 
+            {
                 // Medico
                 return false;
             }

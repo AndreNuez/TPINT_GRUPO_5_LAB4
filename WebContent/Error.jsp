@@ -8,11 +8,7 @@
 <title>ERROR !</title>
 </head>
 <body>
-
-	<% String mensaje = session.getAttribute("errorMessage").toString(); %>
 	<p>THIS ERROR</p>
-	
-	<p><%= mensaje %></p>
 	
 
 	
