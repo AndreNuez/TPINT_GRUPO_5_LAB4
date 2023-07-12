@@ -9,6 +9,7 @@ import datosImpl.PacienteDaoImpl;
 import entidad.Persona;
 import negocio.PacienteNegocio;
 
+
 public class PacienteNegocioImpl implements PacienteNegocio {
 	
 	private PacienteDao pacienteDao = new PacienteDaoImpl();
@@ -74,7 +75,16 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 	
 	@Override
 	public boolean validarPacienteExistente(int dni) throws UsuarioRegistrado {
-		// TODO Auto-generated method stub
-		return pacienteDao.validarPacienteExistente(dni);
+		
+		Boolean existe = false;
+
+		existe = pacienteDao.validarPacienteExistente(dni);
+		
+		if(existe)
+		{
+			throw new UsuarioRegistrado();
+		}
+			
+		return existe;
 	}
 }

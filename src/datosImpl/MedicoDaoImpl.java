@@ -174,7 +174,8 @@ public class MedicoDaoImpl implements MedicoDao {
 		return estado;
 	}
 
-	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado{
+	public boolean validarMedicoExistente(int dni){
+		
 		boolean existe = false;
 		int cantDniBD;
 		cn = new Conexion();
@@ -188,7 +189,6 @@ public class MedicoDaoImpl implements MedicoDao {
 			
 			if (cantDniBD == 1)
 				existe = true; 
-				throw new UsuarioRegistrado();
 				
 		} catch (Exception e) {
 			e.printStackTrace();

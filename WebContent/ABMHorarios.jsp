@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Modificar Horarios</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
@@ -23,7 +23,7 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
 					</a>
 				</li>
 			</ul>
@@ -35,7 +35,7 @@
 				    } else {
 				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
 				    
-				        if (!administrador)
+				        if (administrador)
 				            response.sendRedirect("Principal.jsp");
 				        
 				    }
@@ -65,7 +65,7 @@
 			dniMedico = (int)request.getAttribute("dniMedico");
 		}
 		
-		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+		String[] diasDisponibles = {"Lunes", "Martes", "Mi�rcoles", "Jueves", "Viernes"};
 		Set<String> diasSeleccionados = new HashSet<>();
 	%>
 
@@ -103,8 +103,8 @@
 				<td><input type="number" name="txtDesde" min="8" max="14" value=<%=h.getHoraInicio() %>></input></td>
 				<td><input type="number" name="txtHasta" min="15" max="21" value=<%=h.getHoraFin() %>></input></td>
 				<input type="hidden" name="dniMedico" value=<%=h.getDNIMedico() %>>
-				<td><input type="submit" value="Eliminar" name="btnEliminarH" onclick="return confirm('¿Está seguro que desea eliminar este horario?')" class="btn btn-danger"/></td>
-				<td><input type="submit" value="Modificar" name="btnModificarH" onclick="return confirm('¿Está seguro que desea modificar este horario?')" class="btn btn-warning"/></td>
+				<td><input type="submit" value="Eliminar" name="btnEliminarH" onclick="return confirm('�Esta seguro que desea eliminar este horario?')" class="btn btn-danger"/></td>
+				<td><input type="submit" value="Modificar" name="btnModificarH" onclick="return confirm('�Esta seguro que desea modificar este horario?')" class="btn btn-warning"/></td>
           		</form>
           		<%
 				 dniMedico = h.getDNIMedico(); // Asignar el valor de dniMedico a la variable
@@ -159,7 +159,21 @@
 	<%
 		}
 	%>
-	
+ 
+ <!-- Alerta dia repetido  -->
+ 
+ <%
+		if (request.getAttribute("repetido") != null) {
+	%>
+		<script type="text/javascript">
+			function alertName()
+			{
+				alert("El medico ya trabaja en el dia seleccionado. Por favor, elija otro dia.");
+			} 
+		</script> 
+	<%
+		}
+	%>	
 	
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

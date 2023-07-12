@@ -20,12 +20,14 @@ import negocio.HorarioNegocio;
 import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
+import negocio.TurnoNegocio;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.ProvinciaNegocioImpl;
+import negocioImpl.TurnoNegocioImpl;
 
 @WebServlet("/ServletHorarios")
 public class ServletHorarios extends HttpServlet {
@@ -37,6 +39,7 @@ public class ServletHorarios extends HttpServlet {
 	EspecialidadNegocio espNeg = new EspecialidadNegocioImpl();
 	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletHorarios() {
         super();
@@ -69,9 +72,9 @@ public class ServletHorarios extends HttpServlet {
 			int dni =Integer.parseInt(request.getParameter("dniMedico"));
 			
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
-			boolean eliminarhorario = true;
-			
-			eliminarhorario = hNeg.EliminarHorario(idHorario); 
+			String dia = request.getParameter("Dia");
+			System.out.println(dia);
+			boolean eliminarhorario = hNeg.EliminarHorario(idHorario); 
 
 			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
 			request.setAttribute("listaProv", listaP);
@@ -83,6 +86,7 @@ public class ServletHorarios extends HttpServlet {
 			{				
 				Medico medico = new Medico();
 				medico = mNeg.ListarUno(dni);
+				tNeg.eliminarTurnosxDia(medico, dia); //elimino turnos libres del dia eliminado.
 				request.setAttribute("verMedico", medico);
 				request.setAttribute("dniMedico",dni);
 				
@@ -161,32 +165,52 @@ public class ServletHorarios extends HttpServlet {
 				h.setDiaAtencion(request.getParameter("Dia"));
 				h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 				h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
-				
-			boolean modificadoh = hNeg.ModificarHorario(h);
 			
-			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
-			request.setAttribute("listaProv", listaP);
+			String dia = (request.getParameter("Dia"));
 			
-			ArrayList<Localidad> listaL = locNeg.obtenerTodos();
-			request.setAttribute("listaLoc", listaL);
-			
-			if(mNeg.ListarUno(dni) != null)
-			{	
-				boolean hmod = true;
+			if (hNeg.buscarRepetido(dia, dni)) 
+			{
+				boolean hmod = hNeg.ModificarHorario(h);
 				
-				Medico medico = new Medico();
-				medico = mNeg.ListarUno(dni);
-				request.setAttribute("verMedico", medico);
-				request.setAttribute("dniMedico",dni);
+				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
+				request.setAttribute("listaProv", listaP);
 				
-				ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
-				request.setAttribute("listaHorarios", listaHorario);
-				request.setAttribute("hmod", hmod);
+				ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+				request.setAttribute("listaLoc", listaL);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
-				dispatcher.forward(request, response);
+				if(mNeg.ListarUno(dni) != null)
+				{				
+					Medico medico = new Medico();
+					medico = mNeg.ListarUno(dni);
+					request.setAttribute("verMedico", medico);
+					request.setAttribute("dniMedico",dni);
+					
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					request.setAttribute("hmod", hmod);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+					dispatcher.forward(request, response);
+					
+				} 
+			}	
+			else 
+			{
+				boolean repetido = true;
+				
+				if(hNeg.ListarTodos(dni) !=null) 
+				{
+					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
+					request.setAttribute("listaHorarios", listaHorario);
+					
+					request.setAttribute("dniMedico", dni);
+					request.setAttribute("repetido", repetido);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMHorarios.jsp");
+					dispatcher.forward(request, response);
+				}	
 			}
 		}
-	}
-
+	}	
 }
+

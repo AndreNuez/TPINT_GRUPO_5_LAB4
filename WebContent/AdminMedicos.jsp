@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Listado Medicos</title>
 
 <!-- Boostrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -90,7 +90,6 @@
 				<th>Sexo</th>
 				<th>Mail</th>
 				<th>Especialidad</th>
-				<th>Estado</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -108,7 +107,6 @@
 			<td><%=m.getSexo()%></td>
 			<td><%=m.getMail()%></td>
 			<td><%=m.getEspecialidad().getDescripcion()%></td>
-			<td><%=m.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
 			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger" onclick="return confirm('¿Esta seguro que desea eliminar este medico?')"/> </td>
 			</form>

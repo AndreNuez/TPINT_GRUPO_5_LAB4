@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import negocio.PacienteNegocio;
+import negocio.TurnoNegocio;
 import negocio.TurnosXEspNegocio;
 import negocio.TurnosXMedNegocio;
 import negocioImpl.PacienteNegocioImpl;
+import negocioImpl.TurnoNegocioImpl;
 import negocioImpl.TurnosXEspNegocioImpl;
 import negocioImpl.TurnosXMedNegocioImpl;
 import entidad.ReporteTurnosXEsp;
@@ -29,6 +31,8 @@ public class ServletReportes extends HttpServlet {
 	TurnosXEspNegocio rneg = new TurnosXEspNegocioImpl();
 	TurnosXMedNegocio rneg2 = new TurnosXMedNegocioImpl();
 	PacienteNegocio pNeg = new PacienteNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
+	
 
     public ServletReportes() {
         super();
@@ -58,6 +62,18 @@ public class ServletReportes extends HttpServlet {
 			
 			int cantidadMenores = pNeg.ContarMenores();
 			request.setAttribute("cantMenores", cantidadMenores);
+			
+			int cantidadLibres = tNeg.ContarTurnosLibres();
+			request.setAttribute("cantLibres", cantidadLibres);
+			
+			int cantidadOcupados = tNeg.ContarTurnosOcupados();
+			request.setAttribute("cantOcupados", cantidadOcupados);
+			
+			int cantidadPresentes = tNeg.ContarTurnosPresentes();
+			request.setAttribute("cantPresentes", cantidadPresentes);
+			
+			int cantidadAusentes = tNeg.ContarTurnosAusentes();
+			request.setAttribute("cantAusentes", cantidadAusentes);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reportes.jsp");
 			dispatcher.forward(request, response);

@@ -46,31 +46,24 @@ public class TurnoDaoImpl implements TurnoDao{
 	public ArrayList<Turno> ListarTodos() {
 		cn = new Conexion();
 		cn.Open();
-			ArrayList<Turno> list = new ArrayList<Turno>();
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		LocalDate fechaHoy = LocalDate.now();
+		
 			try
 			{
-				ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre, horariosxmedicos.HoraInicio, horariosxmedicos.HoraFin, horariosxmedicos.DiaAtencion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad =  especialidades.IDEspecialidad INNER JOIN horariosxmedicos ON medicos.DNI = horariosxmedicos.DNIMedico WHERE turnos.IDEstado = 0");
+				ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad =  especialidades.IDEspecialidad WHERE turnos.IDEstado = 0 AND turnos.Fecha >= '" + fechaHoy + "'");
 				while(rs.next())
 				{
 					Especialidad especialidad = new Especialidad();
 					especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
 					especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
 					
-					Horario horario = new Horario();
-					
-					horario.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-					horario.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-					horario.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
-					
-					
 					Medico medico = new Medico();
 					medico.setDNI(rs.getInt("turnos.DNIMedico"));
 					medico.setApellido(rs.getString("medicos.Apellido"));
 					medico.setNombre(rs.getString("medicos.Nombres"));
 					medico.setEspecialidad(especialidad);
-					medico.setHorario(horario);
-					
-					
+
 					Turno turno = new Turno();
 					turno.setMedico(medico);
 					turno.setIdTurno(rs.getInt("turnos.IDTurno"));
@@ -93,33 +86,33 @@ public class TurnoDaoImpl implements TurnoDao{
 	}
 	
 	public ArrayList<Turno> ListarTurnosPorMedico(Medico medico) {
+		
 		cn = new Conexion();
 		cn.Open();
 		ArrayList<Turno> list = new ArrayList<Turno>();
 		int dniMedico = medico.getDNI();
+		LocalDate fechaHoy = LocalDate.now();
+		
 		try
 		{
-			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre, horariosxmedicos.HoraInicio, horariosxmedicos.HoraFin, horariosxmedicos.DiaAtencion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad =  especialidades.IDEspecialidad INNER JOIN horariosxmedicos ON medicos.DNI = horariosxmedicos.DNIMedico WHERE turnos.IDEstado = 0 AND medicos.DNI = "+dniMedico);
+			
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad WHERE turnos.IDEstado = 0 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha >= '" + fechaHoy + "'");
+			
 			while(rs.next())
 			{
 				Medico m = new Medico();
+				Persona p = new Persona();
 				Turno turno = new Turno();
-				Horario horario = new Horario();
 				Especialidad especialidad = new Especialidad();
 				
 				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
 				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
-				
-				horario.setHoraInicio(rs.getInt("horariosxmedicos.HoraInicio"));
-				horario.setHoraFin(rs.getInt("horariosxmedicos.HoraFin"));
-				horario.setDiaAtencion(rs.getString("horariosxmedicos.DiaAtencion"));
-				
+
 				m.setDNI(dniMedico);
 				m.setApellido(rs.getString("medicos.Apellido"));
 				m.setNombre(rs.getString("medicos.Nombres"));
 				m.setEspecialidad(especialidad);
-				m.setHorario(horario);
-				
+
 				turno.setMedico(m);
 				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
 				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
@@ -138,6 +131,58 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 		return list;
 	}
+	
+	public ArrayList<Turno> ListarTurnosProximosPorMedico(Medico medico) {
+		
+		cn = new Conexion();
+		cn.Open();
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		LocalDate fechaHoy = LocalDate.now();
+		
+		try
+		{
+
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha >= '" + fechaHoy + "'");
+			
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Persona p = new Persona();
+				Turno turno = new Turno();
+				Especialidad especialidad = new Especialidad();
+				
+				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
+				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				m.setEspecialidad(especialidad);
+				p.setDNI(rs.getInt("turnos.DNIPaciente"));
+				p.setApellido(rs.getString("pacientes.Apellido"));
+				p.setNombre(rs.getString("pacientes.Nombres"));
+				
+				turno.setPaciente(p);
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return list;
+	}
+	
 	public boolean ChequearFecha(LocalDate fecha, int dniMedico)
 	{
 		cn = new Conexion();
@@ -189,4 +234,403 @@ public class TurnoDaoImpl implements TurnoDao{
 		return estado;
 
 	}
+	
+	
+	public boolean existeTurnoEnHorarioFecha(Turno turno) {
+		cn = new Conexion();
+		cn.Open();
+		boolean existe = false;
+		try
+		{
+      
+			ResultSet rs= cn.query("SELECT * FROM turnos WHERE Fecha= '"+turno.getFecha()+"' AND Hora = "+turno.getHora()+" AND DNIPaciente = "+turno.getPaciente().getDNI()+" AND IDEstado = 1");
+			if(rs.next())
+			{
+				existe = true;	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+
+		return existe;
+	}
+	
+	public ArrayList<Turno> ListarTurnosPorMedicoDiaActual(Medico medico) {
+		cn = new Conexion();
+		cn.Open();
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		LocalDate fechaHoy = LocalDate.now();
+		try
+		{
+			
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI WHERE turnos.IDEstado = 1 AND medicos.DNI = " + dniMedico + " AND turnos.Fecha = '" + fechaHoy + "'");
+
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Persona p = new Persona();
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				p.setDNI(rs.getInt("turnos.DNIPaciente"));
+				p.setApellido(rs.getString("pacientes.Apellido"));
+				p.setNombre(rs.getString("pacientes.Nombres"));
+				
+				turno.setPaciente(p);
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+			return list;
+	}
+	
+	public boolean ActualizarEstadoTurnoAsistio(int idTurno, String observacion) 
+	{
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE turnos SET IDEstado = 3, Observacion = '" + observacion + "' where IDTurno=" + idTurno;
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
+
+	public boolean ActualizarEstadoTurnoAusente(int idTurno) 
+	{
+	
+	boolean estado = true;
+
+	cn = new Conexion();
+	cn.Open();	
+
+	String query = "UPDATE turnos SET IDEstado = 2 where IDTurno=" + idTurno;
+	try
+	 {
+		estado = cn.execute(query);
+	 }
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		cn.close();
+	}
+	
+	return estado;
+	}
+	
+	public ArrayList<Turno> ListarTurnosPorMedicoYFecha(Medico medico, LocalDate fechaDesde, LocalDate fechaHasta)
+	{
+		cn = new Conexion();
+		cn.Open();
+		
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		
+		try
+		{
+			
+			ResultSet rs= cn.query("SELECT turnos.IDTurno, turnos.DNIMedico, turnos.Fecha, turnos.Hora, turnos.DNIPaciente, pacientes.Nombres, pacientes.Apellido, medicos.Nombres, medicos.Apellido, turnos.IDEstado, turnos.Observacion FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI  INNER JOIN pacientes on turnos.DNIPaciente = pacientes.DNI AND medicos.DNI = "+ dniMedico +" AND turnos.Fecha >= '"+ fechaDesde +"' AND turnos.Fecha <= '"+ fechaHasta +"' and (turnos.IDEstado = 2 or turnos.IDEstado = 3)");
+
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Persona p = new Persona();
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				p.setDNI(rs.getInt("turnos.DNIPaciente"));
+				p.setApellido(rs.getString("pacientes.Apellido"));
+				p.setNombre(rs.getString("pacientes.Nombres"));
+				
+				turno.setPaciente(p);
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				String observacion = rs.getString("turnos.Observacion");
+				
+				if (observacion == null)
+				{
+					turno.setObservaciones("Sin observacion");
+				} else {
+					turno.setObservaciones(observacion);
+				}
+				
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));
+				turno.setEstado(rs.getInt("turnos.IDEstado"));	
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+			return list;
+	}
+	
+	public boolean EliminarTurnosLibresPorMedico(int dniMedico)
+	{
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "delete from turnos where turnos.DNIMedico = " + dniMedico + " and turnos.IDEstado = 0";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+
+	}
+	
+
+	public ArrayList<Turno> ListarTurnosLibresPorMedico(Medico medico) {
+		cn = new Conexion();
+		cn.Open();
+		ArrayList<Turno> list = new ArrayList<Turno>();
+		int dniMedico = medico.getDNI();
+		try
+		{
+
+			ResultSet rs= cn.query("SELECT turnos.DNIMedico, turnos.IDTurno, turnos.Fecha, turnos.Hora, medicos.Nombres, medicos.Apellido, medicos.IDEspecialidad, especialidades.Nombre FROM turnos INNER JOIN medicos ON turnos.DNIMedico = medicos.DNI INNER JOIN especialidades ON medicos.IDEspecialidad = especialidades.IDEspecialidad WHERE turnos.IDEstado = 0 AND medicos.DNI = " + dniMedico);
+			
+			
+			while(rs.next())
+			{
+				Medico m = new Medico();
+				Turno turno = new Turno();
+				Especialidad especialidad = new Especialidad();
+				
+				especialidad.setIdEspecialidad(rs.getInt("medicos.IDEspecialidad"));
+				especialidad.setDescripcion(rs.getString("especialidades.Nombre"));
+
+				m.setDNI(dniMedico);
+				m.setApellido(rs.getString("medicos.Apellido"));
+				m.setNombre(rs.getString("medicos.Nombres"));
+				m.setEspecialidad(especialidad);
+				
+				turno.setMedico(m);
+				turno.setIdTurno(rs.getInt("turnos.IDTurno"));
+				turno.setFecha(LocalDate.parse(rs.getString("turnos.Fecha")));
+				turno.setHora(rs.getInt("turnos.Hora"));	
+				
+				list.add(turno);	
+			}	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean eliminarTurnosxFecha(Medico medico, LocalDate fecha) {
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "delete from turnos where turnos.DNIMedico = " + medico.getDNI() + " and turnos.Fecha = '"+ fecha +"'  and turnos.IDEstado = 0";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
+	
+	public int ContarTurnosLibres() {
+
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 0";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+
+	}
+	
+	
+	public int ContarTurnosOcupados()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 1";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+	}
+	
+	public int ContarTurnosPresentes()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 3";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+	}
+	
+	public int ContarTurnosAusentes()
+	{
+		cn = new Conexion();
+		cn.Open();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos t where t.IDEstado = 2";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+
+	}
 }
+
+

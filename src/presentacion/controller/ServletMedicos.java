@@ -25,6 +25,8 @@ import negocio.LocalidadNegocio;
 import negocio.MedicoNegocio;
 import negocio.ProvinciaNegocio;
 import negocio.UsuarioNegocio;
+import negocio.TurnoNegocio;
+import negocioImpl.TurnoNegocioImpl;
 import negocioImpl.DireccionNegocioImpl;
 import negocioImpl.EspecialidadNegocioImpl;
 import negocioImpl.HorarioNegocioImpl;
@@ -44,6 +46,7 @@ public class ServletMedicos extends HttpServlet {
 	DireccionNegocio dmNeg = new DireccionNegocioImpl();
 	UsuarioNegocio uNeg = new UsuarioNegocioImpl();
 	HorarioNegocio hNeg = new HorarioNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletMedicos() {
         super();
@@ -95,7 +98,8 @@ public class ServletMedicos extends HttpServlet {
 			
 			int DNI = Integer.parseInt(request.getParameter("dniMedico"));
 			request.getSession().setAttribute("dniMedicoAEliminar", DNI);
-			
+      
+			boolean estado2 = tNeg.EliminarTurnosLibresPorMedico(DNI);
 			boolean eliminarm = mNeg.EliminarMedico(DNI);
 			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
@@ -108,8 +112,7 @@ public class ServletMedicos extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnAceptar")!=null) {
-			
-			
+
 			Medico m = new Medico();
 			m.setDNI(Integer.parseInt(request.getParameter("txtDNI")));
 			m.setApellido(request.getParameter("txtApellido"));
@@ -124,29 +127,33 @@ public class ServletMedicos extends HttpServlet {
 			
 			int DNI = m.getDNI();
 			String apellido = m.getApellido().toLowerCase();
-			
 
-			
 			boolean estado = true;
 			boolean estadohm = true;
 			boolean estadoum = true;
 			
 			//Bloque TRY CATCH para evaluar si el usuario ya existe
-			try {
-				estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
+			try 
+			{
 				mNeg.validarMedicoExistente(DNI);
+				
 			} catch (UsuarioRegistrado userRegistrado) {
-				// TODO: handle exception
-				userRegistrado.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);	
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+
+				System.out.println(userRegistrado.getMessage());
+				
+				Boolean errorDni = true;
+				request.setAttribute("errorDni", errorDni);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);
+				return;
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
+				dispatcher.forward(request, response);
+				return;
 			}
-			
 			
 			Horario h = new Horario();
 			h.setDNIMedico(DNI);
@@ -156,6 +163,7 @@ public class ServletMedicos extends HttpServlet {
 			h.setEstado(1);
 						
 			estado = mNeg.InsertarMedico(m);
+			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
 			estadohm = hNeg.InsertarHorario(h,DNI);
 				
 			Direccion dm = new Direccion();
@@ -261,7 +269,8 @@ public class ServletMedicos extends HttpServlet {
 				e.printStackTrace();
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
-			}	
+			}
+			
 			Direccion dm = new Direccion();
 				dm.setCalle(request.getParameter("txtCalle"));
 				dm.setNumero(Integer.parseInt(request.getParameter("txtNumero")));

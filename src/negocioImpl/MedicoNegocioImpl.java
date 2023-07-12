@@ -45,8 +45,16 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 
 	@Override
 	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado {
-		// TODO Auto-generated method stub
-		return mdao.validarMedicoExistente(dni);
+		Boolean existe = false;
+
+		existe = mdao.validarMedicoExistente(dni);
+		
+		if(existe)
+		{
+			throw new UsuarioRegistrado();
+		}
+			
+		return existe;
 	}
 
 
