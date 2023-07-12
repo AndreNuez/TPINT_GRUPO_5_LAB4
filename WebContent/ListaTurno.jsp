@@ -53,7 +53,7 @@
                         </a>
                     </li>
     				<div class="container">
-    					<a class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</a>
+    					<div class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</div>
   					</div>
                 </ul>
 			<% Usuario a = (Usuario) session.getAttribute("usuario"); 

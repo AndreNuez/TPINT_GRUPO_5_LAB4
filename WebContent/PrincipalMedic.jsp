@@ -26,15 +26,32 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
                         </div>
                     </li>
-    					
+    					<div class="container">
+    					<div class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</div>
+  					</div>
                 </ul>
-                <ul class="navbar-nav mx-auto">
-        			<li class="nav-item">
-          				<div class="navbar-brand">Clinica Medica SA</div>
-        			</li>
-      </ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); 
-			Medico medico = (Medico) session.getAttribute("medico");%>
+
+			<% Usuario a = (Usuario) session.getAttribute("usuario");
+			Medico medico = (Medico) session.getAttribute("medico");
+			String mensajeTurnos;
+			
+			if (request.getAttribute("cantTurnosAsig") != null)
+			{
+				int cantTurnosAsig = (int) request.getAttribute("cantTurnosAsig");
+				
+				mensajeTurnos = "Tenes "+ cantTurnosAsig + " turnos asignados para el dia de hoy";
+				
+			} else if (request.getAttribute("cantTurnosAsig1") != null)
+			{
+				int cantTurnosAsig = (int) request.getAttribute("cantTurnosAsig1");
+				mensajeTurnos = "Tenes "+ cantTurnosAsig + " turno asignado para el dia de hoy";
+			}
+			else
+			{
+				int cantTurnosAsig0 = (int) request.getAttribute("cantTurnosAsig0");
+				mensajeTurnos = "No tenes turnos asignados para el dia de hoy";
+			}
+			%>
 			<div class="row">
 			<div class="col-6">
 			<ul class="text-end navbar-brand mb-0 fs-6" style=""> <b>Medico:</b> <%= medico.getApellido()%>, <%= medico.getNombre()%> </ul>
@@ -56,6 +73,7 @@
             <div class="col"></div>
             <div class="col text-center">
                 <h2>Bienvenido <%= medico.getNombre()%> <%= medico.getApellido()%> </h2>
+                <h5><%= mensajeTurnos %> </h2>
                 <br>
                 <div class="d-grid gap-2">
                     <a href="ServletTurno?Param=listarTurnos" class="btn btn-blue btn-lg">Ver Turnos</a>
