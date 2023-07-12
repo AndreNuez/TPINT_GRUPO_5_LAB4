@@ -24,7 +24,9 @@ public interface TurnoNegocio {
 	public int ContarTurnosOcupados();
 	public int ContarTurnosPresentes();
 	public int ContarTurnosAusentes();
+	public int ContarTurnosAsignadosAMedico(int dni);
 	public ArrayList<Turno> ListarTurnosProximosPorMedico(Medico medico);
+	
 	
 	
 
