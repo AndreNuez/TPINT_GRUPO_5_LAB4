@@ -26,9 +26,11 @@
 				    
 				    if (user == null) 
 				    {
-				        response.sendRedirect("Error.jsp"); 
-				    } 
-
+						String mensajeUsuarioNull = "Usuario no registrado";
+						request.setAttribute("errorMessage", mensajeUsuarioNull);
+						response.sendRedirect("Error.jsp"); 
+					} 
+					
 				%>
 				
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">

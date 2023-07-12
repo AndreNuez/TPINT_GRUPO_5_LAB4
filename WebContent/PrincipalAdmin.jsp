@@ -19,10 +19,14 @@
 				    
 				    if (user == null) 
 				    {
+                String mensajeUsuarioNull = "Usuario no registrado";
+						    request.setAttribute("errorMessage", mensajeUsuarioNull);
 				        response.sendRedirect("Error.jsp"); 
 				    } 
 				    else if (user.getTipo().getIdTipoUsuario() == 1)
 				    {
+                     String mensajeUsuarioNull = "No posee los permisos suficientes";
+						         request.setAttribute("errorMessage", mensajeUsuarioNull);
 				            response.sendRedirect("Error.jsp");
 				    }
 				%>
