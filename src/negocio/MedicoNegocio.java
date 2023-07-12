@@ -2,6 +2,7 @@ package negocio;
 
 import java.util.ArrayList;
 
+import Exceptions.UsuarioRegistrado;
 import entidad.Medico;
 
 public interface MedicoNegocio {
@@ -11,4 +12,6 @@ public interface MedicoNegocio {
 	public boolean InsertarMedico(Medico medico);
 	public boolean EditarMedico(Medico medico);
 	public boolean EliminarMedico(int dni); //Eliminar logico.
+	public boolean validarMedicoExistente(int dni) throws UsuarioRegistrado;
+	
 }

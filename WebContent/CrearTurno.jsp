@@ -9,7 +9,8 @@
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
-    
+<%@ page import="auxiliares.ValidarUsuario" %>    
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -28,11 +29,22 @@
 				<li class="nav-item">
 					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
 					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
+
 					</a>
 				</li>
 			</ul>
-
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
+				        if (!administrador && !medico)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"><b> DNI Usuario actual: </b> <%= a.getDNI() %> </ul>
 
 			<form method="post" action="ServletUsuario">

@@ -5,6 +5,7 @@
     <%@page import="entidad.Turno"%>
     <%@page import="java.util.List"%>
 	<%@page import="java.util.ArrayList"%>
+	<%@ page import="auxiliares.ValidarUsuario" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,6 +27,10 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 {
 	mensaje = (String)request.getAttribute("mensajeDeActualizacionDeTurno"); 
 }
+
+if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null){
+	mensaje = "Paciente agregado con exito.";
+}
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -37,7 +42,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 	{
 	    alert(mensaje);		
 	}
-	
+
 </script>
 
 </head>
@@ -81,10 +86,21 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<li class="nav-item">
 					<a class="navbar-brand" href="ServletUsuario?Param=1">
 					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
+
 					</a>
 				</li>
 			</ul>
-		    <%Usuario a = (Usuario)session.getAttribute("usuario"); %>
+   				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+						if (!administrador)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"><b> DNI Usuario actual: </b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
@@ -101,6 +117,8 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
+
+					<option value=0>Seleccione un medico...</option>
         			<% for (Medico m : listaMedicos) {
       				if (request.getAttribute("listaTurnosPorMedico") != null && m.getDNI() == medicoSeleccionado.getDNI()) {%>
         			<option value="<%=m.getDNI() %>" selected><%=m.getNombre()+" "+m.getApellido()%></option>
@@ -124,6 +142,7 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<th>ID de turno</th>
 				<th>Medico</th>
 				<th>Especialidad</th>
+
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -139,14 +158,14 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
-
 				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>> <input type="hidden" name = "horaTurno" value = <%=t.getHora()%>> </td>
 				<td>
 				<div class="mb-3">
                         <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos.">
+
                 </div>
                 </td>
-				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('¿Está seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('ï¿½Estï¿½ seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
 				</form>
 			</tr>
 
@@ -168,12 +187,13 @@ if(request.getAttribute("mensajeDeActualizacionDeTurno") != null)
   var dniPaciente = <%=dniPacienteACrear%>;
 
   if (crearPaciente) {
-    var confirmacion = confirm("El DNI ingresado no se encuentra en la base de datos."+"\n"+"¿Deseea crear un paciente utilizando este DNI?");
+    var confirmacion = confirm("El DNI ingresado no se encuentra en la base de datos."+"\n"+"ï¿½Deseea crear un paciente utilizando este DNI?");
 
     if (confirmacion)
     {
-      sessionStorage.setItem('dniPacienteACrear', dniPaciente);    	  
-      window.location.href = "ABMPacientes.jsp";
+      sessionStorage.setItem('dniPacienteACrear', dniPaciente);
+      var url = "ServletPacientes?Param=agregarNuevo&retornarAsignarTurnos=true";
+      window.location.href = url;
     }
   }
 </script>

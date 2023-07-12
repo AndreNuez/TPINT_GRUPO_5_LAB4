@@ -6,6 +6,7 @@
 <%@page import="entidad.Localidad"%>
 <%@page import="entidad.Persona"%>
 <%@page import="entidad.Usuario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
@@ -31,7 +32,18 @@
 					</a>
 				</li>
 			</ul>
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
+				        if (!administrador && !medico)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
@@ -71,7 +83,7 @@
 
 		String esMasculino = paciente.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = paciente.getSexo() == 'F' ? "checked" : "";
-	
+		
 	%>
 
 <!-- Formulario y controles --> 
@@ -87,7 +99,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>       
-				<input type="text"  name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos." required>
+				<input type="text"  name="txtDNI" id="campoDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos." required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -153,6 +165,15 @@
         </div>
         </div>
     </div>
+    <%
+    	if(request.getAttribute("retornarAsignarTurnos") != null)
+    	{
+    %>
+    	<input type="hidden" name="retornarAsignarTurnos" value=true>
+    <%
+    }
+    %>
+    
     </form>
     <%} %>
  
@@ -313,7 +334,16 @@
     </form>
     <%} %>
 
-<!-- Pregunto por estado para chequear si se inserto. -->    
+<!-- Pregunto por estado para chequear si se inserto. -->
+	
+	<%if (request.getAttribute("errorDni") != null) {%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("El DNI ya se encuentra registrado");
+		} 
+		</script> 
+	<%}%>
+	
     <%
 		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>
@@ -367,8 +397,8 @@
 	{
 		var campoDNI = document.getElementById("campoDNI");
 		campoDNI.value = dniPaciente;
-		sessionStorage.removeItem("dniPacienteACrear");
 	}
+	sessionStorage.removeItem("dniPacienteACrear");
 
 
 </script>

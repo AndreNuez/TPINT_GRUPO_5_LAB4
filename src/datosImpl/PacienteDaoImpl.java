@@ -5,10 +5,14 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
+import Exceptions.UsuarioRegistrado;
 import datos.PacienteDao;
 import entidad.Direccion;
 import entidad.Localidad;
@@ -311,5 +315,37 @@ public class PacienteDaoImpl implements PacienteDao {
 			}
 
 		return cantidad;
+	}
+	
+	public boolean validarPacienteExistente(int dni)
+	{
+		boolean existe = false;
+		int cantDniBD;
+		cn = new Conexion();
+		cn.Open();
+		
+		try {
+			
+			ResultSet rs = cn.query("select count(DNI) as Cantidad from pacientes where DNI = " + dni); 
+			rs.next();
+			
+			cantDniBD = rs.getInt("Cantidad");
+			
+			if (cantDniBD == 1) {
+				return true;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return existe;
+
 	}
 }

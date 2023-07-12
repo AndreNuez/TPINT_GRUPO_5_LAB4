@@ -54,7 +54,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [DNI=" + DNI + ", ContraseÃ±a=" + Contraseña + ", Tipo=" + Tipo + "]";
+		return "Usuario [DNI=" + DNI + ", Contraseña=" + Contraseña + ", Tipo=" + Tipo + "]";
 	}
 	
 }
