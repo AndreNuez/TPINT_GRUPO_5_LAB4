@@ -83,11 +83,15 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 				    
 				    if (user == null) 
 				    {
-				        response.sendRedirect("Error.jsp"); 
-				    } 
-				    else if (user.getTipo().getIdTipoUsuario() == 1)
-				    {
-				            response.sendRedirect("Error.jsp");
+						String mensajeUsuarioNull = "Usuario no registrado";
+						request.setAttribute("errorMessage", mensajeUsuarioNull);
+						response.sendRedirect("Error.jsp"); 
+					} 
+					else if (user.getTipo().getIdTipoUsuario() == 1)
+					{
+						String mensajeAccesoNoAutorizado = "Usuario sin permisos adecuados";
+						request.setAttribute("errorMessage", mensajeAccesoNoAutorizado);
+						response.sendRedirect("Error.jsp");
 				    }
 				%>
 				

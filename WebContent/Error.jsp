@@ -5,12 +5,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>ERROR !</title>
+<title>ERRORES</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-	<p>THIS ERROR</p>
-	
 
+	<% String mensaje = session.getAttribute("errorMessage").toString(); %>
+
+	<p><%= mensaje %></p>
+	
+	<input type="button" onclick="Principal.jsp" class="d-grid mx-auto"/>
 	
 </body>
 </html>

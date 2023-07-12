@@ -28,6 +28,8 @@
 				    Usuario a = (Usuario) session.getAttribute("usuario"); 
 				    
 				    if (a == null) {
+						String mensajeUsuarioNull = "Usuario no registrado";
+						request.setAttribute("errorMessage", mensajeUsuarioNull);
 				        response.sendRedirect("Error.jsp"); 
 				    } else {
 				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
