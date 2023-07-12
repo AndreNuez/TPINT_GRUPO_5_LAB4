@@ -31,7 +31,7 @@
   					</div>
                 </ul>
 
-			<% Usuario a = (Usuario) session.getAttribute("usuario"); 
+			<% Usuario a = (Usuario) session.getAttribute("usuario");
 			Medico medico = (Medico) session.getAttribute("medico");
 			String mensajeTurnos;
 			
