@@ -42,7 +42,7 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 	{
 	    alert(mensaje);		
 	}
-	
+
 </script>
 
 </head>
@@ -86,6 +86,7 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 				<li class="nav-item">
 					<a class="navbar-brand" href="ServletUsuario?Param=1">
 					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
+
 					</a>
 				</li>
 			</ul>
@@ -116,6 +117,7 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
   <h4>Asignar turno</h4> <hr>
   <div class="mb-2">
 				<select name="Medicos" required>
+
 					<option value=0>Seleccione un medico...</option>
         			<% for (Medico m : listaMedicos) {
       				if (request.getAttribute("listaTurnosPorMedico") != null && m.getDNI() == medicoSeleccionado.getDNI()) {%>
@@ -140,6 +142,7 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 				<th>ID de turno</th>
 				<th>Medico</th>
 				<th>Especialidad</th>
+
 				<th>Horario de turno</th>
 				<th>DNI de paciente</th>
 				<th></th>
@@ -155,14 +158,14 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 				<td><%=t.getIdTurno()%> <input type="hidden" name = "idTurno" value = <%=t.getIdTurno()%>></td>
 				<td><%=t.getMedico().getNombre()+" "+t.getMedico().getApellido()%></td>
 				<td><%=t.getMedico().getEspecialidad().getDescripcion()%></td>
-
 				<td><%=t.getFecha()+"\n"+t.getHora()+"hs"%> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>> <input type="hidden" name = "horaTurno" value = <%=t.getHora()%>> </td>
 				<td>
 				<div class="mb-3">
                         <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos.">
+
                 </div>
                 </td>
-				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('¿Está seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('ï¿½Estï¿½ seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
 				</form>
 			</tr>
 
@@ -184,7 +187,7 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
   var dniPaciente = <%=dniPacienteACrear%>;
 
   if (crearPaciente) {
-    var confirmacion = confirm("El DNI ingresado no se encuentra en la base de datos."+"\n"+"¿Deseea crear un paciente utilizando este DNI?");
+    var confirmacion = confirm("El DNI ingresado no se encuentra en la base de datos."+"\n"+"ï¿½Deseea crear un paciente utilizando este DNI?");
 
     if (confirmacion)
     {

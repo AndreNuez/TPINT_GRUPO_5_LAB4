@@ -45,6 +45,7 @@ import negocioImpl.TurnoNegocioImpl;
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	
 	TurnoNegocio tneg = new TurnoNegocioImpl();
 	MedicoNegocio mneg = new MedicoNegocioImpl();
@@ -53,6 +54,7 @@ public class ServletTurno extends HttpServlet {
 	ProvinciaNegocio provNeg = new ProvinciaNegocioImpl();
 	LocalidadNegocio locNeg = new LocalidadNegocioImpl();
 	DireccionNegocio dpNeg = new DireccionNegocioImpl();
+
        
     public ServletTurno() {
         super();
@@ -152,7 +154,6 @@ public class ServletTurno extends HttpServlet {
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 		    	dispatcher.forward(request, response);
 			}
-
 			else 
 			{
 				paciente = pneg.ListarUno((Integer.parseInt(request.getParameter("dni"))));
@@ -295,7 +296,6 @@ public class ServletTurno extends HttpServlet {
 		}
 
 		if(request.getParameter("btnAceptar") != null) 
-
 		{
 			int dniMedico = (int) request.getSession().getAttribute("dniMedico");
 			
@@ -495,6 +495,7 @@ public class ServletTurno extends HttpServlet {
 			}
 
 		}
+
 
 	}
 
