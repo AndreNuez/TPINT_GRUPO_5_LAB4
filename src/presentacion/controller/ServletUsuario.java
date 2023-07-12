@@ -70,6 +70,17 @@ public class ServletUsuario extends HttpServlet {
 		if(request.getParameter("btnIngresar")!=null) {
 			
 			String pass = request.getParameter("txtContraseña");
+			String dnistring = request.getParameter("txtDNI");
+			
+			if(dnistring.length() > 9) 
+			{
+				request.setAttribute("errorDni", true);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
+			
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
 			try 
