@@ -631,6 +631,37 @@ public class TurnoDaoImpl implements TurnoDao{
 		return cantidad;
 
 	}
+	
+	public int ContarTurnosAsignadosAMedico(int dni)
+	{
+		cn = new Conexion();
+		cn.Open();
+		LocalDate fechaHoy = LocalDate.now();
+		int cantidad = 0;
+
+		String query = "select count(IDTurno) as cantidad from turnos WHERE turnos.IDEstado = 1 AND turnos.DNIMedico = " + dni + " AND turnos.Fecha = '" + fechaHoy + "'";
+
+		try {
+			
+			ResultSet rs = cn.query(query);
+			
+			while (rs.next()) {
+				
+				cantidad = rs.getInt("cantidad");
+			}
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			cn.close();
+			
+		}
+
+		return cantidad;
+	}
 }
 
 

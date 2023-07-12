@@ -31,20 +31,22 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 	}
 	
 	
-	public boolean validarDNI(int dni) throws DniInvalido{
+	public boolean validarDNI(int dni) throws DniInvalido 
+	{
 		Boolean dniCorrecto = false;
 		
-		if (dni >= 10000000 && String.valueOf(dni).length() >= 8) {
+		if (dni >= 10000000 && String.valueOf(dni).length() >= 7) 
+		{
 			dniCorrecto = true;
+		}
+		else {
+			dniCorrecto = false;
 		}
 		
 		if (!dniCorrecto) {
 			throw new DniInvalido();
 		}
-
-		if (dniCorrecto)
-			return true;
 		
-		return true;			
+		return dniCorrecto;
 	}
 }

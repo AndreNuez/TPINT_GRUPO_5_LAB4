@@ -111,6 +111,11 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 		return tdao.ContarTurnosAusentes();
 	}
 	
+	public int ContarTurnosAsignadosAMedico(int dni)
+	{
+		return tdao.ContarTurnosAsignadosAMedico(dni);
+	}
+	
 	public ArrayList<Turno> ListarTurnosProximosPorMedico(Medico medico)
 	{
 		return tdao.ListarTurnosProximosPorMedico(medico);
