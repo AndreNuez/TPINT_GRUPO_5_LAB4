@@ -7,6 +7,7 @@
 <%@page import="entidad.Persona"%>
 <%@page import="entidad.Usuario"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
+<%@ page import="auxiliares.Seguridad" %>
 
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
@@ -20,7 +21,28 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-
+<!-- Seguridad de acceso -->
+	<% 
+		Usuario user = (Usuario) session.getAttribute("usuario"); 
+		Seguridad seguridad = new Seguridad();
+		
+		if (user == null) {
+			String mensajeUsuarioNull = "Usuario no registrado";
+			request.setAttribute("errorMessage", mensajeUsuarioNull);
+			response.sendRedirect("Error.jsp"); 
+		
+		} else if(seguridad.usuarioEliminado(user)){
+				String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
+				request.setAttribute("errorMessage", mensajeUsuarioNull);
+				response.sendRedirect("Error.jsp"); 
+			
+		} else {
+			boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+			
+			if (!administrador)
+				response.sendRedirect("Principal.jsp");
+		}
+	%>
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -32,19 +54,7 @@
 					</a>
 				</li>
 			</ul>
-				<% 
-				    Usuario a = (Usuario) session.getAttribute("usuario"); 
-				    
-				    if (a == null) {
-				        response.sendRedirect("Error.jsp"); 
-				    } else {
-				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
-				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
-				        if (!administrador && !medico)
-				            response.sendRedirect("Principal.jsp");
-				    }
-				%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>

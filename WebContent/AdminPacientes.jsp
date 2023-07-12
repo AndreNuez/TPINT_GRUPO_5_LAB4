@@ -5,6 +5,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Usuario"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
+<%@ page import="auxiliares.Seguridad" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,6 +36,28 @@
 			listaP = (List<Persona>) request.getAttribute("listaPacientes");
 		}
 	%>
+<!-- Seguridad de acceso -->	
+	<% 
+	Usuario user = (Usuario) session.getAttribute("usuario"); 
+	Seguridad seguridad = new Seguridad();
+	
+	if (user == null) {
+		String mensajeUsuarioNull = "Usuario no registrado";
+		request.setAttribute("errorMessage", mensajeUsuarioNull);
+		response.sendRedirect("Error.jsp"); 
+	
+	} else if(seguridad.usuarioEliminado(user)){
+			String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
+			request.setAttribute("errorMessage", mensajeUsuarioNull);
+			response.sendRedirect("Error.jsp"); 
+		
+	} else {
+		boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+	
+		if (!administrador)
+			response.sendRedirect("Principal.jsp");
+	}
+%>
 
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -47,19 +70,7 @@
 					</a>
 				</li>
 			</ul>
-				<% 
-				    Usuario a = (Usuario) session.getAttribute("usuario"); 
-				    
-				    if (a == null) {
-				        response.sendRedirect("Error.jsp"); 
-				    } else {
-				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
-				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
-				        if (!administrador && !medico)
-				            response.sendRedirect("Principal.jsp");
-				    }
-				%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>

@@ -6,6 +6,8 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
+<%@ page import="auxiliares.Seguridad" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,13 +32,36 @@
 </head>
 <body>
 
-<%
+<!-- Listar médicos -->
+	<%
 		List<Medico> listaM = new ArrayList<Medico>();
 		if (request.getAttribute("listaMedicos") != null) {
 			listaM = (List<Medico>) request.getAttribute("listaMedicos");
 		}
 	%>
 
+<!-- Seguridad de acceso -->
+<% 
+	Usuario user = (Usuario) session.getAttribute("usuario"); 
+	Seguridad seguridad = new Seguridad();
+	
+	if (user == null) {
+		String mensajeUsuarioNull = "Usuario no registrado";
+		request.setAttribute("errorMessage", mensajeUsuarioNull);
+		response.sendRedirect("Error.jsp"); 
+	
+	} else if(seguridad.usuarioEliminado(user)){
+			String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
+			request.setAttribute("errorMessage", mensajeUsuarioNull);
+			response.sendRedirect("Error.jsp"); 
+		
+	} else {
+		boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+	
+		if (!administrador)
+			response.sendRedirect("Principal.jsp");
+	}
+%>
 <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid">
@@ -48,19 +73,7 @@
 					</a>
 				</li>
 			</ul>
-				<% 
-				    Usuario a = (Usuario) session.getAttribute("usuario"); 
-				    
-				    if (a == null) {
-				        response.sendRedirect("Error.jsp"); 
-				    } else {
-				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
-				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
-				        if (!administrador && !medico)
-				            response.sendRedirect("Principal.jsp");
-				    }
-				%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
+			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= user	.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
 			</form>
