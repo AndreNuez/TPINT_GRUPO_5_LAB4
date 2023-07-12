@@ -119,9 +119,15 @@
                             <td><%= t.getPaciente().getDNI() %> <input type="hidden" name = "dniPaciente" value = <%=t.getPaciente().getDNI()%>></td>
                             <td><input type="submit" name="btnVerInfoPacienteMedico" value="Ver paciente" class="btn btn-outline-success">
                             <td><%= t.getFecha() %>  -  <%= t.getHora() %> Hs.</td>
-                            <td><input type="text" class="form-control" id="observacion" name="txtObservacion" autofocus></td>
-                            <td><input type="submit" name="btnAsistio" value="Asistió" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente presente?')">
+                             <% if(request.getAttribute("turnosProximos") != null) { %>
+                            <td><input type="text" class="form-control" id="observacion" name="txtObservacion" disabled autofocus></td>
+                            <td><input type="submit" name="btnAsistio" value="Asistió" class="btn btn-primary" disabled onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente presente?')">
+                            <input type="submit" name="btnAusente" value="Ausente" class="btn btn-danger" disabled onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente ausente?')"/></td>
+                        	 <% } else { %>
+                        	 <td><input type="text" class="form-control" id="observacion" name="txtObservacion" autofocus></td>
+                        	  <td><input type="submit" name="btnAsistio" value="Asistió" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente presente?')">
                             <input type="submit" name="btnAusente" value="Ausente" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea actualizar este turno como paciente ausente?')"/></td>
+                        	 <% }%>
                         	</form>
                         </tr>
                         <% } %>
