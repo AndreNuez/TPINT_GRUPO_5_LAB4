@@ -15,8 +15,10 @@ import auxiliares.ErrorHandle;
 import auxiliares.Seguridad;
 import entidad.Usuario;
 import negocio.MedicoNegocio;
+import negocio.TurnoNegocio;
 import negocio.UsuarioNegocio;
 import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.TurnoNegocioImpl;
 import negocioImpl.UsuarioNegocioImpl;
 
 @WebServlet("/ServletUsuario")
@@ -25,6 +27,7 @@ public class ServletUsuario extends HttpServlet {
        
 	UsuarioNegocio userNeg = new UsuarioNegocioImpl();
 	MedicoNegocio mNeg = new MedicoNegocioImpl();
+	TurnoNegocio tNeg = new TurnoNegocioImpl();
 	
     public ServletUsuario() {
         super();
@@ -42,6 +45,21 @@ public class ServletUsuario extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else {
+				Medico m = (Medico) request.getSession().getAttribute("medico");
+				
+				int cantTurnosAsig = tNeg.ContarTurnosAsignadosAMedico(m.getDNI());
+				
+				switch (cantTurnosAsig) {
+				case 0:
+					request.setAttribute("cantTurnosAsig0", cantTurnosAsig);
+					break;
+				case 1:
+					request.setAttribute("cantTurnosAsig1", cantTurnosAsig);
+					break;
+				default:
+					request.setAttribute("cantTurnosAsig", cantTurnosAsig);
+					break;
+				}
 				
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
 				dispatcher.forward(request, response);
@@ -53,70 +71,97 @@ public class ServletUsuario extends HttpServlet {
 
 		if(request.getParameter("btnIngresar")!=null) {
 			
-			String pass = request.getParameter("txtContraseña");
+			String pass = request.getParameter("txtContraseÃ±a");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
-			Seguridad seguridad = new Seguridad();
-			Usuario user = null;
-			boolean eliminado = true;
-			
-			try {
+			try 
+			{
+				userNeg.validarDNI(dni); 
+			} 
+			catch (DniInvalido dniInv) 
+			{
 
-				user = (Usuario) userNeg.obtenerUsuario(pass, dni);
-				userNeg.validarDNI(user.getDNI());
-				eliminado = seguridad.usuarioEliminado(user);
+				
+				System.out.println(dniInv.getMessage());
 
-			} catch (DniInvalido dniInv) {
+				request.setAttribute("errorDni", true);
 				
-				dniInv.printStackTrace();
-				
-				Boolean errorDni = true;
-				request.setAttribute("errorDni", errorDni);
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
 				dispatcher.forward(request, response);
+				return;
 				
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				
 				e.printStackTrace();
 				request.getSession().setAttribute("errorMessage", "Ocurrio un error");
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 				dispatcher.forward(request, response);
+				return;
 			} 
+
+			Usuario user;
 			
-			if(user.getDNI() != 0) {	
-				if (!eliminado) {
-					if(user.getTipo().getIdTipoUsuario() == 0) {
+			user = (Usuario) userNeg.obtenerUsuario(pass, dni);
+			
+			if(user != null) 
+			{	
+				if (user.getEstado() == 1) 
+				{
+					if(user.getTipo().getIdTipoUsuario() == 0) 
+					{
+
 						request.getSession().setAttribute("usuario", user);
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalAdmin.jsp");
 						dispatcher.forward(request, response);
 					}
-					else {
+					else 
+					{
 						
 						Medico m = mNeg.ListarUno(dni);
 						
 						request.getSession().setAttribute("usuario", user);
 						request.getSession().setAttribute("medico", m);
 						
+						int cantTurnosAsig = tNeg.ContarTurnosAsignadosAMedico(m.getDNI());
+						
+						switch (cantTurnosAsig) {
+						case 0:
+							request.setAttribute("cantTurnosAsig0", cantTurnosAsig);
+							break;
+						case 1:
+							request.setAttribute("cantTurnosAsig1", cantTurnosAsig);
+							break;
+						default:
+							request.setAttribute("cantTurnosAsig", cantTurnosAsig);
+							break;
+						}
+						
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");
 						dispatcher.forward(request, response);
 					}
 				}
-				
-				else if (eliminado) {
-						String mensajeBajaSistema = "Usted ha sido dado de baja en el sistema. Comuniquese con el sindicato";
-						request.getSession().setAttribute("errorMessage", mensajeBajaSistema);
-				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+
+				else if (user.getEstado() == 0) {
+					
+						request.setAttribute("errorDadoDeBaja", true);
+
+				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+
 						dispatcher.forward(request, response);	
+						return;
 				}			
-			}
-			
-			else if (user.getDNI() == 0) {
+			} 
+			else
+			{
+				request.setAttribute("errorCredenciales", true);
 				
-				//request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
-		    	//RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
-				//dispatcher.forward(request, response);
+
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				dispatcher.forward(request, response);
+
 				return;
 			}
 		}

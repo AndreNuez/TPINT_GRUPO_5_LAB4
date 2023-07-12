@@ -11,8 +11,8 @@
 <br>
 <div class="row">
         <div class="col-4"></div>
-        <div class="col">
-        <img src="https://centromedicomendoza.com/wordpress/wp-content/uploads/2016/04/012.jpg" class="img-fluid" alt="...">
+        	<div class="col">
+        		<img src="https://centromedicomendoza.com/wordpress/wp-content/uploads/2016/04/012.jpg" class="img-fluid" alt="...">
             <div class="text-center">
             <br>
                 <h2>Bienvenido a Clinica Medica SA</h2>
@@ -20,11 +20,27 @@
             <div class="text-center text-muted">
                 <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
             </div>
-            <div class="col-4"><!-- <div class="alert alert-danger" role="alert"> -->
-  			<!--	Usuario o contraseña incorrectos-->
-			<!--</div>-->
+            <% if(request.getAttribute("errorCredenciales") != null) { %>
+            <div class="col-12">
+            	<div class="alert alert-danger" role="alert">	
+  				Usuario o contraseña incorrectos. Por favor, reintente
+				</div>
 			</div>
-            <br />
+			<% } %>
+			<% if(request.getAttribute("errorDni") != null) { %>
+            <div class="col-12">
+            	<div class="alert alert-danger" role="alert">	
+  				DNI invalido. Por favor, reintente
+				</div>
+			</div>
+			<% } %>
+			<% if(request.getAttribute("errorDadoDeBaja") != null) { %>
+            <div class="col-12">
+            	<div class="alert alert-danger" role="alert">	
+  				 Usted ha sido dado de baja en el sistema. Comuniquese con el sindicato
+				</div>
+			</div>
+			<% } %>
             <form action="ServletUsuario" method="post">
             
 	            <div class="d-grid mx-auto">

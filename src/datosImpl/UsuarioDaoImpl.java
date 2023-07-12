@@ -18,14 +18,17 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 	@Override
 	public Usuario obtenerUsuario(String pass, int dni) {
+		
 		cn = new Conexion();
 		cn.Open();
-		Usuario usuario = new Usuario();
+		Usuario usuario = null;
 		
 		try {
-			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña, Estado from usuarios where DNI = " + dni + " and Contraseña = '" + pass + "'"); 
-			rs.next();
+			ResultSet rs = cn.query("select DNI, IDTipoUsuario, Contraseña, Estado from usuarios where DNI = " + dni + " and Contraseña = '" + pass + "'");
 			
+			while(rs.next()) {
+				
+			usuario = new Usuario();
 			usuario.setDNI(rs.getInt("DNI"));
 			usuario.setContraseña(rs.getString("Contraseña"));
 
@@ -38,19 +41,22 @@ public class UsuarioDaoImpl implements UsuarioDao{
 				tipoUsuario.setDescripcion("Administrador");
 				
 			usuario.setTipo(tipoUsuario);
-			
 			usuario.setEstado(rs.getInt("Estado"));
 			
-		} catch (Exception e) {
+				}
+			
+			} 
+			catch (Exception e) 
+		    {
 			e.printStackTrace();
-		}
-		
-		finally{
+			} 
+			finally
+			{
 			cn.close();
-		}
+			}
 		
 		return usuario;
-		
+
 	}
 
 	@Override
