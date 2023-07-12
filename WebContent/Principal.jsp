@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Login Clinica Medica</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
@@ -15,26 +15,28 @@
         <img src="https://centromedicomendoza.com/wordpress/wp-content/uploads/2016/04/012.jpg" class="img-fluid" alt="...">
             <div class="text-center">
             <br>
-                <h2>Bienvenido a Clinica MÃ©dica SA</h2>
+                <h2>Bienvenido a Clinica Medica SA</h2>
             </div>
             <div class="text-center text-muted">
-                <p>Por favor, ingrese su DNI y contraseÃ±a para ingresar:</p>
+                <p>Por favor, ingrese su DNI y contraseña para ingresar:</p>
             </div>
-            <div class="col-4"></div>
-            <div class="col-2"></div>
+            <div class="col-4"><!-- <div class="alert alert-danger" role="alert"> -->
+  			<!--	Usuario o contraseña incorrectos-->
+			<!--</div>-->
+			</div>
             <br />
             <form action="ServletUsuario" method="post">
             
 	            <div class="d-grid mx-auto">
-	                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" required ></input>
+	                <input type="text" name="txtDNI" placeholder="DNI" class="form-control" pattern="[0-9]+" autofocus title="Este campo solo admite numeros." required ></input>
 	                <br>
 	            </div>
 	            <div class="d-grid mx-auto">
-	                <input type="password" name="txtContraseÃ±a" placeholder="ContraseÃ±a" class="form-control" required ></input>
+	                <input type="password" name="txtContraseña" placeholder="Contraseña" class="form-control" pattern="[a-z]+" title="Ingrese solo minúsculas" required ></input>
 	                <br>
 	            </div>   
 	             <div class="d-grid mx-auto">
-	                <input type=submit class="btn btn-primary" name=btnIngresar value="Ingresar"></input>
+	                <input type=submit class="btn btn-primary" name="btnIngresar" value="Ingresar"></input>
 	                <br>          
 	            </div> 
             </form>
@@ -45,6 +47,18 @@
         </div>
         <div class="col-4"></div>
     </div>
+
+	<%if(request.getAttribute("errorDni") != null)
+	{
+	%>
+		<script type="text/javascript">
+		function alertName(){
+		alert("El dni es invalido. Por favor, reintente");
+		} 
+		</script> 
+	<%
+		}
+	%>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

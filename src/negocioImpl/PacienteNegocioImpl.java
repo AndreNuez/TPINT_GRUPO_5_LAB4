@@ -3,10 +3,12 @@ package negocioImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.UsuarioRegistrado;
 import datos.PacienteDao;
 import datosImpl.PacienteDaoImpl;
 import entidad.Persona;
 import negocio.PacienteNegocio;
+
 
 public class PacienteNegocioImpl implements PacienteNegocio {
 	
@@ -25,10 +27,10 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 		return (ArrayList<Persona>) pacienteDao.ListarTodos();
 	}
 
+	//GR Lista 1 paciente a partir de su DNI
 	@Override
 	public Persona ListarUno(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		return pacienteDao.ListarUno(dni);
 	}
 
 	@Override
@@ -46,4 +48,43 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 		return pacienteDao.EliminarPaciente(dni);
 	}
 
+	@Override
+	public int contarExtranjeros() {
+		return pacienteDao.ContarExtranjeros();
+	}
+	
+	public int ContarPacientes()
+	{
+		return pacienteDao.ContarPacientes();
+	}
+	
+	public int ContarArg()
+	{
+		return pacienteDao.ContarArg();
+	}
+	
+	public int ContarMayores()
+	{
+		return pacienteDao.ContarMayores();
+	}
+	
+	public int ContarMenores()
+	{
+		return pacienteDao.ContarMenores();
+	}
+	
+	@Override
+	public boolean validarPacienteExistente(int dni) throws UsuarioRegistrado {
+		
+		Boolean existe = false;
+
+		existe = pacienteDao.validarPacienteExistente(dni);
+		
+		if(existe)
+		{
+			throw new UsuarioRegistrado();
+		}
+			
+		return existe;
+	}
 }

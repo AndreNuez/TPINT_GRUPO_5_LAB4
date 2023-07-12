@@ -2,6 +2,9 @@ package entidad;
 
 import java.time.LocalDate;
 
+import Exceptions.DniInvalido;
+import Exceptions.UsuarioRegistrado;
+
 public class Persona {
 	
 	private int DNI;	
@@ -13,14 +16,19 @@ public class Persona {
 	private Direccion Direccion;	
 	private String Mail;	
 	private String Telefono;
-	private boolean Estado;
+	private int Estado;
 	
 	public Persona () {
-		
+		this.Direccion = new Direccion();
+		Nombre = "";
+		Apellido = "";
+		Nacionalidad = "";
+		Mail = "";
+		Telefono = "";
 	}
 
 	public Persona(int dNI, String nombre, String apellido, char sexo, String nacionalidad, LocalDate fnac,
-			entidad.Direccion direccion, String mail, String telefono, boolean estado) {
+			entidad.Direccion direccion, String mail, String telefono, int estado) {
 		DNI = dNI;
 		Nombre = nombre;
 		Apellido = apellido;
@@ -105,11 +113,11 @@ public class Persona {
 		Telefono = telefono;
 	}
 
-	public boolean getEstado() {
+	public int getEstado() {
 		return Estado;
 	}
 
-	public void setEstado(boolean estado) {
+	public void setEstado(int estado) {
 		Estado = estado;
 	}
 
