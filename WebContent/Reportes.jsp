@@ -157,7 +157,7 @@
 		<br>
    		<hr>
 		<% int cantMayores = (int) request.getAttribute("cantMayores");
-		 	int cantMenores = (int) request.getAttribute("cantMenores");%>
+		   int cantMenores = (int) request.getAttribute("cantMenores");%>
 		 	
 		 	<table class="table table-striped" style="margin: 0 auto;" id="miTabla">
                     <thead>
@@ -170,6 +170,33 @@
                         <tr>
                             <td><%=cantMayores%></td>
                             <td><%=cantMenores%></td>
+                        </tr>
+
+                    </tbody>
+             </table>
+             <br>
+   		<hr>
+   		
+	 <% int cantidadLibres = (int) request.getAttribute("cantLibres");
+		int cantidadOcupados = (int) request.getAttribute("cantOcupados");
+		int cantidadPresentes = (int) request.getAttribute("cantPresentes");
+		int cantidadAusentes = (int) request.getAttribute("cantAusentes");%>
+		 	
+		 	<table class="table table-striped" style="margin: 0 auto;" id="miTabla">
+                    <thead>
+                        <tr>
+                            <th>Cantidad de turnos libres</th>
+                            <th>Cantidad de turnos ocupados</th>
+                            <th>Cantidad de turnos presentes</th>
+                            <th>Cantidad de turnos ausentes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><%=cantidadLibres%></td>
+                            <td><%=cantidadOcupados%></td>
+                            <td><%=cantidadPresentes%></td>
+                            <td><%=cantidadAusentes%></td>
                         </tr>
 
                     </tbody>

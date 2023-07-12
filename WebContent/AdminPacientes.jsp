@@ -4,11 +4,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Usuario"%>
+<%@ page import="auxiliares.ValidarUsuario" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Listado pacientes</title>
 
 <!-- Boostrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -46,7 +47,18 @@
 					</a>
 				</li>
 			</ul>
-						<% Usuario a = (Usuario) session.getAttribute("usuario"); %>
+				<% 
+				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (a == null) {
+				        response.sendRedirect("Error.jsp"); 
+				    } else {
+				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
+				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
+				        if (!administrador && !medico)
+				            response.sendRedirect("Principal.jsp");
+				    }
+				%>
 			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
 			<form method="post" action="ServletUsuario">
 			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
@@ -99,25 +111,12 @@
 			<td><%=p.getTelefono()%></td>
 			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
-			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger"/> </td>	
+			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este paciente?')"/> </td>	
 			</form>
 		</tr>
 		<%
 			}
 		%>
-
-		<% if(request.getAttribute("eliminando") != null) {
-			%>
-			<div class="row" height=100px>
-			<div class="col-3"></div>
-			<div class="col-3">
-				<h3 align="center">Desea eliminar el paciente?</h3> 
-				</div>
-			<div class="col-1"><a href="ServletPacientes?Param=confirmarSi" class="btn btn-danger"> Si </a></div>
-			<div class="col-1"><a href="ServletPacientes?Param=confirmarNo" class="btn btn-primary"> No </a></div>
-			</div>
-			<% } %>
-
 	</tbody>
 	</table>
 </div>
@@ -125,29 +124,34 @@
 </div>
 </div>
 
-	<%
-		if (request.getAttribute("estado") != null) {
-	%>
+<!-- Mensajes de confirmacion -->
+
+<!-- Eliminar -->
+	<%if (request.getAttribute("eliminado") != null) {%>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Paciente eliminado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
+	<%}%>
 	
-	<%
-		if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {
-	%>
+<!-- Modificar -->		
+	<%if (request.getAttribute("modificado") != null && request.getAttribute("modificadoDP")!= null) {%>
 	<script type="text/javascript">
 		function alertName(){
 		alert("Paciente modificado con exito");
 		} 
 		</script> 
-	<%
-		}
-	%>
+	<%}%>
+	
+<!-- Agregar -->
+	<%if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP")!= null) {%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("Paciente agregado con exito");
+		} 
+		</script> 
+	<%}%>	
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script type="text/javascript"> window.onload = alertName; </script>

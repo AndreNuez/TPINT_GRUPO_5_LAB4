@@ -5,10 +5,14 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
+import Exceptions.UsuarioRegistrado;
 import datos.PacienteDao;
 import entidad.Direccion;
 import entidad.Localidad;
@@ -31,7 +35,7 @@ public class PacienteDaoImpl implements PacienteDao {
 			List<Persona> list = new ArrayList<Persona>();
 			try
 			{
-				ResultSet rs= cn.query("SELECT DNI, Apellido, Nombres, Sexo, Nacionalidad, Nacionalidad, FechaNacimiento, Mail, Telefono, Estado FROM pacientes WHERE Estado = 1");
+				ResultSet rs= cn.query("SELECT DNI, Apellido, Nombres, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, Estado FROM pacientes WHERE Estado = 1");
 				while(rs.next())
 				{
 					Persona paciente = new Persona();
@@ -68,7 +72,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		Direccion direccion = new Direccion();
 			try
 			{
-				ResultSet rs= cn.query("SELECT pacientes.DNI,pacientes.Apellido,pacientes.Nombres,pacientes.Sexo, pacientes.Nacionalidad,pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono,pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.IDLocalidad, localidades.Nombre,provincias.IDProvincia, provincias.Nombre FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia where pacientes.Estado = 1 && pacientes.DNI="+dni);
+				ResultSet rs= cn.query("SELECT pacientes.DNI,pacientes.Apellido,pacientes.Nombres,pacientes.Sexo, pacientes.Nacionalidad, pacientes.FechaNacimiento, pacientes.Mail, pacientes.Telefono,pacientes.Estado,direccionespacientes.Calle, direccionespacientes.Numero, localidades.IDLocalidad, localidades.Nombre,provincias.IDProvincia, provincias.Nombre FROM pacientes INNER JOIN direccionespacientes ON pacientes.DNI = direccionespacientes.DNI INNER JOIN localidades ON direccionespacientes.IDLocalidad = localidades.IDLocalidad INNER JOIN provincias ON localidades.IDProvincia = provincias.IDProvincia where pacientes.Estado = 1 && pacientes.DNI="+dni);
 				rs.next();
 				{
 					paciente.setDNI(rs.getInt("pacientes.DNI"));
@@ -311,5 +315,37 @@ public class PacienteDaoImpl implements PacienteDao {
 			}
 
 		return cantidad;
+	}
+	
+	public boolean validarPacienteExistente(int dni)
+	{
+		boolean existe = false;
+		int cantDniBD;
+		cn = new Conexion();
+		cn.Open();
+		
+		try {
+			
+			ResultSet rs = cn.query("select count(DNI) as Cantidad from pacientes where DNI = " + dni); 
+			rs.next();
+			
+			cantDniBD = rs.getInt("Cantidad");
+			
+			if (cantDniBD == 1) {
+				return true;
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return existe;
+
 	}
 }

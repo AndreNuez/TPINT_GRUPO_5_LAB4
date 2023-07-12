@@ -1,8 +1,10 @@
 package datos;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.UsuarioRegistrado;
 import entidad.Persona;
 
 public interface PacienteDao {
@@ -17,5 +19,5 @@ public interface PacienteDao {
 	public boolean InsertarPaciente(Persona paciente);
 	public boolean EditarPaciente(Persona paciente);
 	public boolean EliminarPaciente(int dni); //Eliminar logico.
-
+	public boolean validarPacienteExistente(int dni);
 }

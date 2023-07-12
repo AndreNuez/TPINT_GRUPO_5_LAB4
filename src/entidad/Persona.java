@@ -2,6 +2,9 @@ package entidad;
 
 import java.time.LocalDate;
 
+import Exceptions.DniInvalido;
+import Exceptions.UsuarioRegistrado;
+
 public class Persona {
 	
 	private int DNI;	
