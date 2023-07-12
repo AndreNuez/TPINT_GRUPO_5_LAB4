@@ -7,7 +7,8 @@
 <!-- Librerias -->
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
-<%@ page import="auxiliares.ValidarUsuario" %>    
+<%@ page import="auxiliares.ValidarUsuario" %>   
+<%@ page import="auxiliares.Seguridad" %> 
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -18,7 +19,28 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-
+<!-- Seguridad de acceso -->
+<% 
+	Usuario user = (Usuario) session.getAttribute("usuario"); 
+	Seguridad seguridad = new Seguridad();
+	
+	if (user == null) {
+		String mensajeUsuarioNull = "Usuario no registrado";
+		request.setAttribute("errorMessage", mensajeUsuarioNull);
+		response.sendRedirect("Error.jsp"); 
+	
+	} else if(seguridad.usuarioEliminado(user)){
+			String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
+			request.setAttribute("errorMessage", mensajeUsuarioNull);
+			response.sendRedirect("Error.jsp"); 
+		
+	} else {
+		boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+	
+		if (!administrador)
+			response.sendRedirect("Principal.jsp");
+	}
+%>
 <!-- Header -->
 				<% 
 				    Usuario user = (Usuario) session.getAttribute("usuario"); 

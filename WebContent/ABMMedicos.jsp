@@ -7,6 +7,7 @@
 <%@page import="entidad.Especialidad"%>
 <%@page import="entidad.Horario"%>
 <%@ page import="auxiliares.ValidarUsuario" %>
+<%@ page import="auxiliares.Seguridad" %>
 
 
 <!-- Librerias -->
@@ -21,6 +22,29 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
+<!-- Seguridad de acceso -->
+	<% 
+	    Usuario user = (Usuario) session.getAttribute("usuario"); 
+	    Seguridad seguridad = new Seguridad();
+	    
+	    if (user == null) {
+	    	String mensajeUsuarioNull = "Usuario no registrado";
+	    	request.setAttribute("errorMessage", mensajeUsuarioNull);
+	        response.sendRedirect("Error.jsp"); 
+        
+	    } else if(seguridad.usuarioEliminado(user)){
+	        	String mensajeUsuarioNull = "Usuario dado de baja del Sistema";
+		    	request.setAttribute("errorMessage", mensajeUsuarioNull);
+		        response.sendRedirect("Error.jsp"); 
+	      
+	    } else {
+	        boolean administrador = ValidarUsuario.validarUsuarioAdmin(user);
+	    
+	        if (!administrador)
+	            response.sendRedirect("PrincipalMedic.jsp");
+	    }
+	%>
+
 <!-- Header -->
 				<% 
 				    Usuario user = (Usuario) session.getAttribute("usuario"); 
