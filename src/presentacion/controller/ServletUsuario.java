@@ -69,7 +69,7 @@ public class ServletUsuario extends HttpServlet {
 
 		if(request.getParameter("btnIngresar")!=null) {
 			
-			String pass = request.getParameter("txtContraseÃ±a");
+			String pass = request.getParameter("txtContraseña");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
 			try 
