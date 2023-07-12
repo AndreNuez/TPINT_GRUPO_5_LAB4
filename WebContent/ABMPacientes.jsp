@@ -334,7 +334,16 @@
     </form>
     <%} %>
 
-<!-- Pregunto por estado para chequear si se inserto. -->    
+<!-- Pregunto por estado para chequear si se inserto. -->
+	
+	<%if (request.getAttribute("errorDni") != null) {%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("El DNI ya se encuentra registrado");
+		} 
+		</script> 
+	<%}%>
+	
     <%
 		if (request.getAttribute("estadoPaciente") != null && request.getAttribute("estadoDP") != null) {
 	%>

@@ -18,13 +18,6 @@ import negocio.UsuarioNegocio;
 import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.UsuarioNegocioImpl;
 
-
-
-
-
-/**
- * Servlet implementation class ServletUsuario
- */
 @WebServlet("/ServletUsuario")
 public class ServletUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,19 +25,11 @@ public class ServletUsuario extends HttpServlet {
 	UsuarioNegocio userNeg = new UsuarioNegocioImpl();
 	MedicoNegocio mNeg = new MedicoNegocioImpl();
 	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ServletUsuario() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		if(request.getParameter("Param") != null) {
 			
@@ -63,40 +48,39 @@ public class ServletUsuario extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(request.getParameter("btnIngresar")!=null) {
 			
-			String pass = request.getParameter("txtContraseï¿½a");
+			String pass = request.getParameter("txtContraseña");
 			int dni = Integer.parseInt(request.getParameter("txtDNI")); 
 			
 			Usuario user = null;
 			
 			try {
-			    user = (Usuario) userNeg.obtenerUsuario(pass, dni);		
-			    
-			    try {
-				    userNeg.validarDNI(user.getDNI());
-			    } catch (DniInvalido dniInv) {
-			    	dniInv.printStackTrace();
-			    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-					dispatcher.forward(request, response);
-					return;
-			    } catch (Exception e) {
-					// TODO: handle exception
-				}
 
+				user = (Usuario) userNeg.obtenerUsuario(pass, dni);
+				userNeg.validarDNI(user.getDNI());
+
+			} catch (DniInvalido dniInv) {
+				
+				dniInv.printStackTrace();
+				
+				Boolean errorDni = true;
+				request.setAttribute("errorDni", errorDni);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+				dispatcher.forward(request, response);
+				
 			} catch (Exception e) {
-			    e.printStackTrace();
-			    request.getSession().setAttribute("errorMessage", "An error occurred during user authentication");
-			    RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
-			    dispatcher.forward(request, response);
-			}
+				
+				e.printStackTrace();
+				request.getSession().setAttribute("errorMessage", "Ocurrio un error");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
+				dispatcher.forward(request, response);
+			} 
 			
-			//Usuario not null y sin eliminar (baja lï¿½gica) // getEstado() == 1 -> True
 			if(user.getDNI() != 0) {	
 				if (user.getEstado() == 1) {
 					if(user.getTipo().getIdTipoUsuario() == 0) {
@@ -117,14 +101,15 @@ public class ServletUsuario extends HttpServlet {
 				}
 				
 				else if (user.getEstado() == 0) {
-						request.getSession().setAttribute("errorMessage", "Usted ha sido dado de baja en el sistema. Comunï¿½quese con el sindicato");
+						request.getSession().setAttribute("errorMessage", "Usted ha sido dado de baja en el sistema. Comuniquese con el sindicato");
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 						dispatcher.forward(request, response);	
 				}			
 			}
 			
 			else if (user.getDNI() == 0) {
-				//request.getSession().setAttribute("errorMessage", "Usuario o contraseï¿½a inexistente");
+				
+				//request.getSession().setAttribute("errorMessage", "Usuario o contraseña inexistente");
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Error.jsp");
 				dispatcher.forward(request, response);
 				return;

@@ -41,7 +41,7 @@
 				    } else {
 				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
 				    
-				        if (!administrador)
+				        if (administrador)
 				            response.sendRedirect("Principal.jsp");
 				    }
 				%>
@@ -400,6 +400,15 @@
 <%} %>  
 
 </div>
+
+	<%if (request.getAttribute("errorDni") != null) {%>
+	<script type="text/javascript">
+		function alertName(){
+		alert("El DNI ya se encuentra registrado");
+		} 
+		</script> 
+	<%}%>
+	
 
 <!-- Alerta eliminacion horario ok  -->	
 	<%

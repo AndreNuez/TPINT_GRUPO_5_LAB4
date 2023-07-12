@@ -49,7 +49,6 @@ public class ServletPacientes extends HttpServlet {
         super();
     }
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("Param")!=null)
@@ -111,31 +110,33 @@ public class ServletPacientes extends HttpServlet {
 			boolean estado = true;
 			
 			//Bloque TRY CATCH para evaluar si el usuario ya existe
-			try {
-				pNeg.validarPacienteExistente(DNI);
-			} catch (UsuarioRegistrado userRegistrado) {
-				// TODO: handle exception
-				userRegistrado.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);	
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);
-			}
-			
-			//Bloque TRY CATCH para insertar Paciente
-			try {
-				estado = pNeg.InsertarPaciente(p);
-			} catch (Exception e) {
-				// TODO: handle exception
+			try 
+			{
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
+				pNeg.validarPacienteExistente(DNI);
+				
+			} 
+			catch (UsuarioRegistrado exc) 
+			{
+				System.out.println(exc.getMessage());
+				
+				Boolean errorDni = true;
+				request.setAttribute("errorDni", errorDni);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
 				dispatcher.forward(request, response);
+				return;
+				
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMPacientes.jsp");
+				dispatcher.forward(request, response);
+				return;
 			}
 
-				
+			estado = pNeg.InsertarPaciente(p);
+
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
 				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
@@ -143,9 +144,7 @@ public class ServletPacientes extends HttpServlet {
 		
 			boolean estadodp = true;
 			estadodp = dpNeg.InsertarDP(DNI, dp);
-			
-			
-				
+
 			request.setAttribute("estadoPaciente", estado);
 			request.setAttribute("estadoDP", estadodp);
 			
@@ -160,8 +159,8 @@ public class ServletPacientes extends HttpServlet {
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/AsignarTurno.jsp");
 				dispatcher.forward(request, response);
+				
 			}
-			
 			else 
 			{
 				ArrayList<Persona> lista = pNeg.ListarTodos();
@@ -228,34 +227,9 @@ public class ServletPacientes extends HttpServlet {
 			
 			int DNI = p.getDNI();
 			boolean modificado = true;
-			
-			//Bloque TRY CATCH para evaluar si el usuario ya existe
-			try {
-				pNeg.validarPacienteExistente(DNI);
-			} catch (UsuarioRegistrado userRegistrado) {
-				// TODO: handle exception
-				userRegistrado.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);	
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);
-			}
-			
-			//Bloque TRY CATCH para modificar Paciente
-			try {
-				modificado = pNeg.EditarPaciente(p);
-			} catch (Exception e) {
-				// TODO: handle exception
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);
-			}
-							
 
-			
+			modificado = pNeg.EditarPaciente(p);
+
 			Direccion dp = new Direccion();
 				dp.setCalle(request.getParameter("txtCalle"));
 				dp.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
