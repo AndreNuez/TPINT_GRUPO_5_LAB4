@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Medico;
 import Exceptions.DniInvalido;
-import auxiliares.ErrorHandle;
 import entidad.Usuario;
 import negocio.MedicoNegocio;
 import negocio.TurnoNegocio;

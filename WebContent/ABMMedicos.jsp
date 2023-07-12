@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Entidades -->
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Localidad"%>
@@ -23,35 +22,44 @@
 </head>
 <body>
 <!-- Header -->
-	<nav class="navbar navbar-expand-lg bg-light">
-	<div class="container-fluid">
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="navbar-brand" href="PrincipalAdmin.jsp"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
-					</a>
-				</li>
-			</ul>
 				<% 
-				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    Usuario user = (Usuario) session.getAttribute("usuario"); 
 				    
-				    if (a == null) {
+				    if (user == null) 
+				    {
 				        response.sendRedirect("Error.jsp"); 
-				    } else {
-				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
-				    
-				        if (administrador)
-				            response.sendRedirect("Principal.jsp");
+				    } 
+				    else if (user.getTipo().getIdTipoUsuario() == 1)
+				    {
+				            response.sendRedirect("Error.jsp");
 				    }
 				%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
-			<form method="post" action="ServletUsuario">
-			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+				
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navbar-brand mb-0 h1" href="ServletUsuario?Param=1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> ðŸ¢€  Volver a MenÃº Principal
+                        </a>
+                    </li>
+    				<div class="container">
+    					<div class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</div>
+  					</div>
+                </ul>
+
+			<div class="row">
+				<div class="col-6">
+					<ul class="text-end navbar-brand mb-0 fs-6" style=""> <b> DNI:</b> <%= user.getDNI() %> </ul>
+				</div>
+			</div>
+                <form method="post" action="ServletUsuario">
+			<input type=submit class="btn btn-danger" name="btnSalir" value="Salir"></input>
 			</form>
-		</div>
-	</div>
-	</nav>
+            </div>
+        </div>
+    </nav>
 	<br>
 
 <!-- Llamado a listados  -->
@@ -85,7 +93,7 @@
 			medico = (Medico)request.getAttribute("ModificarMedico");
 		}
 		
-		String[] diasDisponibles = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+		String[] diasDisponibles = {"Lunes", "Martes", "MiÃ©rcoles", "Jueves", "Viernes"};
 		
 		String esMasculino = medico.getSexo() == 'M' ? "checked" : "";
 		String esFemenino = medico.getSexo() == 'F' ? "checked" : "";
@@ -94,9 +102,9 @@
 	
 <!-- Formulario y controles --> 
  <div class="container">
- 	<h4>Datos del médico</h4> <hr>
+ 	<h4>Datos del mÃ©dico</h4> <hr>
  
- <!-- Si doy click en AgregarNuevo, cargo todos los campos vacíos --> 
+ <!-- Si doy click en AgregarNuevo, cargo todos los campos vacÃ­os --> 
  
  <%if ((request.getAttribute("verMedico") == null) && (request.getAttribute("ModificarMedico") == null) && (request.getParameter("dniMedico") == null) ) {%>	
 
@@ -105,7 +113,7 @@
         <div class="col-6">
             <div class="mb-2">
                 <label for="DNI">DNI:</label>
-				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un número de 8 dígitos." required>
+				<input type="text" name="txtDNI" maxlength="8" placeholder="DNI" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un nÃºmero de 8 dÃ­gitos." required>
             </div>
             <div class="mb-2">
                 <label for="nombre">Nombre:</label>
@@ -133,8 +141,8 @@
 				<input type="email" name="txtMail" placeholder="Mail" required>
             </div>
             <div class="mb-2">
-				<label for="Telefono">Teléfono:</label>
-				<input type="tel" name="txtTelefono" placeholder="Telefono" pattern="[0-9]+" title="Ingrese solo números" required>
+				<label for="Telefono">TelÃ©fono:</label>
+				<input type="tel" name="txtTelefono" placeholder="Telefono" pattern="[0-9]+" title="Ingrese solo nÃºmeros" required>
             </div>
             <div class="mb-2">
 				<label for="Especialidad">Especialidad:</label>
@@ -150,14 +158,14 @@
         </div>
 
         <div class="col-6">
-        <h5>Dirección</h5><hr>
+        <h5>DirecciÃ³n</h5><hr>
             <div class="mb-2">
                 <label for="Calle">Calle:</label>
 				<input type="text" name="txtCalle" placeholder="Calle" required id="Calle">
 			</div>
 			<div class="mb-2">
 				<label for="Numero">Numero:</label>
-				<input type="text" name="txtNumero" placeholder="Número" pattern="[0-9]+" title="Ingrese solo números" required>	
+				<input type="text" name="txtNumero" placeholder="NÃºmero" pattern="[0-9]+" title="Ingrese solo nÃºmeros" required>	
             </div>
             <div class="mb-2">
 				<label for="Localidad">Localidad:</label>
@@ -171,7 +179,7 @@
 				</select>
             </div>
             <br>
-           <h5>Día y horario de atención</h5> <hr>
+           <h5>DÃ­a y horario de atenciÃ³n</h5> <hr>
            <div class="mb-2">
 				<label for="Dia">Dia:</label>
 				<select name="Dia" required>
@@ -196,7 +204,7 @@
         <input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         <br><br>
         <div>
-        	<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('¿Está seguro que desea agregar este medico?')"> </input>
+        	<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('Â¿EstÃ¡ seguro que desea agregar este medico?')"> </input>
         	<a href="ServletMedicos?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
@@ -233,7 +241,7 @@
                 <label for="Mail"><b>Mail:</b> <%=medico.getMail() %></label>
             </div>
             <div class="mb-2">
-				<label for="Telefono"><b>Teléfono:</b> <%=medico.getTelefono() %></label>
+				<label for="Telefono"><b>TelÃ©fono:</b> <%=medico.getTelefono() %></label>
             </div>
             <div class="mb-2">
 				<label for="Especialidad"><b>Especialidad:</b> </label>
@@ -344,7 +352,7 @@
                 <input type="email" name="txtMail" placeholder="Mail" required value=<%=medico.getMail() %>>
             </div>
             <div class="mb-2">
-				<label for="Telefono">Teléfono:</label>
+				<label for="Telefono">TelÃ©fono:</label>
 				<input type="tel" name="txtTelefono" placeholder="Telefono" required pattern="[0-9]+" title="Ingrese solo numeros" value=<%=medico.getTelefono() %>>
             </div>
             <div class="mb-2">
@@ -389,7 +397,7 @@
             	<% if (request.getAttribute("verMedico") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar Datos" class="btn btn-warning"> </input>
 				<%} else {%>
-					<input type="submit" name="btnConfirmar" value="Modificar Datos" class="btn btn-warning" onclick="return confirm('¿Está seguro que desea modificar este medico?')"> </input>
+					<input type="submit" name="btnConfirmar" value="Modificar Datos" class="btn btn-warning" onclick="return confirm('Â¿EstÃ¡ seguro que desea modificar este medico?')"> </input>
 				<%}%>
 			<a href="ServletMedicos?Param=list" class="btn btn-info">Regresar</a>
         </div>

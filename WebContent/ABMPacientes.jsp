@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Importamos clases -->
 <!-- Entidades -->
 <%@page import="entidad.Provincia"%>
@@ -22,35 +21,44 @@
 <body>
 
 <!-- Header -->
-	<nav class="navbar navbar-expand-lg bg-light">
-	<div class="container-fluid">
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="navbar-brand" href="ServletUsuario?Param=1"> 
-					<img src="https://icones.pro/wp-content/uploads/2021/03/symbole-du-docteur-icone-png-bleu.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menu Principal
-					</a>
-				</li>
-			</ul>
 				<% 
-				    Usuario a = (Usuario) session.getAttribute("usuario"); 
+				    Usuario user = (Usuario) session.getAttribute("usuario"); 
 				    
-				    if (a == null) {
+				    if (user == null) 
+				    {
 				        response.sendRedirect("Error.jsp"); 
-				    } else {
-				        boolean administrador = ValidarUsuario.validarUsuarioAdmin(a);
-				    	boolean medico = ValidarUsuario.validarUsuarioMedico(a);
-				        if (!administrador && !medico)
-				            response.sendRedirect("Principal.jsp");
+				    } 
+				    else if (user.getTipo().getIdTipoUsuario() == 1)
+				    {
+				            response.sendRedirect("Error.jsp");
 				    }
 				%>
-			<ul class="text-end" style="margin: 5px 20px"> <b> DNI Usuario actual:</b> <%= a.getDNI() %> </ul>
-			<form method="post" action="ServletUsuario">
-			<input type=submit class="btn btn-danger" name=btnSalir value="Salir"></input>
+				
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navbar-brand mb-0 h1" href="ServletUsuario?Param=1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> 🢀  Volver a Menú Principal
+                        </a>
+                    </li>
+    				<div class="container">
+    					<div class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</div>
+  					</div>
+                </ul>
+
+			<div class="row">
+				<div class="col-6">
+					<ul class="text-end navbar-brand mb-0 fs-6" style=""> <b> DNI:</b> <%= user.getDNI() %> </ul>
+				</div>
+			</div>
+                <form method="post" action="ServletUsuario">
+			<input type=submit class="btn btn-danger" name="btnSalir" value="Salir"></input>
 			</form>
-		</div>
-	</div>
-	</nav>
+            </div>
+        </div>
+    </nav>
 	<br>
 	
 <!-- Llamado a listados  -->
@@ -90,7 +98,7 @@
  <div class="container">
  	<h4>Datos del paciente</h4> <hr>
  
- <!-- Si doy click en AgregarNuevo, cargo todos los campos vacíos -->
+ <!-- Si doy click en AgregarNuevo, cargo todos los campos vacÃ­os -->
  
  <% if ((request.getAttribute("verPaciente") == null) && (request.getAttribute("ModificarPaciente") == null)) { %>
 
@@ -160,7 +168,7 @@
         	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         <br><br>
         <div>
-			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('�Esta seguro que desea agregar este paciente?')"> </input>	
+			<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" onclick="return confirm('¿Esta seguro que desea agregar este paciente?')"> </input>	
 			<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
         </div>
         </div>
@@ -324,7 +332,7 @@
 		 <% if (request.getAttribute("verPaciente") != null) {%>
 				<input type="submit" name="btnModificar" value="Modificar" class="btn btn-warning"> </input>
 				<%} else {%>
-					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary" onclick="return confirm('�Esta seguro que desea modificar este paciente?')"> </input>
+					<input type="submit" name="btnConfirmar" value="Confirmar" class="btn btn-primary" onclick="return confirm('¿Esta seguro que desea modificar este paciente?')"> </input>
 				<%}%>	
 		
 		<a href="ServletPacientes?Param=list" class="btn btn-info">Regresar</a>
