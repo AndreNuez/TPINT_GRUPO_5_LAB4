@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `clinicamedica` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `clinicamedica`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: clinicamedica
@@ -23,7 +25,7 @@ DROP TABLE IF EXISTS `direccionesmedicos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `direccionesmedicos` (
-  `IDDireccion` int(11) NOT NULL,
+  `IDDireccion` int(11) NOT NULL AUTO_INCREMENT,
   `DNI` int(11) NOT NULL,
   `Calle` varchar(45) NOT NULL,
   `Numero` int(11) NOT NULL,
@@ -34,7 +36,7 @@ CREATE TABLE `direccionesmedicos` (
   KEY `FL_IDLocalidad_idx` (`IDLocalidad`),
   CONSTRAINT `FK_DNIMedico` FOREIGN KEY (`DNI`) REFERENCES `medicos` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FL_IDLocalidad` FOREIGN KEY (`IDLocalidad`) REFERENCES `localidades` (`IDLocalidad`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,10 +55,10 @@ CREATE TABLE `direccionespacientes` (
   PRIMARY KEY (`IDDireccion`),
   UNIQUE KEY `DNI_UNIQUE` (`DNI`),
   KEY `FK_DNIPaciente_idx` (`DNI`),
-  KEY `FL_IDLocalidad_idx` (`IDLocalidad`),
+  KEY `FK_Localidad` (`IDLocalidad`),
   CONSTRAINT `FK_DNIPaciente` FOREIGN KEY (`DNI`) REFERENCES `pacientes` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Localidad` FOREIGN KEY (`IDLocalidad`) REFERENCES `localidades` (`IDLocalidad`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,15 +97,16 @@ DROP TABLE IF EXISTS `horariosxmedicos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `horariosxmedicos` (
-  `idHorario` int(11) NOT NULL,
+  `idHorario` int(11) NOT NULL AUTO_INCREMENT,
   `DNIMedico` int(11) NOT NULL,
-  `HoraInicio` time(2) NOT NULL,
-  `HoraFin` time(2) NOT NULL,
+  `HoraInicio` int(11) NOT NULL,
+  `HoraFin` int(11) NOT NULL,
   `DiaAtencion` varchar(10) NOT NULL,
+  `Estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`idHorario`),
   KEY `DniMedicos_idx` (`DNIMedico`),
   CONSTRAINT `DniMedicos` FOREIGN KEY (`DNIMedico`) REFERENCES `medicos` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +123,7 @@ CREATE TABLE `localidades` (
   PRIMARY KEY (`IDLocalidad`),
   KEY `IDProvincia_idx` (`IDProvincia`),
   CONSTRAINT `IDProvincia` FOREIGN KEY (`IDProvincia`) REFERENCES `provincias` (`IDProvincia`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +143,7 @@ CREATE TABLE `medicos` (
   `Mail` varchar(45) NOT NULL,
   `Telefono` varchar(45) NOT NULL,
   `IDEspecialidad` int(11) NOT NULL,
-  `Estado` bit(1) NOT NULL,
+  `Estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`DNI`),
   KEY `IDEspecialidad_idx` (`IDEspecialidad`),
   CONSTRAINT `DNIAUsuarios` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -180,7 +183,7 @@ CREATE TABLE `provincias` (
   `IDProvincia` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`IDProvincia`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,20 +208,21 @@ DROP TABLE IF EXISTS `turnos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `turnos` (
-  `IDTurno` int(11) NOT NULL,
-  `FechaHora` datetime NOT NULL,
+  `IDTurno` int(11) NOT NULL AUTO_INCREMENT,
+  `Fecha` date NOT NULL,
+  `Hora` int(11) NOT NULL,
   `DNIMedico` int(11) NOT NULL,
   `DNIPaciente` int(11) DEFAULT NULL,
   `IDEstado` int(11) NOT NULL,
   `Observacion` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`IDTurno`,`FechaHora`,`DNIMedico`),
+  PRIMARY KEY (`IDTurno`,`Fecha`,`Hora`,`DNIMedico`),
   KEY `IDEstados_idx` (`IDEstado`),
   KEY `FK_DNI_Medicos_idx` (`DNIMedico`),
   KEY `FK_DNI_Pacientes_idx` (`DNIPaciente`),
   CONSTRAINT `FK_DNI_Medicos` FOREIGN KEY (`DNIMedico`) REFERENCES `medicos` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_DNI_Pacientes` FOREIGN KEY (`DNIPaciente`) REFERENCES `pacientes` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `IDEstados` FOREIGN KEY (`IDEstado`) REFERENCES `estados` (`IDEstado`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,6 +236,7 @@ CREATE TABLE `usuarios` (
   `DNI` int(11) NOT NULL,
   `IDTipoUsuario` int(11) NOT NULL,
   `Contraseña` varchar(10) NOT NULL,
+  `Estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`DNI`),
   KEY `TipoUsuario_idx` (`IDTipoUsuario`),
   CONSTRAINT `TipoUsuario` FOREIGN KEY (`IDTipoUsuario`) REFERENCES `tiposusuario` (`IDTipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -247,4 +252,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-16 22:36:42
+-- Dump completed on 2023-07-12 21:29:41

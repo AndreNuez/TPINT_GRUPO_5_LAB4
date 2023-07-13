@@ -20,9 +20,13 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#miTabla').DataTable();
+$(document).ready(function() {
+	var table = new DataTable('#miTabla', {
+	    language: {
+	        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json',
+	    },
 	});
+});
 </script>
 
 </head>
