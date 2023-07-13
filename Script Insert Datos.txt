@@ -130,17 +130,18 @@ insert into pacientes (DNI, Apellido, Nombres, Sexo, FechaNacimiento, Nacionalid
 insert into pacientes (DNI, Apellido, Nombres, Sexo, FechaNacimiento, Nacionalidad, Mail, Telefono, Estado) values (22000001, 'Gonzalez', 'León', 'F', '1992/12/26', 'Argentina', 'rshollc@51.la', '5641450773', 1);
 insert into pacientes (DNI, Apellido, Nombres, Sexo, FechaNacimiento, Nacionalidad, Mail, Telefono, Estado) values (23000001, 'Perez', 'Camila', 'F', '1989/08/30', 'Colombia', 'gmadend@berkeley.edu', '6953350667', 1);
 
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (1, 10000000, '15:00', '19:00', 'lunes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (2, 11000000, '15:00', '20:00', 'miercoles');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (3, 12000000, '13:00', '20:00', 'lunes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (4, 13000000, '13:00', '18:00', 'jueves');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (5, 14000000, '15:00', '19:00', 'jueves');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (6, 15000000, '15:00', '19:00', 'martes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (7, 16000000, '14:00', '19:00', 'martes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (8, 17000000, '14:00', '19:00', 'miercoles');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (9, 18000000, '13:00', '18:00', 'viernes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (10, 19000000, '14:00', '19:00', 'lunes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (11, 20000000, '15:00', '19:00', 'lunes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (12, 21000000, '13:00', '19:00', 'viernes');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (13, 22000000, '13:00', '19:00', 'jueves');
-insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (14, 23000000, '15:00', '19:00', 'jueves');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (1, 10000000, '15', '19', 'lunes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (2, 11000000, '15', '20', 'miercoles');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (3, 12000000, '13', '20', 'lunes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (4, 13000000, '13', '18', 'jueves');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (5, 14000000, '15', '19', 'jueves');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (6, 15000000, '15', '19', 'martes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (7, 16000000, '14', '19', 'martes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (8, 17000000, '14', '19', 'miercoles');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (9, 18000000, '13', '18', 'viernes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (10, 19000000, '14', '19', 'lunes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (11, 20000000, '15', '19', 'lunes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (12, 21000000, '13', '19', 'viernes');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (13, 22000000, '13', '19', 'jueves');
+insert into horariosxmedicos (idHorario, DNIMedico, HoraInicio, HoraFin, DiaAtencion) values (14, 23000000, '15', '19', 'jueves');
+
