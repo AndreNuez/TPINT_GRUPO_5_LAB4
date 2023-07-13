@@ -19,15 +19,16 @@
 				    
 				    if (user == null) 
 				    {
-                String mensajeUsuarioNull = "Usuario no registrado";
-						    request.setAttribute("errorMessage", mensajeUsuarioNull);
+				    	String mensajeUsuarioNull = "Usuario no registrado";
+						request.getSession().setAttribute("errorMessage", mensajeUsuarioNull);
 				        response.sendRedirect("Error.jsp"); 
 				    } 
 				    else if (user.getTipo().getIdTipoUsuario() == 1)
 				    {
-                     String mensajeUsuarioNull = "No posee los permisos suficientes";
-						         request.setAttribute("errorMessage", mensajeUsuarioNull);
-				            response.sendRedirect("Error.jsp");
+				    	String mensajeAccesoNoAutorizado = "Usuario sin permisos adecuados";
+						request.getSession().setAttribute("errorMessage", mensajeAccesoNoAutorizado);
+						
+			            response.sendRedirect("Error.jsp");
 				    }
 				%>
 				
@@ -36,9 +37,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="navbar-brand mb-0 h1" href="ServletUsuario?Param=1">
-                            <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> 🢀  Volver a Menú Principal
-                        </a>
+                        <div class="navbar-brand mb-0 h1" href="ServletUsuario?Param=1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5394/5394174.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> Menú Principal
+                        </div>
                     </li>
     				<div class="container">
     					<div class="navbar-brand text-center" class="d-inline-block align-text-top" href="#"> Clinica Medica SA</div>
