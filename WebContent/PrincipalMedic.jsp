@@ -17,6 +17,24 @@
 </head>
 <body>
 <!-- Header -->
+
+				<% 
+				    Usuario user = (Usuario) session.getAttribute("usuario"); 
+				    
+				    if (user == null) 
+				    {
+				    	String mensajeUsuarioNull = "Usuario no registrado";
+						request.getSession().setAttribute("errorMessage", mensajeUsuarioNull);
+				        response.sendRedirect("Error.jsp"); 
+				    } 
+				    else if (user.getTipo().getIdTipoUsuario() == 0)
+				    {
+				    	String mensajeAccesoNoAutorizado = "Usuario sin permisos adecuados";
+						request.getSession().setAttribute("errorMessage", mensajeAccesoNoAutorizado);
+						
+			            response.sendRedirect("Error.jsp");
+				    }
+				%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

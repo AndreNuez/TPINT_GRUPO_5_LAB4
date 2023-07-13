@@ -26,9 +26,9 @@
 				    
 				    if (user == null) 
 				    {
-						String mensajeUsuarioNull = "Usuario no registrado";
-						request.setAttribute("errorMessage", mensajeUsuarioNull);
-						response.sendRedirect("Error.jsp"); 
+				    	String mensajeUsuarioNull = "Usuario no registrado";
+						request.getSession().setAttribute("errorMessage", mensajeUsuarioNull);
+				        response.sendRedirect("Error.jsp"); 
 					} 
 					
 				%>

@@ -22,13 +22,14 @@
 				    if (user == null) 
 				    {
 				    	String mensajeUsuarioNull = "Usuario no registrado";
-						request.setAttribute("errorMessage", mensajeUsuarioNull);
+						request.getSession().setAttribute("errorMessage", mensajeUsuarioNull);
 				        response.sendRedirect("Error.jsp"); 
 				    } 
 				    else if (user.getTipo().getIdTipoUsuario() == 1)
 				    {
 				    	String mensajeAccesoNoAutorizado = "Usuario sin permisos adecuados";
-						request.setAttribute("errorMessage", mensajeAccesoNoAutorizado);
+						request.getSession().setAttribute("errorMessage", mensajeAccesoNoAutorizado);
+						
 			            response.sendRedirect("Error.jsp");
 				    }
 				%>
