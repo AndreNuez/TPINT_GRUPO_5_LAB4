@@ -103,7 +103,7 @@
     </div>
     <div >
     	<br>
-   		<h3>Cantidad de turnos por Especialidad</h3>
+   		<h3>Cantidad de turnos asignados por Especialidad</h3>
     </div>
         <div class="row">
             <div class="col-4"></div>
@@ -136,7 +136,7 @@
             <div class="col-4"></div>
              	<div>
              	 	<br>
-   					<h3>Cantidad de turnos por Medicos</h3>
+   					<h3>Cantidad de turnos asignados por Medicos</h3>
 					<br>
     			</div>
             <br>
