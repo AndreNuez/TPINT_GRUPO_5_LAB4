@@ -24,7 +24,7 @@ public class ReporteTurnosXMedDaoImpl implements ReporteTurnosXMedDao {
 		
 		try
 		{
-			ResultSet rs = cn.query("select m.DNI, m.Apellido, m.Nombres, count(t.DNIMedico) as cantidad from turnos t inner join medicos m on t.DNIMedico = m.DNI group by t.DNIMedico");
+			ResultSet rs = cn.query("select m.DNI, m.Apellido, m.Nombres, count(t.DNIMedico) as cantidad from turnos t inner join medicos m on t.DNIMedico = m.DNI where t.IDEstado <> 0 group by t.DNIMedico");
 			
 			while(rs.next())
 			{

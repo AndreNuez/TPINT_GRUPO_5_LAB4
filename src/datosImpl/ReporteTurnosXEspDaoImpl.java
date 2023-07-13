@@ -24,7 +24,7 @@ public class ReporteTurnosXEspDaoImpl implements ReporteTurnosXEspDao {
 		
 		try
 		{
-			ResultSet rs = cn.query("select e.Nombre, count(IDTurno) as cantidad from turnos t inner join medicos m on t.DNIMedico = m.DNI inner join especialidades e on m.IDEspecialidad = e.IDEspecialidad group by e.Nombre order by cantidad desc");
+			ResultSet rs = cn.query("select e.Nombre, count(IDTurno) as cantidad from turnos t inner join medicos m on t.DNIMedico = m.DNI inner join especialidades e on m.IDEspecialidad = e.IDEspecialidad where t.IDEstado <> 0 group by e.Nombre order by cantidad desc ");
 			
 			while(rs.next())
 			{
