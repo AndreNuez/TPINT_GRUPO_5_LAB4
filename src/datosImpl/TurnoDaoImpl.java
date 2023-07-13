@@ -437,7 +437,31 @@ public class TurnoDaoImpl implements TurnoDao{
 		}
 		
 		return estado;
+	}
+	
+	public boolean EliminarTurnosLibresPorPaciente(int dniPaciente)
+	{
+		
+		boolean estado = true;
 
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "delete from turnos where turnos.DNIPaciente = " + dniPaciente + " and turnos.IDEstado = 1";
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
 	}
 	
 

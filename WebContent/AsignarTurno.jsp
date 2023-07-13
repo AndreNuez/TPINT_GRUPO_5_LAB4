@@ -1,3 +1,5 @@
+<%@page import="java.time.LocalTime"%>
+<%@page import="java.time.LocalDate"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@page import="entidad.Usuario"%>
     <%@page import="entidad.Medico"%>
@@ -163,6 +165,9 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
 		</thead>
 		<tbody>
 			<%
+			int horaActual = LocalTime.now().getHour();
+			LocalDate diaActual = LocalDate.now();
+			
 			for (Turno t : listaTurnosPorAsignar) {
 
 			%>
@@ -177,8 +182,11 @@ if (request.getAttribute("estadoPaciente") != null && request.getAttribute("esta
                         <input type="text" class="form-control" id="dni" name="dni" pattern="^[0-9]{8}$" autofocus title="Este campo solo admite un numero de 8 digitos.">
 
                 </div>
-                </td>
-				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('�Esta seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+                </td><%if(horaActual > t.getHora() && (diaActual.isEqual(t.getFecha()) || t.getFecha().isBefore(diaActual))){ %>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" disabled onclick="return confirm('Esta seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				<% }else{ %>
+				<td><input type="submit" value="Asignar" name="btnAsignar" class="btn btn-info" onclick="return confirm('Esta seguro que desea asignar este paciente?')"> <input type="hidden" name = "fechaTurno" value = <%=t.getFecha()%>></td>
+				<% } %>
 				</form>
 			</tr>
 

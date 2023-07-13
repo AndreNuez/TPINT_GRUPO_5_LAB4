@@ -303,13 +303,10 @@ public class ServletTurno extends HttpServlet {
 			int cont = 0;
 			String dia = request.getParameter("DiaAtencion");
 			LocalDate fecha = LocalDate.parse(request.getParameter("FechaTurno"));
-			//System.out.println(fecha);
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE", new Locale("es"));
 	        String dayOfWeek = fecha.format(formatter);
-	        
-	        // Check if the day of the week matches any of the names
-	        
+
 	        if (dayOfWeek.equalsIgnoreCase(dia)) 
 	        {
 	        	if(!tneg.chequearFecha(fecha, dniMedico))

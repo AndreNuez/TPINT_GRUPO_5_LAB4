@@ -9,4 +9,5 @@ public interface UsuarioNegocio {
 	public boolean insertarUsuario(String pass, int dni, int tipoUsuario);
 	public boolean editarUsuario(String pass, int dni);
 	public boolean validarDNI(int dni) throws DniInvalido;
+	public boolean eliminarUsuario(int dni);
 }

@@ -114,7 +114,7 @@
             </div>
             <div class="mb-2">
                <label for="Apellido">Apellido:</label>
-				<input type="text" name="txtApellido" placeholder="Apellido" id="Apellido">
+				<input type="text" name="txtApellido" placeholder="Apellido" required id="Apellido">
             </div>
             <div class="mb-2">
                 <label for="Sexo">Sexo:</label>

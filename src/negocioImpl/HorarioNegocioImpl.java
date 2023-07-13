@@ -24,7 +24,12 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 	public ArrayList<Horario> ListarTodos(int dni) {
 		return hdao.ListarTodos(dni);
 	}
-
+	
+	public Horario ListarUno(int idHorario)
+	{
+		return hdao.ListarUno(idHorario);
+	}
+	
 	@Override
 	public boolean ModificarHorario(Horario horario) {
 		return hdao.ModificarHorario(horario);
@@ -39,7 +44,7 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 		return hdao.buscarHorario(dniMedico, dia);
 	}
 	
-	public boolean buscarRepetido (String dia, int dni) {
+	public boolean buscarRepetido (int idHorario, String dia, int dni) {
 		
 		ArrayList<Horario> listaH = hdao.ListarTodos(dni);
 		
@@ -47,7 +52,14 @@ public class HorarioNegocioImpl implements HorarioNegocio {
 			
 			if (horario.getDiaAtencion().equals(dia)) 
 			{
-				return false;
+				if(horario.getIdHorario() == idHorario)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 		return true;

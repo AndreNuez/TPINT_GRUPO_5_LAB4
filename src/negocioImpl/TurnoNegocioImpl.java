@@ -69,6 +69,11 @@ public class TurnoNegocioImpl implements TurnoNegocio{
 		return tdao.EliminarTurnosLibresPorMedico(dniMedico);
 	}
 
+	public boolean EliminarTurnosLibresPorPaciente(int dniPaciente)
+	{
+		return tdao.EliminarTurnosLibresPorPaciente(dniPaciente);
+	}
+	
 	@Override
 	public boolean eliminarTurnosxDia(Medico medico, String dia) {
 		

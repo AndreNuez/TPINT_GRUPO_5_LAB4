@@ -103,7 +103,6 @@
 				<th>Fecha de Nacimiento</th>
 				<th>Mail</th>
 				<th>Telefono</th>
-				<th>Estado</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -122,7 +121,6 @@
 			<td><%=p.getFnac()%></td>
 			<td><%=p.getMail()%></td>
 			<td><%=p.getTelefono()%></td>
-			<td><%=p.getEstado()%></td>
 			<td> <input type="submit" value="Ver Completo" name="btnVer" class="btn btn-info"> </td>
 			<td> <input type="submit" value="Eliminar" name="btnEliminar" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este paciente?')"/> </td>	
 			</form>
