@@ -108,6 +108,30 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		return estado;
 	}
 	
+	public boolean eliminarUsuario(int dni) {
+		
+		boolean estado = true;
+
+		cn = new Conexion();
+		cn.Open();
+		
+		String query = "UPDATE usuarios SET estado = 0 where DNI="+dni;
+				
+		try
+		 {
+			estado = cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
 
 	
 	

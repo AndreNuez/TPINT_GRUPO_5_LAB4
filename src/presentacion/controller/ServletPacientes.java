@@ -251,6 +251,7 @@ public class ServletPacientes extends HttpServlet {
 			int DNI = Integer.parseInt(request.getParameter("dniPaciente"));
 			
 			boolean eliminado = pNeg.EliminarPaciente(DNI);
+			tneg.EliminarTurnosLibresPorPaciente(DNI);
 			
 			ArrayList<Persona> lista = pNeg.ListarTodos();
 			request.setAttribute("listaPacientes", lista);

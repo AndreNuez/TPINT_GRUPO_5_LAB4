@@ -101,6 +101,7 @@ public class ServletMedicos extends HttpServlet {
       
 			boolean estado2 = tNeg.EliminarTurnosLibresPorMedico(DNI);
 			boolean eliminarm = mNeg.EliminarMedico(DNI);
+			uNeg.eliminarUsuario(DNI);
 			
 			ArrayList<Medico> lista = mNeg.ListarTodos();
 			request.setAttribute("listaMedicos", lista);
@@ -155,25 +156,27 @@ public class ServletMedicos extends HttpServlet {
 				return;
 			}
 			
+			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
+			
+			estado = mNeg.InsertarMedico(m);
+			
+			Direccion dm = new Direccion();
+			dm.setCalle(request.getParameter("txtCalle"));
+			dm.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
+			dm.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
+	
+			boolean estadodm = true;
+			estadodm = dmNeg.InsertarDM(DNI, dm);
+			
 			Horario h = new Horario();
 			h.setDNIMedico(DNI);
 			h.setDiaAtencion(request.getParameter("Dia"));
 			h.setHoraInicio(Integer.parseInt(request.getParameter("txtDesde")));
 			h.setHoraFin(Integer.parseInt(request.getParameter("txtHasta")));
 			h.setEstado(1);
-						
-			estado = mNeg.InsertarMedico(m);
-			estadoum = uNeg.insertarUsuario(apellido, DNI, 1);
-			estadohm = hNeg.InsertarHorario(h,DNI);
-				
-			Direccion dm = new Direccion();
-				dm.setCalle(request.getParameter("txtCalle"));
-				dm.setNumero(Integer.parseInt(request.getParameter("txtNumero")));
-				dm.setLocalidad(new Localidad(Integer.parseInt(request.getParameter("Localidades"))));
-		
-				boolean estadodm = true;
-				estadodm = dmNeg.InsertarDM(DNI, dm);
 			
+			estadohm = hNeg.InsertarHorario(h,DNI);
+
 			request.setAttribute("estadoMedico", estado);
 			request.setAttribute("estadoHMedico", estadohm);
 			request.setAttribute("estadoDM", estadodm);
@@ -254,22 +257,8 @@ public class ServletMedicos extends HttpServlet {
 			String pass = m.getApellido().toLowerCase();
 			
 			boolean modificado = true;
-						
-			//Bloque TRY CATCH para evaluar si el usuario ya existe
-			try {
-				modificado = mNeg.EditarMedico(m);
-				mNeg.validarMedicoExistente(DNI);
-			} catch (UsuarioRegistrado userRegistrado) {
-				// TODO: handle exception
-				userRegistrado.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);	
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Principal.jsp");
-				dispatcher.forward(request, response);
-			}
+
+			modificado = mNeg.EditarMedico(m);
 			
 			Direccion dm = new Direccion();
 				dm.setCalle(request.getParameter("txtCalle"));
