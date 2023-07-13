@@ -26,12 +26,11 @@
 				    
 				    if (user == null) 
 				    {
+				    	String mensajeUsuarioNull = "Usuario no registrado";
+						request.getSession().setAttribute("errorMessage", mensajeUsuarioNull);
 				        response.sendRedirect("Error.jsp"); 
-				    } 
-				    else if (user.getTipo().getIdTipoUsuario() == 1)
-				    {
-				            response.sendRedirect("Error.jsp");
-				    }
+					} 
+					
 				%>
 				
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">

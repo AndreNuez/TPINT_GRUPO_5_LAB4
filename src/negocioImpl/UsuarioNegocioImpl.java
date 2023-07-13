@@ -1,4 +1,4 @@
-package negocioImpl;
+	package negocioImpl;
 
 import entidad.Usuario;
 import negocio.UsuarioNegocio;
