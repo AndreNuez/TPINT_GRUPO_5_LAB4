@@ -49,4 +49,9 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 		
 		return dniCorrecto;
 	}
+	
+	public boolean eliminarUsuario(int dni)
+	{
+		return userDao.eliminarUsuario(dni);
+	}
 }

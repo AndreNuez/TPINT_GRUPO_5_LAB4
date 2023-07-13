@@ -22,6 +22,7 @@ public interface TurnoDao {
 	public boolean ActualizarEstadoTurnoAusente(int idTurno);
 	public boolean EliminarTurnosLibresPorMedico(int dniMedico);
 	public boolean eliminarTurnosxFecha (Medico medico, LocalDate fecha);
+	public boolean EliminarTurnosLibresPorPaciente(int dniPaciente);
 	public int ContarTurnosLibres();
 	public int ContarTurnosOcupados();
 	public int ContarTurnosPresentes();

@@ -1,6 +1,7 @@
 package presentacion.controller;
 
 import java.io.IOException;
+import java.time.LocalTime;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -57,6 +58,7 @@ public class ServletUsuario extends HttpServlet {
 				default:
 					request.setAttribute("cantTurnosAsig", cantTurnosAsig);
 					break;
+
 				}
 				
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/PrincipalMedic.jsp");

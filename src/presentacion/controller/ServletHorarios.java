@@ -73,7 +73,7 @@ public class ServletHorarios extends HttpServlet {
 			
 			int idHorario = Integer.parseInt(request.getParameter("idHorario"));
 			String dia = request.getParameter("Dia");
-			System.out.println(dia);
+
 			boolean eliminarhorario = hNeg.EliminarHorario(idHorario); 
 
 			ArrayList<Provincia> listaP = provNeg.obtenerTodos();
@@ -168,8 +168,11 @@ public class ServletHorarios extends HttpServlet {
 			
 			String dia = (request.getParameter("Dia"));
 			
-			if (hNeg.buscarRepetido(dia, dni)) 
+			if (hNeg.buscarRepetido(idHorario, dia, dni)) 
 			{
+				Horario horarioViejo = hNeg.ListarUno(idHorario);
+				String diaViejo = horarioViejo.getDiaAtencion();
+				
 				boolean hmod = hNeg.ModificarHorario(h);
 				
 				ArrayList<Provincia> listaP = provNeg.obtenerTodos();
@@ -184,6 +187,7 @@ public class ServletHorarios extends HttpServlet {
 					medico = mNeg.ListarUno(dni);
 					request.setAttribute("verMedico", medico);
 					request.setAttribute("dniMedico",dni);
+					tNeg.eliminarTurnosxDia(medico, diaViejo);
 					
 					ArrayList<Horario> listaHorario = hNeg.ListarTodos(dni);
 					request.setAttribute("listaHorarios", listaHorario);
