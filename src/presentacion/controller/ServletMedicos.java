@@ -145,6 +145,12 @@ public class ServletMedicos extends HttpServlet {
 				Boolean errorDni = true;
 				request.setAttribute("errorDni", errorDni);
 				
+				ArrayList<Localidad> listaL = locNeg.obtenerTodos();
+				request.setAttribute("listaLoc", listaL);
+				
+				ArrayList<Especialidad> listaE = espNeg.obtenerTodos();
+				request.setAttribute("listaEsp", listaE);
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/ABMMedicos.jsp");
 				dispatcher.forward(request, response);
 				return;
