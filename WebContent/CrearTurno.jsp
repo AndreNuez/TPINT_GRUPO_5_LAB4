@@ -157,9 +157,10 @@
 
     <div class="row justify-content-center g-4">
         <div class="col-md-4">
+        	<%if ((request.getAttribute("verDatos") != null) && (request.getAttribute("listaHorarios") != null)) {%>
         	<input type="reset" value="Restablecer" class="btn btn-secondary"> </input>
         	<input type="submit" name="btnAceptar" value="Aceptar" class="btn btn-primary" style="margin-left: 50px"> </input>
-
+<%} %>
         </div>
     </div>
     </form>   
